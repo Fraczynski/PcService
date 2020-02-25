@@ -1,6 +1,7 @@
+using System;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using PcService.API.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace PcService.API.Data
 {
@@ -11,6 +12,7 @@ namespace PcService.API.Data
           {
                _context = context;
           }
+
           public async Task<User> Login(string username, string password)
           {
                var user = await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
