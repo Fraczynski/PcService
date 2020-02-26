@@ -19,6 +19,10 @@ using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using PcService.API.Helpers;
+using Microsoft.AspNetCore.Identity;
+using PcService.API.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace PcService.API
 {
@@ -33,10 +37,20 @@ namespace PcService.API
 
           public void ConfigureServices(IServiceCollection services)
           {
-               services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
-               services.AddControllers();
-               services.AddCors();
-               services.AddScoped<IAuthRepository, AuthRepository>();
+               IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
+               {
+                    opt.Password.RequireDigit = false;
+                    opt.Password.RequiredLength = 4;
+                    opt.Password.RequireNonAlphanumeric = false;
+                    opt.Password.RequireUppercase = false;
+               });
+
+               builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
+               builder.AddEntityFrameworkStores<DataContext>();
+               builder.AddRoleValidator<RoleValidator<Role>>();
+               builder.AddRoleManager<RoleManager<Role>>();
+               builder.AddSignInManager<SignInManager<User>>();
+
                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
                {
                     options.TokenValidationParameters = new TokenValidationParameters
@@ -48,6 +62,15 @@ namespace PcService.API
                          ValidateAudience = false
                     };
                });
+
+               services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+               services.AddControllers(options =>
+               {
+                    var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                    options.Filters.Add(new AuthorizeFilter(policy));
+               });
+               services.AddCors();
+               // services.AddScoped<IAuthRepository, AuthRepository>();
           }
 
           // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
