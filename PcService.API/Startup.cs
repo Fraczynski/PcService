@@ -63,6 +63,12 @@ namespace PcService.API
                     };
                });
 
+               services.AddAuthorization(options =>
+               {
+                    options.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin"));
+                    options.AddPolicy("RequireModeratorRole", policy => policy.RequireRole("Admin", "Moderator"));
+               });
+
                services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
                services.AddControllers(options =>
                {
