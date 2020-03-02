@@ -3,6 +3,7 @@ import { HomeComponent } from './home/home.component';
 import { HistoryComponent } from './history/history.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 
 export const appRoutes: Routes = [
      { path: '', component: HomeComponent },
@@ -14,6 +15,7 @@ export const appRoutes: Routes = [
           children: [
                { path: 'history', component: HistoryComponent },
                { path: 'messages', component: MessagesComponent },
+               { path: 'admin', component: AdminPanelComponent, data: { roles: ['Admin', 'Moderator'] } }
           ]
      },
      { path: '**', redirectTo: '', pathMatch: 'full' }
