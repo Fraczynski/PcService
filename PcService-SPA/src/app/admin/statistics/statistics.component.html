@@ -1,0 +1,5 @@
+<div *ngIf="chartReady" style="width: 40%;">
+   <canvas baseChart [chartType]="'bar'" [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions"
+      [legend]="false">
+   </canvas>
+</div>

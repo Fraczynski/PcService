@@ -13,9 +13,6 @@ export class UserService {
 
   getRepairsForUser(clientId: number) {
     return this.http.get(this.baseUrl + 'repairs/' + clientId);
-
-    // const params = new HttpParams();
-    // params.append('client', 'false');
   }
 
   addRepairToUser(clientId: number, repairNumber: any) {

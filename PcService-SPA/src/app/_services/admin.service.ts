@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { User } from '../_models/user';
 
 @Injectable({
@@ -17,5 +17,11 @@ export class AdminService {
 
   updateUserRoles(user: User, roles: {}) {
     return this.http.post(this.baseUrl + 'admin/editRoles/' + user.userName, roles);
+  }
+
+  loadStatistics(type: string) {
+    let params = new HttpParams();
+    params = params.append('type', type);
+    return this.http.get(this.baseUrl + 'repairs/statistics', { params });
   }
 }

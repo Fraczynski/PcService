@@ -7,6 +7,7 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { JwtModule } from '@auth0/angular-jwt';
+import { ChartsModule } from 'ng2-charts';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +26,7 @@ import { AdminService } from './_services/admin.service';
 import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 import { RepairsComponent } from './admin/repairs/repairs.component';
 import { RepairModalComponent } from './admin/repair-modal/repair-modal.component';
+import { StatisticsComponent } from './admin/statistics/statistics.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -43,10 +45,12 @@ export function tokenGetter() {
       UserManagementComponent,
       RolesModalComponent,
       RepairsComponent,
-      RepairModalComponent
+      RepairModalComponent,
+      StatisticsComponent
    ],
    imports: [
       BrowserModule,
+      ChartsModule,
       AppRoutingModule,
       HttpClientModule,
       FormsModule,
