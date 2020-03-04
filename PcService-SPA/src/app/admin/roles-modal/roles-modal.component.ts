@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap';
 import { User } from 'src/app/_models/user';
 

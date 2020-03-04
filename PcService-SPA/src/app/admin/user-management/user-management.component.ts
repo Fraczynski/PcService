@@ -4,6 +4,7 @@ import { AdminService } from 'src/app/_services/admin.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { RolesModalComponent } from '../roles-modal/roles-modal.component';
 import { map } from 'rxjs/operators';
+import { AlertifyService } from 'src/app/_services/alertify.service';
 
 @Component({
   selector: 'app-user-management',
@@ -14,7 +15,7 @@ export class UserManagementComponent implements OnInit {
   users: User[];
   bsModalRef: BsModalRef;
 
-  constructor(private adminService: AdminService, private modalService: BsModalService) { }
+  constructor(private adminService: AdminService, private modalService: BsModalService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.getUsersWithRoles();
@@ -38,12 +39,11 @@ export class UserManagementComponent implements OnInit {
       const rolesToUpdate = {
         roleNames: [...values.filter(el => el.checked === true).map(el => el.name)]
       };
-      console.log(rolesToUpdate);
       if (rolesToUpdate) {
         this.adminService.updateUserRoles(user, rolesToUpdate).subscribe(() => {
           user.roles = [...rolesToUpdate.roleNames];
         }, error => {
-          console.log(error);
+          this.alertify.error(error);
         });
       }
     });
