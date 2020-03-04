@@ -5,8 +5,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace PcService.API.Models
 {
-     public class User : IdentityUser<int>
-     {
-          public ICollection<UserRole> UserRoles { get; set; }
-     }
+   public class User : IdentityUser<int>
+   {
+      public string FirstName { get; set; }
+      public string LastName { get; set; }
+      public ICollection<UserRole> UserRoles { get; set; }
+      public ICollection<Repair> Repairs { get; set; }
+      public ICollection<Repair> EmployeeRepairs { get; set; }
+   }
 }
