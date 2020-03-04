@@ -1,0 +1,24 @@
+<div class="container">
+  <button class="btn btn-info" (click)="addRepairModal()">Add repair</button>
+
+  <div class="card-group mt-3">
+    <div *ngFor="let repair of repairs" class="p-3 col-6 col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{repair.elementName}} ({{repair.repairId}})</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{repair.result}}</h6>
+          <p class="card-text">
+            <p>{{repair.description}}</p>
+            <p>
+              Warranty repair:
+              <span *ngIf="repair.warrantyRepair">yes</span>
+              <span *ngIf="!repair.warrantyRepair">no</span>
+            </p>
+            <p *ngIf="repair.warrantyExpiryDate">
+              Warranty to: {{repair.warrantyExpiryDate | date}}
+            </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
