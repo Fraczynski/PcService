@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Identity;
 using PcService.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using AutoMapper;
 
 namespace PcService.API
 {
@@ -37,6 +38,10 @@ namespace PcService.API
 
       public void ConfigureServices(IServiceCollection services)
       {
+         services.AddControllers().AddNewtonsoftJson(opt =>
+            {
+               opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
          IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
          {
             opt.Password.RequireDigit = false;
@@ -76,7 +81,9 @@ namespace PcService.API
             options.Filters.Add(new AuthorizeFilter(policy));
          });
          services.AddCors();
+         services.AddAutoMapper(typeof(ServiceRepository).Assembly);
          services.AddScoped<IAuthRepository, AuthRepository>();
+         services.AddScoped<IServiceRepository, ServiceRepository>();
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
