@@ -93,5 +93,39 @@ namespace PcService.API.Controllers
          }
          return BadRequest("Assigning the repair failed on save");
       }
+
+      [Authorize(Policy = "RequireAdminRole")]
+      [HttpGet("statistics")]
+      public async Task<IActionResult> GetStatistics(string type)
+      {
+         var repairs = await _repo.GetRepairs();
+
+         var dictionary = new Dictionary<string, int>();
+
+         if (type.Equals("elementName"))
+         {
+            foreach (var repair in repairs)
+            {
+               var elementName = repair.ElementName.ToLower();
+               if (dictionary.ContainsKey(elementName))
+               {
+                  dictionary[elementName]++;
+               }
+               else
+               {
+                  dictionary.Add(elementName, 1);
+               }
+            }
+         }
+         var statistics = new List<(string, int)>();
+
+         foreach (var key in dictionary.Keys)
+         {
+            statistics.Add((name: key, value: dictionary[key]));
+         }
+
+
+         return Ok(statistics);
+      }
    }
 }
