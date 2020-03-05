@@ -39,11 +39,13 @@ namespace PcService.API.Controllers
 
       [Authorize]
       [HttpGet("{userId}")]
-      public async Task<IActionResult> GetRepairsForUser(int userId, bool client = true)
+      public async Task<IActionResult> GetRepairsForUser([FromQuery]UserParams userParams, int userId, bool client = true)
       {
-         var repairs = await _repo.GetRepairsForUser(userId, client);
+         var repairs = await _repo.GetRepairsForUser(userParams, userId, client);
 
          var repairsToReturn = _mapper.Map<IEnumerable<RepairToReturnDto>>(repairs);
+
+         Response.AddPagination(repairs.CurrentPage, repairs.PageSize, repairs.TotalCount, repairs.TotalPages);
 
          return Ok(repairsToReturn);
       }
@@ -64,8 +66,7 @@ namespace PcService.API.Controllers
 
          if (await _repo.SaveAll())
          {
-            var repairToReturn = _mapper.Map<RepairToReturnDto>(repair);
-            return Ok(repair);
+            return Ok();
          }
          return BadRequest("Creating the repair failed on save");
       }

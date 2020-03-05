@@ -14,7 +14,7 @@ namespace PcService.API.Data
       Task<List<User>> GetUsers();
       Task<User> GetUser(int id);
       Task<Repair> GetRepairByNumber(int number);
-      Task<List<Repair>> GetRepairsForUser(int userId, bool client);
+      Task<PagedList<Repair>> GetRepairsForUser(UserParams userParams, int userId, bool client);
       Task<PagedList<Repair>> GetRepairs(UserParams userParams);
       Task<List<Repair>> GetRepairs();
    }

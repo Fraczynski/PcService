@@ -5,6 +5,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { AlertifyService } from '../_services/alertify.service';
 import { Repair } from '../_models/repair';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Pagination } from '../_models/pagination';
 
 @Component({
   selector: 'app-history',
@@ -15,9 +16,11 @@ export class HistoryComponent implements OnInit {
   model: any = {};
   repairs: Repair[];
   repairNumberForm: FormGroup;
-  repairsNumber: number;
   currentUserId;
   jwtHelper = new JwtHelperService();
+  pageNumber = 1;
+  pageSize = 5;
+  pagination: Pagination;
 
   constructor(private userService: UserService, private alertify: AlertifyService, private formBuilder: FormBuilder) {
     this.repairNumberForm = this.formBuilder.group({
@@ -33,21 +36,27 @@ export class HistoryComponent implements OnInit {
   }
 
   getRepairs() {
-    this.userService.getRepairsForUser(this.currentUserId).subscribe((repairs: Repair[]) => {
-      this.repairs = repairs;
-      this.repairsNumber = repairs.length;
+    this.userService.getRepairsForUser(this.currentUserId, this.pageNumber, this.pageSize).subscribe((response) => {
+      this.repairs = response.result;
+      this.pagination = response.pagination;
     }, error => {
       this.alertify.error(error);
     });
   }
 
   addRepairToUser() {
-    this.userService.addRepairToUser(this.currentUserId, this.model).subscribe((repair: Repair) => {
+    this.userService.addRepairToUser(this.currentUserId, this.model).subscribe(() => {
       this.model.repairNumber = '';
-      this.repairsNumber = this.repairs.push(repair);
+      this.getRepairs();
       this.alertify.success('Assigned the repair to your account');
     }, error => {
       this.alertify.error(error);
     });
+  }
+
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.pageNumber = event.page;
+    this.getRepairs();
   }
 }

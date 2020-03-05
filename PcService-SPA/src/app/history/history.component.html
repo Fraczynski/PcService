@@ -18,10 +18,16 @@
             <span *ngIf="repair.warrantyRepair">yes</span>
             <span *ngIf="!repair.warrantyRepair">no</span>
           </p>
-          <p>
+          <p *ngIf="repair.warrantyExpiryDate">
             Warranty to: {{repair.warrantyExpiryDate | date}}
           </p>
       </div>
     </div>
   </div>
+</div>
+
+<div class="d-flex justify-content-center">
+  <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [(ngModel)]="pagination.currentPage"
+    [itemsPerPage]="pagination.itemsPerPage" previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;"
+    lastText="&raquo;" (pageChanged)="pageChanged($event)"></pagination>
 </div>

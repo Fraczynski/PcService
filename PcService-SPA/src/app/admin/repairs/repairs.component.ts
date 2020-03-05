@@ -6,6 +6,7 @@ import { User } from 'src/app/_models/user';
 import { RepairModalComponent } from '../repair-modal/repair-modal.component';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { NgModel } from '@angular/forms';
+import { Pagination } from 'src/app/_models/pagination';
 
 @Component({
   selector: 'app-repairs',
@@ -15,6 +16,9 @@ import { NgModel } from '@angular/forms';
 export class RepairsComponent implements OnInit {
   repairs: Repair[];
   bsModalRef: BsModalRef;
+  pageNumber = 1;
+  pageSize = 5;
+  pagination: Pagination;
 
   constructor(private userService: UserService, private alertify: AlertifyService, private modalService: BsModalService) { }
 
@@ -23,8 +27,9 @@ export class RepairsComponent implements OnInit {
   }
 
   getRepairsHistory() {
-    this.userService.getRepairsHistory().subscribe((repairs: Repair[]) => {
-      this.repairs = repairs;
+    this.userService.getRepairsHistory(this.pageNumber, this.pageSize).subscribe((response) => {
+      this.repairs = response.result;
+      this.pagination = response.pagination;
     }, error => {
       this.alertify.error(error);
     });
@@ -33,8 +38,8 @@ export class RepairsComponent implements OnInit {
   addRepairModal() {
     this.bsModalRef = this.modalService.show(RepairModalComponent);
     this.bsModalRef.content.addNewRepair.subscribe((repair) => {
-      this.userService.addRepair(repair).subscribe((returnedRepair: Repair) => {
-        this.repairs.push(returnedRepair);
+      this.userService.addRepair(repair).subscribe(() => {
+        this.getRepairsHistory();
         this.alertify.success('Added new repair');
       }, error => {
         this.alertify.error(error);
@@ -42,5 +47,11 @@ export class RepairsComponent implements OnInit {
     }, error => {
       this.alertify.error(error);
     });
+  }
+
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.pageNumber = event.page;
+    this.getRepairsHistory();
   }
 }

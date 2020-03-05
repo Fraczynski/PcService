@@ -46,7 +46,7 @@ namespace PcService.API.Data
          return repairs;
       }
 
-      public Task<List<Repair>> GetRepairsForUser(int userId, bool client)
+      public async Task<PagedList<Repair>> GetRepairsForUser(UserParams userParams, int userId, bool client)
       {
          var repairs = _context.Repairs
                .Include(u => u.Client)
@@ -55,12 +55,14 @@ namespace PcService.API.Data
 
          if (client)
          {
-            return repairs.Where(r => r.ClientId == userId).ToListAsync();
+            repairs = repairs.Where(r => r.ClientId == userId);
          }
          else
          {
-            return repairs.Where(r => r.EmployeeId == userId).ToListAsync();
+            repairs = repairs.Where(r => r.EmployeeId == userId);
          }
+
+         return await PagedList<Repair>.CreateAsync(repairs, userParams.PageNumber, userParams.PageSize);
       }
 
       public async Task<User> GetUser(int id)
