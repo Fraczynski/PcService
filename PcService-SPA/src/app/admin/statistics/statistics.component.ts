@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { AdminService } from 'src/app/_services/admin.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
+import { timeout } from 'rxjs/operators';
 
 @Component({
   selector: 'app-statistics',
@@ -10,18 +11,37 @@ import { AlertifyService } from 'src/app/_services/alertify.service';
 export class StatisticsComponent implements OnInit {
   statistics = [];
   chartOptions = {
-    responsive: true
+    responsive: true,
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+          stepSize: 1
+        }
+      }]
+    }
   };
   chartData;
   chartLabels;
   namesArray: string[] = [];
   valuesArray: number[] = [];
   chartReady = false;
+  chartType = 'bar';
+  colors = [
+    {
+      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
+    },
+  ];
+  legend = false;
 
   constructor(private adminService: AdminService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.loadStatistics('elementName');
+  }
+
+  change() {
+
   }
 
   loadStatistics(type: string) {
@@ -34,13 +54,21 @@ export class StatisticsComponent implements OnInit {
   }
 
   drawChart() {
+    this.namesArray = [];
+    this.valuesArray = [];
     this.statistics.forEach((element) => {
       this.namesArray.push(element.item1);
       this.valuesArray.push(element.item2);
     });
-    this.valuesArray.push(0);
     this.chartData = [{ data: this.valuesArray }];
     this.chartLabels = this.namesArray;
     this.chartReady = true;
+  }
+
+  setChartType(type: string) {
+    this.chartType = type;
+    setTimeout(() => {
+      this.legend = (this.chartType === 'pie' || this.chartType === 'doughnut' || this.chartType === 'polarArea') ? true : false;
+    });
   }
 }

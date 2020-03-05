@@ -102,7 +102,7 @@ namespace PcService.API.Controllers
 
          var dictionary = new Dictionary<string, int>();
 
-         if (type.Equals("elementName"))
+         if (type.ToLower().Equals("elementname"))
          {
             foreach (var repair in repairs)
             {
@@ -117,13 +117,57 @@ namespace PcService.API.Controllers
                }
             }
          }
+         if (type.ToLower().Equals("result"))
+         {
+            foreach (var repair in repairs)
+            {
+               var result = repair.Result;
+               if (dictionary.ContainsKey(result))
+               {
+                  dictionary[result]++;
+               }
+               else
+               {
+                  dictionary.Add(result, 1);
+               }
+            }
+         }
+         if (type.ToLower().Equals("warrantyrepair"))
+         {
+            foreach (var repair in repairs)
+            {
+               var warrantyrepair = repair.WarrantyRepair;
+               if (dictionary.ContainsKey(warrantyrepair.ToString()))
+               {
+                  dictionary[warrantyrepair.ToString()]++;
+               }
+               else
+               {
+                  dictionary.Add(warrantyrepair.ToString(), 1);
+               }
+            }
+         }
+         if (type.ToLower().Equals("employeeid"))
+         {
+            foreach (var repair in repairs)
+            {
+               var employeeId = repair.EmployeeId;
+               if (dictionary.ContainsKey(employeeId.ToString()))
+               {
+                  dictionary[employeeId.ToString()]++;
+               }
+               else
+               {
+                  dictionary.Add(employeeId.ToString(), 1);
+               }
+            }
+         }
          var statistics = new List<(string, int)>();
 
          foreach (var key in dictionary.Keys)
          {
-            statistics.Add((name: key, value: dictionary[key]));
+            statistics.Add((key, dictionary[key]));
          }
-
 
          return Ok(statistics);
       }

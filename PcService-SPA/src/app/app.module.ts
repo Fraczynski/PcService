@@ -46,7 +46,7 @@ export function tokenGetter() {
       RolesModalComponent,
       RepairsComponent,
       RepairModalComponent,
-      StatisticsComponent
+      StatisticsComponent,
    ],
    imports: [
       BrowserModule,
