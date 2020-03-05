@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PcService.API.Data;
 using PcService.API.Dtos;
+using PcService.API.Helpers;
 using PcService.API.Models;
 
 namespace PcService.API.Controllers
@@ -25,11 +26,13 @@ namespace PcService.API.Controllers
 
       [Authorize(Policy = "RequireModeratorRole")]
       [HttpGet]
-      public async Task<IActionResult> GetRepairs()
+      public async Task<IActionResult> GetRepairs([FromQuery]UserParams userParams)
       {
-         var repairs = await _repo.GetRepairs();
+         var repairs = await _repo.GetRepairs(userParams);
 
          var repairsToReturn = _mapper.Map<IEnumerable<RepairToReturnDto>>(repairs);
+
+         Response.AddPagination(repairs.CurrentPage, repairs.PageSize, repairs.TotalCount, repairs.TotalPages);
 
          return Ok(repairsToReturn);
       }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using PcService.API.Models;
 using System.Linq;
 using AutoMapper;
+using PcService.API.Helpers;
 
 namespace PcService.API.Data
 {
@@ -31,10 +32,16 @@ namespace PcService.API.Data
 
          return repairs;
       }
-
-      public Task<List<Repair>> GetRepairs()
+      public async Task<PagedList<Repair>> GetRepairs(UserParams userParams)
       {
-         var repairs = _context.Repairs.ToListAsync();
+         var repairs = _context.Repairs;
+
+         return await PagedList<Repair>.CreateAsync(repairs, userParams.PageNumber, userParams.PageSize);
+      }
+
+      public async Task<List<Repair>> GetRepairs()
+      {
+         var repairs = await _context.Repairs.ToListAsync();
 
          return repairs;
       }
@@ -63,10 +70,12 @@ namespace PcService.API.Data
          return user;
       }
 
-      public Task<List<User>> GetUsers()
+      // public async Task<PagedList<User>> GetUsers(UserParams userParams)
+      public async Task<List<User>> GetUsers()
       {
-         var users = _context.Users.ToListAsync();
+         var users = await _context.Users.ToListAsync();
 
+         // return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
          return users;
       }
 
