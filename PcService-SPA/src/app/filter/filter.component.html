@@ -1,0 +1,41 @@
+<form class="form-inline" [formGroup]="filterForm" (ngSubmit)="filter()">
+  <div class="form-group">
+    <input type="text" class="form-control" formControlName="repairId" placeholder="Find repair by ID">
+  </div>
+
+  <div class="form-group">
+    <label for="elementName">Element name:</label>
+    <select class="form-control" formControlName="elementName">
+      <option *ngFor="let name of elementNameOptions" [value]="name">{{name}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="result">Repair result</label>
+    <select class="form-control" formControlName="result">
+      <option *ngFor="let name of resultOptions" [value]="name">{{name}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="warrantyRepair">Warranty repair</label>
+    <select class="form-control" formControlName="warrantyRepair">
+      <option *ngFor="let name of warrantyRepairOptions" [value]="name">{{name}}</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <input class="form-control" placeholder="Min warranty expiry date" formControlName="minWarrantyExpiryDate"
+      type="text" bsDatepicker>
+  </div>
+
+  <div class="form-group">
+    <input class="form-control" placeholder="Max warranty expiry date" formControlName="maxWarrantyExpiryDate"
+      type="text" bsDatepicker>
+  </div>
+
+  <div class="form-group text-center">
+    <button class="btn btn-success" [disabled]="!filterForm.dirty" type="submit">Filter</button>
+    <button class="btn btn-info" [disabled]="!filterForm.dirty" (click)="resetForm()">Reset</button>
+  </div>
+</form>

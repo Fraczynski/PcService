@@ -27,6 +27,7 @@ import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
 import { RepairsComponent } from './admin/repairs/repairs.component';
 import { RepairModalComponent } from './admin/repair-modal/repair-modal.component';
 import { StatisticsComponent } from './admin/statistics/statistics.component';
+import { FilterComponent } from './filter/filter.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -47,6 +48,7 @@ export function tokenGetter() {
       RepairsComponent,
       RepairModalComponent,
       StatisticsComponent,
+      FilterComponent
    ],
    imports: [
       BrowserModule,

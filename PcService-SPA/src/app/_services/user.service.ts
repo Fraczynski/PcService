@@ -14,7 +14,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getRepairsForUser(clientId: number, page?, itemsPerPage?): Observable<PaginatedResult<Repair[]>> {
+  getRepairsForUser(clientId: number, page?, itemsPerPage?, userParams?): Observable<PaginatedResult<Repair[]>> {
     const paginatedResult: PaginatedResult<Repair[]> = new PaginatedResult<Repair[]>();
 
     let params = new HttpParams();
@@ -22,6 +22,30 @@ export class UserService {
     if (page != null && itemsPerPage != null) {
       params = params.append('pageNumber', page);
       params = params.append('pageSize', itemsPerPage);
+    }
+
+    if (userParams != null) {
+      debugger;
+      if (userParams.elementName !== '' && userParams.elementName != null && userParams.elementName !== 'null') {
+        params = params.append('elementName', userParams.elementName);
+      }
+      if (userParams.repairId !== '' && userParams.repairId != null && userParams.repairId !== 'null') {
+        params = params.append('repairId', userParams.repairId);
+      }
+      if (userParams.result !== '' && userParams.result != null && userParams.result !== 'null') {
+        params = params.append('result', userParams.result);
+      }
+      if (userParams.warrantyRepair !== '' && userParams.warrantyRepair !== null && userParams.warrantyRepair !== 'null') {
+        params = params.append('warrantyRepair', (userParams.warrantyRepair === 'Yes' ? 'true' : 'false'));
+      }
+      if (userParams.minWarrantyExpiryDate !== '' && userParams.minWarrantyExpiryDate != null
+        && userParams.minWarrantyExpiryDate !== 'null') {
+        params = params.append('minWarrantyExpiryDate', userParams.minWarrantyExpiryDate.toUTCString());
+      }
+      if (userParams.maxWarrantyExpiryDate !== '' && userParams.maxWarrantyExpiryDate != null
+        && userParams.maxWarrantyExpiryDate !== 'null') {
+        params = params.append('maxWarrantyExpiryDate', userParams.maxWarrantyExpiryDate.toUTCString());
+      }
     }
 
     return this.http.get<Repair[]>(this.baseUrl + 'repairs/' + clientId, { observe: 'response', params })
@@ -36,7 +60,7 @@ export class UserService {
       );
   }
 
-  addRepairToUser(clientId: number, repairNumber: any) {
+  addRepairToUser(clientId: number, repairNumber: number) {
     return this.http.put(this.baseUrl + 'repairs/' + clientId, repairNumber);
   }
 
@@ -63,7 +87,7 @@ export class UserService {
   }
 
   addRepair(repair: Repair) {
-    return this.http.post(this.baseUrl + 'repairs', repair)
+    return this.http.post(this.baseUrl + 'repairs', repair);
   }
 
 

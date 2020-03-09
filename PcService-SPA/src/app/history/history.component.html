@@ -1,26 +1,36 @@
+<div class="text-center mt-3">
+  <h2>Your repairs - {{pagination.totalItems}} found</h2>
+</div>
+
 <div class="container">
-  <form #repairNumberForm="ngForm" class="form-inline my-3 mx-auto" style="width: 250px;"
-    (ngSubmit)="addRepairToUser()">
-    <input class="form-control mr-sm-2" type="text" name="repairNumber" placeholder="Add repair by number" required
-      [(ngModel)]="model.repairNumber">
-    <button [disabled]="!repairNumberForm.valid" class="btn btn-primary my-2 my-sm-0" type="submit">Add</button>
+  <form class="form-inline" [formGroup]="repairNumberForm" (ngSubmit)="assignRepair()">
+    <div class="form-group">
+      <input type="text" class="form-control" formControlName="repairNumber" placeholder="Add repair by number">
+      <button class="btn btn-primary" type="submit">Add</button>
+    </div>
   </form>
 
+  <app-filter (form)="reloadRepairs($event)"></app-filter>
+  <br>
+
   <div class="card-group mt-3">
-    <div *ngFor="let repair of repairs" class="card" style="width: 30rem;">
-      <div class="card-body">
-        <h5 class="card-title">{{repair.elementName}} ({{repair.repairId}})</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{repair.result}}</h6>
-        <p class="card-text">
-          <p>{{repair.description}}</p>
-          <p>
-            Warranty repair:
-            <span *ngIf="repair.warrantyRepair">yes</span>
-            <span *ngIf="!repair.warrantyRepair">no</span>
-          </p>
-          <p *ngIf="repair.warrantyExpiryDate">
-            Warranty to: {{repair.warrantyExpiryDate | date}}
-          </p>
+    <div *ngFor="let repair of repairs" class="p-3 c
+    ol-6 col-lg-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{repair.elementName}} ({{repair.repairId}})</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{repair.result}}</h6>
+          <p class="card-text">
+            <p>{{repair.description}}</p>
+            <p>
+              Warranty repair:
+              <span *ngIf="repair.warrantyRepair">yes</span>
+              <span *ngIf="!repair.warrantyRepair">no</span>
+            </p>
+            <p *ngIf="repair.warrantyExpiryDate">
+              Warranty to: {{repair.warrantyExpiryDate | date}}
+            </p>
+        </div>
       </div>
     </div>
   </div>

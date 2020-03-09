@@ -6,6 +6,7 @@ import { AlertifyService } from '../_services/alertify.service';
 import { Repair } from '../_models/repair';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Pagination } from '../_models/pagination';
+import { BsDatepickerConfig } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-history',
@@ -13,14 +14,16 @@ import { Pagination } from '../_models/pagination';
   styleUrls: ['./history.component.css']
 })
 export class HistoryComponent implements OnInit {
-  model: any = {};
-  repairs: Repair[];
+  repairs: Repair[] = [];
   repairNumberForm: FormGroup;
   currentUserId;
   jwtHelper = new JwtHelperService();
-  pageNumber = 1;
-  pageSize = 5;
+  pageNumber;
+  pageSize;
   pagination: Pagination;
+  elementNames: string[];
+  resultNames: string[];
+  boolOptions = ['Yes', 'No'];
 
   constructor(private userService: UserService, private alertify: AlertifyService, private formBuilder: FormBuilder) {
     this.repairNumberForm = this.formBuilder.group({
@@ -33,22 +36,33 @@ export class HistoryComponent implements OnInit {
     const decodedToken = this.jwtHelper.decodeToken(token);
     this.currentUserId = decodedToken.nameid;
     this.getRepairs();
+    this.createRegisterForm();
   }
 
-  getRepairs() {
-    this.userService.getRepairsForUser(this.currentUserId, this.pageNumber, this.pageSize).subscribe((response) => {
+  reloadRepairs(form: FormGroup) {
+    this.pageNumber = 1;
+    const userParams = Object.assign({}, form.value);
+    this.getRepairs(userParams);
+  }
+
+  getRepairs(userParams?) {
+    this.userService.getRepairsForUser(this.currentUserId, this.pageNumber, this.pageSize, userParams).subscribe((response) => {
       this.repairs = response.result;
       this.pagination = response.pagination;
-    }, error => {
-      this.alertify.error(error);
-    });
-  }
-
-  addRepairToUser() {
-    this.userService.addRepairToUser(this.currentUserId, this.model).subscribe(() => {
-      this.model.repairNumber = '';
-      this.getRepairs();
-      this.alertify.success('Assigned the repair to your account');
+      this.elementNames = [];
+      this.resultNames = [];
+      this.pageNumber = this.pagination.currentPage;
+      this.pageSize = this.pagination.itemsPerPage;
+      this.repairs.forEach(name => {
+        if (!this.elementNames.includes(name.elementName)) {
+          this.elementNames.push(name.elementName);
+        }
+      });
+      this.repairs.forEach(name => {
+        if (!this.resultNames.includes(name.result)) {
+          this.resultNames.push(name.result);
+        }
+      });
     }, error => {
       this.alertify.error(error);
     });
@@ -58,5 +72,18 @@ export class HistoryComponent implements OnInit {
     this.pagination.currentPage = event.page;
     this.pageNumber = event.page;
     this.getRepairs();
+  }
+
+  assignRepair() {
+    this.userService.addRepairToUser(this.currentUserId, this.repairNumberForm.value).subscribe(() => {
+      this.getRepairs();
+      this.alertify.success('Assigned the repair to your account');
+    }, error => {
+      this.alertify.error(error);
+    });
+  }
+
+  createRegisterForm() {
+    this.repairNumberForm = this.formBuilder.group({ repairNumber: [''] });
   }
 }
