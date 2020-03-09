@@ -34,7 +34,9 @@ namespace PcService.API.Data
       }
       public async Task<PagedList<Repair>> GetRepairs(UserParams userParams)
       {
-         var repairs = _context.Repairs;
+         var repairs = _context.Repairs.AsQueryable();
+
+         repairs = filterResult(repairs, userParams);
 
          return await PagedList<Repair>.CreateAsync(repairs, userParams.PageNumber, userParams.PageSize);
       }
@@ -48,10 +50,7 @@ namespace PcService.API.Data
 
       public async Task<PagedList<Repair>> GetRepairsForUser(UserParams userParams, int userId, bool client)
       {
-         var repairs = _context.Repairs
-               .Include(u => u.Client)
-               .Include(u => u.Employee)
-               .AsQueryable();
+         var repairs = _context.Repairs.Include(u => u.Client).Include(u => u.Employee).AsQueryable();
 
          if (client)
          {
@@ -61,6 +60,8 @@ namespace PcService.API.Data
          {
             repairs = repairs.Where(r => r.EmployeeId == userId);
          }
+
+         repairs = filterResult(repairs, userParams);
 
          return await PagedList<Repair>.CreateAsync(repairs, userParams.PageNumber, userParams.PageSize);
       }
@@ -72,18 +73,48 @@ namespace PcService.API.Data
          return user;
       }
 
-      // public async Task<PagedList<User>> GetUsers(UserParams userParams)
       public async Task<List<User>> GetUsers()
       {
          var users = await _context.Users.ToListAsync();
 
-         // return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize);
          return users;
       }
 
       public async Task<bool> SaveAll()
       {
          return await _context.SaveChangesAsync() > 0;
+      }
+
+      private IQueryable<Repair> filterResult(IQueryable<Repair> repairs, UserParams userParams)
+      {
+         if (userParams.RepairId != null)
+         {
+            repairs = repairs.Where(r => r.RepairId == userParams.RepairId);
+         }
+         else
+         {
+            if (userParams.ElementName != null)
+            {
+               repairs = repairs.Where(r => r.ElementName == userParams.ElementName);
+            }
+            if (userParams.Result != null)
+            {
+               repairs = repairs.Where(r => r.Result == userParams.Result);
+            }
+            if (userParams.WarrantyRepair != null)
+            {
+               repairs = repairs.Where(r => r.WarrantyRepair == userParams.WarrantyRepair);
+            }
+            if (userParams.MinWarrantyExpiryDate != null)
+            {
+               repairs = repairs.Where(r => r.WarrantyExpiryDate >= userParams.MinWarrantyExpiryDate);
+            }
+            if (userParams.MaxWarrantyExpiryDate != null)
+            {
+               repairs = repairs.Where(r => r.WarrantyExpiryDate <= userParams.MaxWarrantyExpiryDate);
+            }
+         }
+         return repairs;
       }
    }
 }
