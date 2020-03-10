@@ -19,5 +19,6 @@ namespace PcService.API.Helpers
       public bool? WarrantyRepair { get; set; }
       public DateTime? MinWarrantyExpiryDate { get; set; }
       public DateTime? MaxWarrantyExpiryDate { get; set; }
+      public string OrderBy { get; set; }
    }
 }

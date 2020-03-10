@@ -175,5 +175,23 @@ namespace PcService.API.Controllers
 
          return Ok(statistics);
       }
+
+      [HttpGet("elementNames")]
+      [Authorize]
+      public async Task<IActionResult> GetElementNames()
+      {
+         var elementNames = await _repo.GetElementNames();
+
+         return Ok(elementNames);
+      }
+
+      [HttpGet("resultOptions")]
+      [Authorize]
+      public async Task<IActionResult> GetResultOptions()
+      {
+         var resultOptions = await _repo.GetResultOptions();
+
+         return Ok(resultOptions);
+      }
    }
 }

@@ -1,16 +1,20 @@
-<div class="text-center mt-3">
-  <h2>Your repairs - {{pagination.totalItems}} found</h2>
-</div>
-
 <div class="container">
-  <form class="form-inline" [formGroup]="repairNumberForm" (ngSubmit)="assignRepair()">
-    <div class="form-group">
-      <input type="text" class="form-control" formControlName="repairNumber" placeholder="Add repair by number">
-      <button class="btn btn-primary" type="submit">Add</button>
-    </div>
-  </form>
+  <div class="text-center m-3">
+    <form *ngIf="!admin" class="form-inline" [formGroup]="repairNumberForm" (ngSubmit)="assignRepair()">
+      <div class="form-group">
+        <input type="text" class="form-control" formControlName="repairNumber" placeholder="Add repair by number">
+        <button class="btn btn-primary" type="submit">Add</button>
+      </div>
+    </form>
+    <button *ngIf="admin" class="btn btn-info" (click)="addRepairModal()">Add repair</button>
+  </div>
 
-  <app-filter (form)="reloadRepairs($event)"></app-filter>
+  <div class="text-center mb-4">
+    <h2>Found {{pagination.totalItems}} repairs</h2>
+  </div>
+
+  <app-filter (form)="reloadRepairs($event)" [elementNameOptions]="elementNames" [resultOptions]="resultNames">
+  </app-filter>
   <br>
 
   <div class="card-group mt-3">

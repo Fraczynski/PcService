@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from '../_services/user.service';
 import { AuthService } from '../_services/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -6,7 +6,9 @@ import { AlertifyService } from '../_services/alertify.service';
 import { Repair } from '../_models/repair';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Pagination } from '../_models/pagination';
-import { BsDatepickerConfig } from 'ngx-bootstrap';
+import { BsDatepickerConfig, BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { RepairModalComponent } from '../admin/repair-modal/repair-modal.component';
 
 @Component({
   selector: 'app-history',
@@ -14,6 +16,7 @@ import { BsDatepickerConfig } from 'ngx-bootstrap';
   styleUrls: ['./history.component.css']
 })
 export class HistoryComponent implements OnInit {
+  @Input() admin = false;
   repairs: Repair[] = [];
   repairNumberForm: FormGroup;
   currentUserId;
@@ -23,9 +26,10 @@ export class HistoryComponent implements OnInit {
   pagination: Pagination;
   elementNames: string[];
   resultNames: string[];
-  boolOptions = ['Yes', 'No'];
+  bsModalRef: BsModalRef;
 
-  constructor(private userService: UserService, private alertify: AlertifyService, private formBuilder: FormBuilder) {
+  constructor(private userService: UserService, private alertify: AlertifyService, private formBuilder: FormBuilder,
+    private modalService: BsModalService) {
     this.repairNumberForm = this.formBuilder.group({
       repairNumber: ''
     });
@@ -34,9 +38,21 @@ export class HistoryComponent implements OnInit {
   ngOnInit() {
     const token = localStorage.getItem('token');
     const decodedToken = this.jwtHelper.decodeToken(token);
-    this.currentUserId = decodedToken.nameid;
+    if (!this.admin) {
+      this.currentUserId = decodedToken.nameid;
+    }
     this.getRepairs();
     this.createRegisterForm();
+    this.userService.getElementNames().subscribe((response: string[]) => {
+      this.elementNames = response;
+    }, error => {
+      console.log(error);
+    });
+    this.userService.getResultOptions().subscribe((response: string[]) => {
+      this.resultNames = response;
+    }, error => {
+      console.log(error);
+    });
   }
 
   reloadRepairs(form: FormGroup) {
@@ -49,20 +65,8 @@ export class HistoryComponent implements OnInit {
     this.userService.getRepairsForUser(this.currentUserId, this.pageNumber, this.pageSize, userParams).subscribe((response) => {
       this.repairs = response.result;
       this.pagination = response.pagination;
-      this.elementNames = [];
-      this.resultNames = [];
       this.pageNumber = this.pagination.currentPage;
       this.pageSize = this.pagination.itemsPerPage;
-      this.repairs.forEach(name => {
-        if (!this.elementNames.includes(name.elementName)) {
-          this.elementNames.push(name.elementName);
-        }
-      });
-      this.repairs.forEach(name => {
-        if (!this.resultNames.includes(name.result)) {
-          this.resultNames.push(name.result);
-        }
-      });
     }, error => {
       this.alertify.error(error);
     });
@@ -72,6 +76,20 @@ export class HistoryComponent implements OnInit {
     this.pagination.currentPage = event.page;
     this.pageNumber = event.page;
     this.getRepairs();
+  }
+
+  addRepairModal() {
+    this.bsModalRef = this.modalService.show(RepairModalComponent);
+    this.bsModalRef.content.addNewRepair.subscribe((repair) => {
+      this.userService.addRepair(repair).subscribe(() => {
+        this.getRepairs();
+        this.alertify.success('Added new repair');
+      }, error => {
+        this.alertify.error(error);
+      });
+    }, error => {
+      this.alertify.error(error);
+    });
   }
 
   assignRepair() {

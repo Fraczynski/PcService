@@ -14,7 +14,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getRepairsForUser(clientId: number, page?, itemsPerPage?, userParams?): Observable<PaginatedResult<Repair[]>> {
+  getRepairsForUser(clientId?, page?, itemsPerPage?, userParams?): Observable<PaginatedResult<Repair[]>> {
     const paginatedResult: PaginatedResult<Repair[]> = new PaginatedResult<Repair[]>();
 
     let params = new HttpParams();
@@ -25,7 +25,6 @@ export class UserService {
     }
 
     if (userParams != null) {
-      debugger;
       if (userParams.elementName !== '' && userParams.elementName != null && userParams.elementName !== 'null') {
         params = params.append('elementName', userParams.elementName);
       }
@@ -46,6 +45,13 @@ export class UserService {
         && userParams.maxWarrantyExpiryDate !== 'null') {
         params = params.append('maxWarrantyExpiryDate', userParams.maxWarrantyExpiryDate.toUTCString());
       }
+      if (userParams.orderBy !== '' && userParams.orderBy != null) {
+        params = params.append('orderBy', userParams.orderBy);
+      }
+    }
+
+    if (clientId == null) {
+      clientId = '';
     }
 
     return this.http.get<Repair[]>(this.baseUrl + 'repairs/' + clientId, { observe: 'response', params })
@@ -90,5 +96,11 @@ export class UserService {
     return this.http.post(this.baseUrl + 'repairs', repair);
   }
 
+  getElementNames() {
+    return this.http.get(this.baseUrl + 'repairs/' + 'elementNames');
+  }
 
+  getResultOptions() {
+    return this.http.get(this.baseUrl + 'repairs/' + 'resultOptions');
+  }
 }

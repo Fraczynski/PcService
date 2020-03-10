@@ -26,6 +26,22 @@ namespace PcService.API.Data
          _context.Remove(entity);
       }
 
+      public async Task<List<string>> GetElementNames()
+      {
+         var repairs = await _context.Repairs.ToListAsync();
+
+         var elementNames = new List<string>();
+
+         foreach (var repair in repairs)
+         {
+            if (!elementNames.Contains(repair.ElementName))
+            {
+               elementNames.Add(repair.ElementName);
+            }
+         }
+         return elementNames;
+      }
+
       public Task<Repair> GetRepairByNumber(int number)
       {
          var repairs = _context.Repairs.Where(r => r.ClientId == null).Where(r => r.RepairId == number).FirstOrDefaultAsync();
@@ -34,7 +50,7 @@ namespace PcService.API.Data
       }
       public async Task<PagedList<Repair>> GetRepairs(UserParams userParams)
       {
-         var repairs = _context.Repairs.AsQueryable();
+         var repairs = _context.Repairs.OrderByDescending(r => r.RepairId).AsQueryable();
 
          repairs = filterResult(repairs, userParams);
 
@@ -50,7 +66,8 @@ namespace PcService.API.Data
 
       public async Task<PagedList<Repair>> GetRepairsForUser(UserParams userParams, int userId, bool client)
       {
-         var repairs = _context.Repairs.Include(u => u.Client).Include(u => u.Employee).AsQueryable();
+         var repairs = _context.Repairs.Include(u => u.Client).Include(u => u.Employee)
+            .OrderByDescending(r => r.RepairId).AsQueryable();
 
          if (client)
          {
@@ -64,6 +81,22 @@ namespace PcService.API.Data
          repairs = filterResult(repairs, userParams);
 
          return await PagedList<Repair>.CreateAsync(repairs, userParams.PageNumber, userParams.PageSize);
+      }
+
+      public async Task<List<string>> GetResultOptions()
+      {
+         var repairs = await _context.Repairs.ToListAsync();
+
+         var resultOptions = new List<string>();
+
+         foreach (var repair in repairs)
+         {
+            if (!resultOptions.Contains(repair.Result))
+            {
+               resultOptions.Add(repair.Result);
+            }
+         }
+         return resultOptions;
       }
 
       public async Task<User> GetUser(int id)
@@ -112,6 +145,25 @@ namespace PcService.API.Data
             if (userParams.MaxWarrantyExpiryDate != null)
             {
                repairs = repairs.Where(r => r.WarrantyExpiryDate <= userParams.MaxWarrantyExpiryDate);
+            }
+         }
+
+         if (!string.IsNullOrEmpty(userParams.OrderBy))
+         {
+            switch (userParams.OrderBy)
+            {
+               case "elementName":
+                  repairs = repairs.OrderByDescending(r => r.ElementName);
+                  break;
+               case "warrantyExpiryDate":
+                  repairs = repairs.OrderByDescending(r => r.WarrantyExpiryDate);
+                  break;
+               case "employeeId":
+                  repairs = repairs.OrderBy(r => r.EmployeeId);
+                  break;
+               default:
+                  repairs = repairs.OrderByDescending(r => r.RepairId);
+                  break;
             }
          }
          return repairs;

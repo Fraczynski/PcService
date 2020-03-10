@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -7,10 +7,10 @@ import { FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./filter.component.css']
 })
 export class FilterComponent implements OnInit {
+  @Input() elementNameOptions;
+  @Input() resultOptions;
+  @Input() warrantyRepairOptions = ['Yes', 'No'];
   filterForm: FormGroup;
-  elementNameOptions = [null, 'Ram', 'Speaker', 'Disk'];
-  resultOptions = [null, 'New', 'Repair'];
-  warrantyRepairOptions = [null, 'Yes', 'No'];
   @Output() form = new EventEmitter<FormGroup>();
 
   constructor(private formBuilder: FormBuilder) { }
@@ -18,11 +18,12 @@ export class FilterComponent implements OnInit {
   ngOnInit() {
     this.filterForm = this.formBuilder.group({
       repairId: '',
-      elementName: '',
-      result: '',
-      warrantyRepair: '',
+      elementName: 'null',
+      result: 'null',
+      warrantyRepair: 'null',
       minWarrantyExpiryDate: '',
-      maxWarrantyExpiryDate: ''
+      maxWarrantyExpiryDate: '',
+      orderBy: 'repairId'
     });
   }
 
