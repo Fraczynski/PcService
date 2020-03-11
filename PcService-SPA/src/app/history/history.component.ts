@@ -1,14 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { UserService } from '../_services/user.service';
-import { AuthService } from '../_services/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AlertifyService } from '../_services/alertify.service';
 import { Repair } from '../_models/repair';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Pagination } from '../_models/pagination';
 import { BsDatepickerConfig, BsModalService, BsModalRef } from 'ngx-bootstrap';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { RepairModalComponent } from '../admin/repair-modal/repair-modal.component';
+import { RepairsService } from '../_services/repairs.service';
 
 @Component({
   selector: 'app-history',
@@ -28,7 +26,7 @@ export class HistoryComponent implements OnInit {
   resultNames: string[];
   bsModalRef: BsModalRef;
 
-  constructor(private userService: UserService, private alertify: AlertifyService, private formBuilder: FormBuilder,
+  constructor(private repairsService: RepairsService, private alertify: AlertifyService, private formBuilder: FormBuilder,
     private modalService: BsModalService) {
     this.repairNumberForm = this.formBuilder.group({
       repairNumber: ''
@@ -43,12 +41,12 @@ export class HistoryComponent implements OnInit {
     }
     this.getRepairs();
     this.createRegisterForm();
-    this.userService.getElementNames().subscribe((response: string[]) => {
+    this.repairsService.getElementNames().subscribe((response: string[]) => {
       this.elementNames = response;
     }, error => {
       console.log(error);
     });
-    this.userService.getResultOptions().subscribe((response: string[]) => {
+    this.repairsService.getResultOptions().subscribe((response: string[]) => {
       this.resultNames = response;
     }, error => {
       console.log(error);
@@ -62,7 +60,7 @@ export class HistoryComponent implements OnInit {
   }
 
   getRepairs(userParams?) {
-    this.userService.getRepairsForUser(this.currentUserId, this.pageNumber, this.pageSize, userParams).subscribe((response) => {
+    this.repairsService.getRepairsForUser(this.currentUserId, this.pageNumber, this.pageSize, userParams).subscribe((response) => {
       this.repairs = response.result;
       this.pagination = response.pagination;
       this.pageNumber = this.pagination.currentPage;
@@ -81,9 +79,9 @@ export class HistoryComponent implements OnInit {
   addRepairModal() {
     this.bsModalRef = this.modalService.show(RepairModalComponent);
     this.bsModalRef.content.addNewRepair.subscribe((repair) => {
-      this.userService.addRepair(repair).subscribe(() => {
+      this.repairsService.addRepair(repair).subscribe((repairId) => {
         this.getRepairs();
-        this.alertify.success('Added new repair');
+        this.alertify.success('Repair with ID ' + repairId + ' added');
       }, error => {
         this.alertify.error(error);
       });
@@ -93,7 +91,7 @@ export class HistoryComponent implements OnInit {
   }
 
   assignRepair() {
-    this.userService.addRepairToUser(this.currentUserId, this.repairNumberForm.value).subscribe(() => {
+    this.repairsService.addRepairToUser(this.currentUserId, this.repairNumberForm.value).subscribe(() => {
       this.getRepairs();
       this.alertify.success('Assigned the repair to your account');
     }, error => {

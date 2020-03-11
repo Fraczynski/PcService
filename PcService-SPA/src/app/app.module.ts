@@ -16,7 +16,6 @@ import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
-import { MessagesComponent } from './messages/messages.component';
 import { HistoryComponent } from './history/history.component';
 import { appRoutes } from './routes';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
@@ -39,7 +38,6 @@ export function tokenGetter() {
       NavComponent,
       HomeComponent,
       RegisterComponent,
-      MessagesComponent,
       HistoryComponent,
       AdminPanelComponent,
       HasRoleDirective,

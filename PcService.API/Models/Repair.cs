@@ -16,7 +16,5 @@ namespace PcService.API.Models
       public string? Description { get; set; }
       public bool WarrantyRepair { get; set; }
       public DateTime? WarrantyExpiryDate { get; set; }
-      public ICollection<Message> ClientMessages { get; set; }
-      public ICollection<Message> EmployeeMessages { get; set; }
    }
 }

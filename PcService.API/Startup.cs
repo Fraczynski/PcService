@@ -26,7 +26,6 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using AutoMapper;
 using PcService.API.Data.Auth;
 using PcService.API.Data.Repairs;
-using PcService.API.Data.Messages;
 using PcService.API.Data.Users;
 
 namespace PcService.API
@@ -88,7 +87,6 @@ namespace PcService.API
          services.AddAutoMapper(typeof(RepairsRepository).Assembly);
          services.AddScoped<IAuthRepository, AuthRepository>();
          services.AddScoped<IRepairsRepository, RepairsRepository>();
-         services.AddScoped<IMessagesRepository, MessagesRepository>();
          services.AddScoped<IUsersRepository, UsersRepository>();
       }
 

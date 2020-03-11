@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { AdminService } from 'src/app/_services/admin.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
-import { timeout } from 'rxjs/operators';
+import { StatisticsService } from 'src/app/_services/statistics.service';
 
 @Component({
   selector: 'app-statistics',
@@ -34,7 +33,7 @@ export class StatisticsComponent implements OnInit {
   ];
   legend = false;
 
-  constructor(private adminService: AdminService, private alertify: AlertifyService) { }
+  constructor(private statisticsService: StatisticsService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.loadStatistics('elementName');
@@ -45,7 +44,7 @@ export class StatisticsComponent implements OnInit {
   }
 
   loadStatistics(type: string) {
-    this.adminService.loadStatistics(type).subscribe((statistics: [string, number][]) => {
+    this.statisticsService.loadStatistics(type).subscribe((statistics: [string, number][]) => {
       this.statistics = statistics;
       this.drawChart();
     }, error => {
