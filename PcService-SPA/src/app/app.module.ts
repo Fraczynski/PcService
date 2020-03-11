@@ -14,7 +14,6 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
-import { RegisterComponent } from './register/register.component';
 import { ErrorInterceptorProvider } from './_services/error.interceptor';
 import { HistoryComponent } from './history/history.component';
 import { appRoutes } from './routes';
@@ -27,6 +26,7 @@ import { RepairsComponent } from './admin/repairs/repairs.component';
 import { RepairModalComponent } from './admin/repair-modal/repair-modal.component';
 import { StatisticsComponent } from './admin/statistics/statistics.component';
 import { FilterComponent } from './filter/filter.component';
+import { RegisterModalComponent } from './register-modal/register-modal.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -37,7 +37,6 @@ export function tokenGetter() {
       AppComponent,
       NavComponent,
       HomeComponent,
-      RegisterComponent,
       HistoryComponent,
       AdminPanelComponent,
       HasRoleDirective,
@@ -46,7 +45,8 @@ export function tokenGetter() {
       RepairsComponent,
       RepairModalComponent,
       StatisticsComponent,
-      FilterComponent
+      FilterComponent,
+      RegisterModalComponent
    ],
    imports: [
       BrowserModule,

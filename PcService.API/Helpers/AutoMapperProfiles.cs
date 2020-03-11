@@ -10,6 +10,7 @@ namespace PcService.API.Helpers
       {
          CreateMap<RepairForCreationDto, Repair>();
          CreateMap<Repair, RepairToReturnDto>();
+         CreateMap<UserForRegisterDto, UserForLoginDto>();
       }
    }
 }

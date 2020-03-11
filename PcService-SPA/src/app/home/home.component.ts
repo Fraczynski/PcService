@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { AlertifyService } from '../_services/alertify.service';
+import { RegisterModalComponent } from '../register-modal/register-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -7,8 +10,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   registerMode = false;
+  bsModalRef: BsModalRef;
 
-  constructor() { }
+  constructor(private alertify: AlertifyService, private modalService: BsModalService) { }
 
   ngOnInit() {
   }
@@ -19,5 +23,9 @@ export class HomeComponent implements OnInit {
 
   cancelRegisterMode(registerMode: boolean) {
     this.registerMode = registerMode;
+  }
+
+  showRegisterModal() {
+    this.bsModalRef = this.modalService.show(RegisterModalComponent);
   }
 }

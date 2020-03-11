@@ -1,0 +1,43 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Create new account</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form class="form-inline" [formGroup]="registerForm" (ngSubmit)="register()">
+    <div class="form-group">
+      <input type="text" class="form-control" formControlName="userName" placeholder="User Name">
+    </div>
+
+    <div class="form-group">
+      <input type="text" class="form-control" formControlName="firstName" placeholder="First Name">
+    </div>
+
+    <div class="form-group">
+      <input type="text" class="form-control" formControlName="lastName" placeholder="Last Name">
+    </div>
+
+    <div class="form-group">
+      <input type="password" class="form-control" formControlName="password" placeholder="Password">
+    </div>
+
+    <div class="form-group">
+      <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+    </div>
+
+    <div class="form-group">
+      <input type="email" class="form-control" formControlName="email" placeholder="Email">
+    </div>
+
+    <div class="form-group">
+      <input type="tel" class="form-control" formControlName="telNumber" placeholder="Telephone Number">
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
+  <button type="button" class="btn btn-info" [disabled]="!registerForm.dirty"
+    (click)="registerForm.reset()">Reset</button>
+  <button type="button" class="btn btn-success" (click)="register()" form="repairForm">Submit</button>
+</div>

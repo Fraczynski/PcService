@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +25,11 @@ namespace PcService.API.Controllers
       private readonly IConfiguration _config;
       private readonly SignInManager<User> _signInManager;
       private readonly UserManager<User> _userManager;
-      public AuthController(IConfiguration config,
+      private readonly IMapper _mapper;
+      public AuthController(IConfiguration config, IMapper mapper,
       UserManager<User> userManager, SignInManager<User> signInManager)
       {
+         _mapper = mapper;
          _userManager = userManager;
          _signInManager = signInManager;
          _config = config;
@@ -43,10 +47,9 @@ namespace PcService.API.Controllers
 
          if (result.Succeeded)
          {
-            return CreatedAtRoute("GetUser", new { controller = "Users", id = userToCreate.Id }, userToCreate);
+            return Ok();
          }
-         return BadRequest(result.Errors);
-
+         return BadRequest(result.Errors.First().Description);
       }
 
       [HttpPost("login")]
