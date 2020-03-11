@@ -11,6 +11,7 @@ namespace PcService.API.Data
       public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
       public DbSet<Repair> Repairs { get; set; }
+      public DbSet<Message> Messages { get; set; }
 
       protected override void OnModelCreating(ModelBuilder builder)
       {
@@ -34,6 +35,17 @@ namespace PcService.API.Data
                    .WithMany(u => u.EmployeeRepairs)
                    .HasForeignKey(u => u.EmployeeId)
                    .OnDelete(DeleteBehavior.Restrict);
+
+         // builder.Entity<Message>()
+         //    .HasOne(u => u.Sender)
+         //    .WithMany(m => m.MessagesSent)
+         //    .OnDelete(DeleteBehavior.Restrict);
+
+         // builder.Entity<Message>()
+         //    .HasOne(u => u.Recipient)
+         //    .WithMany(m => m.MessagesReceived)
+         //    .OnDelete(DeleteBehavior.Restrict);
+
       }
    }
 }

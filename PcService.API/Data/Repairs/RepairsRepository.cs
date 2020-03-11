@@ -6,12 +6,12 @@ using System.Linq;
 using AutoMapper;
 using PcService.API.Helpers;
 
-namespace PcService.API.Data
+namespace PcService.API.Data.Repairs
 {
-   public class ServiceRepository : IServiceRepository
+   public class RepairsRepository : IRepairsRepository
    {
       private readonly DataContext _context;
-      public ServiceRepository(DataContext context)
+      public RepairsRepository(DataContext context)
       {
          _context = context;
       }
@@ -99,20 +99,6 @@ namespace PcService.API.Data
          return resultOptions;
       }
 
-      public async Task<User> GetUser(int id)
-      {
-         var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-
-         return user;
-      }
-
-      public async Task<List<User>> GetUsers()
-      {
-         var users = await _context.Users.ToListAsync();
-
-         return users;
-      }
-
       public async Task<bool> SaveAll()
       {
          return await _context.SaveChangesAsync() > 0;
@@ -168,5 +154,7 @@ namespace PcService.API.Data
          }
          return repairs;
       }
+
+
    }
 }

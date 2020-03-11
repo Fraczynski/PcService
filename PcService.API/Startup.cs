@@ -24,6 +24,10 @@ using PcService.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using AutoMapper;
+using PcService.API.Data.Auth;
+using PcService.API.Data.Repairs;
+using PcService.API.Data.Messages;
+using PcService.API.Data.Users;
 
 namespace PcService.API
 {
@@ -81,9 +85,11 @@ namespace PcService.API
             options.Filters.Add(new AuthorizeFilter(policy));
          });
          services.AddCors();
-         services.AddAutoMapper(typeof(ServiceRepository).Assembly);
+         services.AddAutoMapper(typeof(RepairsRepository).Assembly);
          services.AddScoped<IAuthRepository, AuthRepository>();
-         services.AddScoped<IServiceRepository, ServiceRepository>();
+         services.AddScoped<IRepairsRepository, RepairsRepository>();
+         services.AddScoped<IMessagesRepository, MessagesRepository>();
+         services.AddScoped<IUsersRepository, UsersRepository>();
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

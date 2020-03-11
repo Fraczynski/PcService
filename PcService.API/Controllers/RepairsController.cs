@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PcService.API.Data;
+using PcService.API.Data.Repairs;
 using PcService.API.Dtos;
 using PcService.API.Helpers;
 using PcService.API.Models;
@@ -16,9 +16,9 @@ namespace PcService.API.Controllers
    [Route("api/[controller]")]
    public class RepairsController : ControllerBase
    {
-      private readonly IServiceRepository _repo;
+      private readonly IRepairsRepository _repo;
       private readonly IMapper _mapper;
-      public RepairsController(IServiceRepository repo, IMapper mapper)
+      public RepairsController(IRepairsRepository repo, IMapper mapper)
       {
          _mapper = mapper;
          _repo = repo;
@@ -56,8 +56,6 @@ namespace PcService.API.Controllers
       {
          var employeeId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-         var employee = await _repo.GetUser(employeeId);
-
          repairForCreationDto.EmployeeId = employeeId;
 
          var repair = _mapper.Map<Repair>(repairForCreationDto);
@@ -66,7 +64,7 @@ namespace PcService.API.Controllers
 
          if (await _repo.SaveAll())
          {
-            return Ok();
+            return Ok(repair.RepairId);
          }
          return BadRequest("Creating the repair failed on save");
       }
@@ -78,8 +76,6 @@ namespace PcService.API.Controllers
          if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             return Unauthorized();
 
-         var client = await _repo.GetUser(userId);
-
          var repair = await _repo.GetRepairByNumber(number.repairNumber);
 
          if (repair == null)
@@ -88,7 +84,6 @@ namespace PcService.API.Controllers
          }
 
          repair.ClientId = userId;
-         repair.Client = client;
 
          if (await _repo.SaveAll())
          {
@@ -96,84 +91,6 @@ namespace PcService.API.Controllers
             return Ok(repair);
          }
          return BadRequest("Assigning the repair failed on save");
-      }
-
-      [Authorize(Policy = "RequireAdminRole")]
-      [HttpGet("statistics")]
-      public async Task<IActionResult> GetStatistics(string type)
-      {
-         var repairs = await _repo.GetRepairs();
-
-         var dictionary = new Dictionary<string, int>();
-
-         if (type.ToLower().Equals("elementname"))
-         {
-            foreach (var repair in repairs)
-            {
-               var elementName = repair.ElementName.ToLower();
-               if (dictionary.ContainsKey(elementName))
-               {
-                  dictionary[elementName]++;
-               }
-               else
-               {
-                  dictionary.Add(elementName, 1);
-               }
-            }
-         }
-         if (type.ToLower().Equals("result"))
-         {
-            foreach (var repair in repairs)
-            {
-               var result = repair.Result;
-               if (dictionary.ContainsKey(result))
-               {
-                  dictionary[result]++;
-               }
-               else
-               {
-                  dictionary.Add(result, 1);
-               }
-            }
-         }
-         if (type.ToLower().Equals("warrantyrepair"))
-         {
-            foreach (var repair in repairs)
-            {
-               var warrantyrepair = repair.WarrantyRepair;
-               if (dictionary.ContainsKey(warrantyrepair.ToString()))
-               {
-                  dictionary[warrantyrepair.ToString()]++;
-               }
-               else
-               {
-                  dictionary.Add(warrantyrepair.ToString(), 1);
-               }
-            }
-         }
-         if (type.ToLower().Equals("employeeid"))
-         {
-            foreach (var repair in repairs)
-            {
-               var employeeId = repair.EmployeeId;
-               if (dictionary.ContainsKey(employeeId.ToString()))
-               {
-                  dictionary[employeeId.ToString()]++;
-               }
-               else
-               {
-                  dictionary.Add(employeeId.ToString(), 1);
-               }
-            }
-         }
-         var statistics = new List<(string, int)>();
-
-         foreach (var key in dictionary.Keys)
-         {
-            statistics.Add((key, dictionary[key]));
-         }
-
-         return Ok(statistics);
       }
 
       [HttpGet("elementNames")]
