@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AlertifyService } from '../_services/alertify.service';
 import { BsModalRef } from 'ngx-bootstrap';
 
@@ -17,15 +17,19 @@ export class RegisterModalComponent implements OnInit {
     private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.createRegisterForm();
+  }
+
+  createRegisterForm() {
     this.registerForm = this.formBuilder.group({
-      userName: new FormControl(),
-      firstName: new FormControl(),
-      lastName: new FormControl(),
-      password: new FormControl(),
-      confirmPassword: new FormControl(),
-      email: new FormControl(),
-      telNumber: new FormControl()
-    });
+      userName: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]],
+      confirmPassword: ['', Validators.required],
+      email: ['', Validators.required],
+      telNumber: ['', Validators.required],
+    }, { validator: this.passwordMatchValidator });
   }
 
   register() {
@@ -36,5 +40,9 @@ export class RegisterModalComponent implements OnInit {
     //   this.alertify.error(error);
     // });
     console.log(this.registerForm.value);
+  }
+
+  passwordMatchValidator(g: FormGroup) {
+    return (g.get('password').value === g.get('confirmPassword').value) ? null : { 'mismatch': true };
   }
 }

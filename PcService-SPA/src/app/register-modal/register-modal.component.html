@@ -5,35 +5,62 @@
   </button>
 </div>
 <div class="modal-body">
-  <form class="form-inline" [formGroup]="registerForm" (ngSubmit)="register()">
+  <form [formGroup]="registerForm" (ngSubmit)="register()">
     <div class="form-group">
-      <input type="text" class="form-control" formControlName="userName" placeholder="User Name">
+      <input type="text"
+        [ngClass]="{'is-invalid': registerForm.get('userName').errors && registerForm.get('userName').touched}"
+        class="form-control" formControlName="userName" placeholder="User Name">
+      <div class="invalid-feedback">Please choose a username</div>
     </div>
 
     <div class="form-group">
-      <input type="text" class="form-control" formControlName="firstName" placeholder="First Name">
+      <input [ngClass]="{'is-invalid': registerForm.get('firstName').errors && registerForm.get('firstName').touched}"
+        type="text" class="form-control" formControlName="firstName" placeholder="First Name">
+      <div class="invalid-feedback">Please type your first name</div>
     </div>
 
     <div class="form-group">
-      <input type="text" class="form-control" formControlName="lastName" placeholder="Last Name">
+      <input [ngClass]="{'is-invalid': registerForm.get('lastName').errors && registerForm.get('lastName').touched}"
+        type="text" class="form-control" formControlName="lastName" placeholder="Last Name">
+      <div class="invalid-feedback">Please type your last name</div>
     </div>
 
     <div class="form-group">
-      <input type="password" class="form-control" formControlName="password" placeholder="Password">
+      <input [ngClass]="{'is-invalid': registerForm.get('password').errors && registerForm.get('password').touched}"
+        type="password" class="form-control" formControlName="password" placeholder="Password">
+      <div *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched"
+        class="invalid-feedback">Please choose a password</div>
+      <div *ngIf="registerForm.get('password').hasError('minlength') && registerForm.get('password').touched"
+        class="invalid-feedback">Password must have at least 4 characters</div>
+      <div *ngIf="registerForm.get('password').hasError('maxlength') && registerForm.get('password').touched"
+        class="invalid-feedback">Password cannot exceed 12 characters</div>
     </div>
 
     <div class="form-group">
-      <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+      <input [ngClass]="{'is-invalid': registerForm.get('confirmPassword').errors && registerForm.get('confirmPassword').touched
+            || registerForm.get('confirmPassword').touched && registerForm.hasError('mismatch')}" type="password"
+        class="form-control" formControlName="confirmPassword" placeholder="Confirm Password">
+      <div
+        *ngIf="registerForm.get('confirmPassword').hasError('required') && registerForm.get('confirmPassword').touched"
+        class="invalid-feedback">Please confirm a password</div>
+      <div *ngIf="registerForm.hasError('mismatch') && registerForm.get('password').touched" class="invalid-feedback">
+        Password must match</div>
     </div>
 
     <div class="form-group">
-      <input type="email" class="form-control" formControlName="email" placeholder="Email">
+      <input [ngClass]="{'is-invalid': registerForm.get('email').errors && registerForm.get('email').touched}"
+        type="email" class="form-control" formControlName="email" placeholder="Email">
+      <div class="invalid-feedback">Please type your email</div>
     </div>
 
     <div class="form-group">
-      <input type="tel" class="form-control" formControlName="telNumber" placeholder="Telephone Number">
+      <input [ngClass]="{'is-invalid': registerForm.get('telNumber').errors && registerForm.get('telNumber').touched}"
+        type="tel" class="form-control" formControlName="telNumber" placeholder="Telephone Number">
+      <div class="invalid-feedback">Please type your telephone number</div>
     </div>
   </form>
+  {{registerForm.value | json}}
+  {{this.registerForm.status}}
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
