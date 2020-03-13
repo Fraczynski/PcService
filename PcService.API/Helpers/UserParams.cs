@@ -12,13 +12,6 @@ namespace PcService.API.Helpers
          get { return pageSize; }
          set { pageSize = (value > MaxPageSize) ? MaxPageSize : value; }
       }
-
-      public int? RepairId { get; set; }
-      public string ElementName { get; set; }
-      public string Result { get; set; }
-      public bool? WarrantyRepair { get; set; }
-      public DateTime? MinWarrantyExpiryDate { get; set; }
-      public DateTime? MaxWarrantyExpiryDate { get; set; }
       public string OrderBy { get; set; }
    }
 }

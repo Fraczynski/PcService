@@ -40,8 +40,8 @@ namespace PcService.API.Migrations
                     ClientId = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     ProblemDescription = table.Column<string>(nullable: true),
-                    ComplaintDate = table.Column<DateTime>(nullable: false),
-                    ReleaseDate = table.Column<DateTime>(nullable: false)
+                    RequestDate = table.Column<DateTime>(nullable: false),
+                    ReleaseDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {

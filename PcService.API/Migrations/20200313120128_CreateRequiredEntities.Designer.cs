@@ -9,7 +9,7 @@ using PcService.API.Data;
 namespace PcService.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200313095243_CreateRequiredEntities")]
+    [Migration("20200313120128_CreateRequiredEntities")]
     partial class CreateRequiredEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -164,16 +164,16 @@ namespace PcService.API.Migrations
                     b.Property<int>("ClientId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("ComplaintDate")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<string>("Name")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("ProblemDescription")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<DateTime>("ReleaseDate")
+                    b.Property<DateTime?>("ReleaseDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("RequestDate")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");

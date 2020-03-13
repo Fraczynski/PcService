@@ -25,8 +25,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using AutoMapper;
 using PcService.API.Data.Auth;
-using PcService.API.Data.Repairs;
 using PcService.API.Data.Users;
+using PcService.API.Data.Equipments;
 
 namespace PcService.API
 {
@@ -86,9 +86,9 @@ namespace PcService.API
             options.Filters.Add(new AuthorizeFilter(policy));
          });
          services.AddCors();
-         services.AddAutoMapper(typeof(RepairsRepository).Assembly);
+         services.AddAutoMapper(typeof(UsersRepository).Assembly);
          services.AddScoped<IAuthRepository, AuthRepository>();
-         services.AddScoped<IRepairsRepository, RepairsRepository>();
+         services.AddScoped<IEquipmentsRepository, EquipmentsRepository>();
          services.AddScoped<IUsersRepository, UsersRepository>();
       }
 
