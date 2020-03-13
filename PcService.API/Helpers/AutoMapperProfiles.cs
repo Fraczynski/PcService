@@ -9,6 +9,9 @@ namespace PcService.API.Helpers
       public AutoMapperProfiles()
       {
          CreateMap<UserForRegisterDto, UserForLoginDto>();
+         CreateMap<Equipment, EquipmentToReturnDto>();
+         CreateMap<EquipmentForCreationDto, Equipment>();
+         CreateMap<Equipment, EquipmentToReturnDto>();
       }
    }
 }
