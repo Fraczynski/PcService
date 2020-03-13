@@ -10,6 +10,7 @@ using PcService.API.Models;
 
 namespace PcService.API.Controllers
 {
+   [Authorize(Policy = "RequireAdministratorRole")]
    [ApiController]
    [Route("api/[controller]")]
    public class AdminController : ControllerBase
@@ -22,7 +23,7 @@ namespace PcService.API.Controllers
          _context = context;
       }
 
-      [Authorize(Policy = "RequireAdminRole")]
+
       [HttpGet("usersWithRoles")]
       public async Task<IActionResult> GetUsersWithRoles()
       {
@@ -38,7 +39,6 @@ namespace PcService.API.Controllers
          return Ok(userList);
       }
 
-      [Authorize(Policy = "RequireAdminRole")]
       [HttpPost("editRoles/{userName}")]
       public async Task<IActionResult> EditRoles(string userName, RoleEditDto roleEditDto)
       {

@@ -7,7 +7,7 @@ using PcService.API.Data.Repairs;
 namespace PcService.API.Controllers
 {
    [ApiController]
-   [Authorize(Policy = "RequireAdminRole")]
+   [Authorize(Policy = "RequireAdministratorRole")]
    [Route("api/[controller]")]
    public class StatisticsController : ControllerBase
    {

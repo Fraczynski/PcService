@@ -2,15 +2,15 @@
   <h2>Admin Panel</h2>
   <div class="tab-panel">
     <tabset class="member-tabset">
-      <tab heading="User Management" *appHasRole="['Admin']">
+      <tab heading="User Management" *appHasRole="['Administrator']">
         <div class="container">
           <app-user-management></app-user-management>
         </div>
       </tab>
-      <tab heading="Repairs" *appHasRole="['Admin', 'Moderator']">
+      <tab heading="Repairs" *appHasRole="['Administrator', 'Serviceman']">
         <app-history [admin]="true"></app-history>
       </tab>
-      <tab heading="Statistics" *appHasRole="['Admin']">
+      <tab heading="Statistics" *appHasRole="['Administrator', 'Serviceman']">
         <app-statistics></app-statistics>
       </tab>
     </tabset>

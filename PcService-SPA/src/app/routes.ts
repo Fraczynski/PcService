@@ -12,8 +12,8 @@ export const appRoutes: Routes = [
           runGuardsAndResolvers: 'always',
           canActivate: [AuthGuard],
           children: [
-               { path: 'history', component: HistoryComponent },
-               { path: 'admin', component: AdminPanelComponent, data: { roles: ['Admin', 'Moderator'] } }
+               { path: 'history', component: HistoryComponent, data: { roles: ['Client'] } },
+               { path: 'admin', component: AdminPanelComponent, data: { roles: ['Administrator', 'Serviceman', 'Salesman'] } }
           ]
      },
      { path: '**', redirectTo: '', pathMatch: 'full' }

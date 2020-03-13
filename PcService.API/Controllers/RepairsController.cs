@@ -13,6 +13,7 @@ using PcService.API.Models;
 namespace PcService.API.Controllers
 {
    [ApiController]
+   [Authorize(Policy = "RequireClientRole")]
    [Route("api/[controller]")]
    public class RepairsController : ControllerBase
    {
@@ -24,7 +25,7 @@ namespace PcService.API.Controllers
          _repo = repo;
       }
 
-      [Authorize(Policy = "RequireModeratorRole")]
+      [Authorize(Policy = "RequireServicemanRole")]
       [HttpGet]
       public async Task<IActionResult> GetRepairs([FromQuery]UserParams userParams)
       {
@@ -37,7 +38,6 @@ namespace PcService.API.Controllers
          return Ok(repairsToReturn);
       }
 
-      [Authorize]
       [HttpGet("{userId}")]
       public async Task<IActionResult> GetRepairsForUser([FromQuery]UserParams userParams, int userId, bool client = true)
       {
@@ -51,7 +51,7 @@ namespace PcService.API.Controllers
       }
 
       [HttpPost]
-      [Authorize(Policy = "RequireModeratorRole")]
+      [Authorize(Policy = "RequireServicemanRole")]
       public async Task<IActionResult> AddRepair(RepairForCreationDto repairForCreationDto)
       {
          var employeeId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
@@ -70,7 +70,6 @@ namespace PcService.API.Controllers
       }
 
       [HttpPut("{userId}")]
-      [Authorize]
       public async Task<IActionResult> AssignRepairToUser(int userId, RepairForAssignUserDto number)
       {
          if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
@@ -94,7 +93,6 @@ namespace PcService.API.Controllers
       }
 
       [HttpGet("elementNames")]
-      [Authorize]
       public async Task<IActionResult> GetElementNames()
       {
          var elementNames = await _repo.GetElementNames();
@@ -103,7 +101,6 @@ namespace PcService.API.Controllers
       }
 
       [HttpGet("resultOptions")]
-      [Authorize]
       public async Task<IActionResult> GetResultOptions()
       {
          var resultOptions = await _repo.GetResultOptions();

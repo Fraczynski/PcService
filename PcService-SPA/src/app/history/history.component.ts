@@ -44,12 +44,12 @@ export class HistoryComponent implements OnInit {
     this.repairsService.getElementNames().subscribe((response: string[]) => {
       this.elementNames = response;
     }, error => {
-      console.log(error);
+      this.alertify.error(error);
     });
     this.repairsService.getResultOptions().subscribe((response: string[]) => {
       this.resultNames = response;
     }, error => {
-      console.log(error);
+      this.alertify.error(error);
     });
   }
 

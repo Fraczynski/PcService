@@ -12,13 +12,14 @@ namespace PcService.API.Data.SeedData
       {
          if (!userManager.Users.Any())
          {
-            var userData = System.IO.File.ReadAllText("Data/UserSeedData.json");
+            var userData = System.IO.File.ReadAllText("Data/SeedData/UserSeedData.json");
             var users = JsonConvert.DeserializeObject<List<User>>(userData);
 
             var roles = new List<Role>{
-                        new Role{Name = "Member"},
-                        new Role{Name = "Admin"},
-                        new Role{Name = "Moderator"}
+                        new Role{Name = "Client"},
+                        new Role{Name = "Salesman"},
+                        new Role{Name = "Serviceman"},
+                        new Role{Name = "Administrator"}
                     };
 
             foreach (var role in roles)
@@ -29,7 +30,7 @@ namespace PcService.API.Data.SeedData
             foreach (var user in users)
             {
                userManager.CreateAsync(user, "password").Wait();
-               userManager.AddToRoleAsync(user, "Member").Wait();
+               userManager.AddToRoleAsync(user, "Client").Wait();
             }
 
             var adminUser = new User
@@ -42,7 +43,7 @@ namespace PcService.API.Data.SeedData
             if (result.Succeeded)
             {
                var admin = userManager.FindByNameAsync("Admin").Result;
-               userManager.AddToRolesAsync(admin, new[] { "Moderator", "Admin" }).Wait();
+               userManager.AddToRolesAsync(admin, new[] { "Administrator" }).Wait();
             }
          }
       }
