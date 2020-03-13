@@ -30,6 +30,13 @@ namespace PcService.API.Data.Equipments
          return await PagedList<Equipment>.CreateAsync(equipments, userParams.PageNumber, userParams.PageSize);
       }
 
+      public async Task<Equipment> GetEquipment(int id)
+      {
+         var equipment = await _context.Equipments.FirstOrDefaultAsync(e => e.Id == id);
+
+         return equipment;
+      }
+
       public async Task<PagedList<Equipment>> GetUserEquipments(int userId, UserParams userParams)
       {
          var equipments = _context.Equipments.Where(e => e.ClientId == userId);
