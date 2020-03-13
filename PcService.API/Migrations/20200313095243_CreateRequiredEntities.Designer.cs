@@ -9,8 +9,8 @@ using PcService.API.Data;
 namespace PcService.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200302224339_AddedRepairsEntity")]
-    partial class AddedRepairsEntity
+    [Migration("20200313095243_CreateRequiredEntities")]
+    partial class CreateRequiredEntities
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -103,40 +103,84 @@ namespace PcService.API.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("PcService.API.Models.Repair", b =>
+            modelBuilder.Entity("PcService.API.Models.Element", b =>
                 {
-                    b.Property<int>("RepairId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ClientId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("ElementName")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<int>("EmployeeId")
+                    b.Property<int>("EquipmentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Result")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<int>("NameId")
+                        .HasColumnType("int");
 
-                    b.Property<DateTime?>("WarrantyExpiryDate")
+                    b.Property<DateTime>("NewWarrantyPeriod")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<int>("ServicemanId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<bool>("WarrantyRepair")
                         .HasColumnType("tinyint(1)");
 
-                    b.HasKey("RepairId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("EquipmentId");
+
+                    b.HasIndex("NameId");
+
+                    b.HasIndex("ServicemanId");
+
+                    b.ToTable("Elements");
+                });
+
+            modelBuilder.Entity("PcService.API.Models.ElementName", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ElementNames");
+                });
+
+            modelBuilder.Entity("PcService.API.Models.Equipment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ComplaintDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ProblemDescription")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("ReleaseDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("Repairs");
+                    b.ToTable("Equipments");
                 });
 
             modelBuilder.Entity("PcService.API.Models.Role", b =>
@@ -288,16 +332,32 @@ namespace PcService.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PcService.API.Models.Repair", b =>
+            modelBuilder.Entity("PcService.API.Models.Element", b =>
+                {
+                    b.HasOne("PcService.API.Models.Equipment", "Equipment")
+                        .WithMany("Elements")
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PcService.API.Models.ElementName", "Name")
+                        .WithMany("Elements")
+                        .HasForeignKey("NameId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PcService.API.Models.User", "Serviceman")
+                        .WithMany()
+                        .HasForeignKey("ServicemanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PcService.API.Models.Equipment", b =>
                 {
                     b.HasOne("PcService.API.Models.User", "Client")
-                        .WithMany("Repairs")
+                        .WithMany("Equipments")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("PcService.API.Models.User", "Employee")
-                        .WithMany("EmployeeRepairs")
-                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });

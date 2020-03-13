@@ -10,7 +10,9 @@ namespace PcService.API.Data
    {
       public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
-      public DbSet<Repair> Repairs { get; set; }
+      public DbSet<Equipment> Equipments { get; set; }
+      public DbSet<Element> Elements { get; set; }
+      public DbSet<ElementName> ElementNames { get; set; }
 
       protected override void OnModelCreating(ModelBuilder builder)
       {
@@ -21,30 +23,26 @@ namespace PcService.API.Data
             userRole.HasOne(ur => ur.Role).WithMany(r => r.UserRoles).HasForeignKey(ur => ur.RoleId).IsRequired();
             userRole.HasOne(ur => ur.User).WithMany(r => r.UserRoles).HasForeignKey(ur => ur.UserId).IsRequired();
          });
-         builder.Entity<Repair>()
-             .HasKey(k => new { k.RepairId });
-         builder.Entity<Repair>()
+         builder.Entity<Equipment>().HasKey(k => new { k.Id });
+         builder.Entity<Equipment>()
                    .HasOne(r => r.Client)
-                   .WithMany(u => u.Repairs)
+                   .WithMany(u => u.Equipments)
                    .HasForeignKey(u => u.ClientId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-         builder.Entity<Repair>()
-                   .HasOne(u => u.Employee)
-                   .WithMany(u => u.EmployeeRepairs)
-                   .HasForeignKey(u => u.EmployeeId)
+         builder.Entity<Element>().HasKey(k => new { k.Id });
+         builder.Entity<Element>()
+                   .HasOne(r => r.Equipment)
+                   .WithMany(u => u.Elements)
+                   .HasForeignKey(u => u.EquipmentId)
+                   .OnDelete(DeleteBehavior.Restrict);
+         builder.Entity<Element>()
+                   .HasOne(r => r.Name)
+                   .WithMany(u => u.Elements)
+                   .HasForeignKey(u => u.NameId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-         // builder.Entity<Message>()
-         //    .HasOne(u => u.Sender)
-         //    .WithMany(m => m.MessagesSent)
-         //    .OnDelete(DeleteBehavior.Restrict);
-
-         // builder.Entity<Message>()
-         //    .HasOne(u => u.Recipient)
-         //    .WithMany(m => m.MessagesReceived)
-         //    .OnDelete(DeleteBehavior.Restrict);
-
+         builder.Entity<ElementName>().HasKey(k => new { k.Id });
       }
    }
 }

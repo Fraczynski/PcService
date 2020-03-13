@@ -14,8 +14,8 @@ namespace PcService.API.Helpers
       }
 
       public int? RepairId { get; set; }
-      public string? ElementName { get; set; }
-      public string? Result { get; set; }
+      public string ElementName { get; set; }
+      public string Result { get; set; }
       public bool? WarrantyRepair { get; set; }
       public DateTime? MinWarrantyExpiryDate { get; set; }
       public DateTime? MaxWarrantyExpiryDate { get; set; }

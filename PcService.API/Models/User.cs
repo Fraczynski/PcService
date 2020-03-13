@@ -10,7 +10,6 @@ namespace PcService.API.Models
       public string FirstName { get; set; }
       public string LastName { get; set; }
       public ICollection<UserRole> UserRoles { get; set; }
-      public ICollection<Repair> Repairs { get; set; }
-      public ICollection<Repair> EmployeeRepairs { get; set; }
+      public ICollection<Equipment> Equipments { get; set; }
    }
 }

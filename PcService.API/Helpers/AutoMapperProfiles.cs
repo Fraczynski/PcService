@@ -8,8 +8,6 @@ namespace PcService.API.Helpers
    {
       public AutoMapperProfiles()
       {
-         CreateMap<RepairForCreationDto, Repair>();
-         CreateMap<Repair, RepairToReturnDto>();
          CreateMap<UserForRegisterDto, UserForLoginDto>();
       }
    }
