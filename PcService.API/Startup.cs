@@ -73,10 +73,12 @@ namespace PcService.API
 
          services.AddAuthorization(options =>
          {
-            options.AddPolicy("RequireClientRole", policy => policy.RequireRole("Client"));
-            options.AddPolicy("RequireSalesmanRole", policy => policy.RequireRole("Salesman"));
-            options.AddPolicy("RequireServicemanRole", policy => policy.RequireRole("Serviceman"));
+            options.AddPolicy("RequireClientRole", policy => policy.RequireRole("Client", "Administrator"));
+            options.AddPolicy("RequireSalesmanRole", policy => policy.RequireRole("Salesman", "Administrator"));
+            options.AddPolicy("RequireServicemanRole", policy => policy.RequireRole("Serviceman", "Administrator"));
             options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
+
+            options.AddPolicy("RequireEmployeeRole", policy => policy.RequireRole("Administrator", "Serviceman", "Salesman"));
          });
 
          services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
