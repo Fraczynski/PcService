@@ -46,7 +46,7 @@ export class AuthService {
     allowedRoles.forEach(element => {
       if (userRoles.includes(element)) {
         isMatch = true;
-        return;
+        return true;
       }
     });
     return isMatch;

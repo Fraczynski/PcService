@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, Input } from '@angular/core';
-import { AlertifyService } from 'src/app/_services/alertify.service';
-import { StatisticsService } from 'src/app/_services/statistics.service';
+import { AlertifyService } from 'src/app/_services/alertify/alertify.service';
+import { StatisticsService } from 'src/app/_services/statistics/statistics.service';
 
 @Component({
   selector: 'app-statistics',

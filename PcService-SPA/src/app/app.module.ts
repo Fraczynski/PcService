@@ -12,21 +12,20 @@ import { ChartsModule } from 'ng2-charts';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import { AuthService } from './_services/auth.service';
+import { AuthService } from './_services/auth/auth.service';
 import { HomeComponent } from './home/home.component';
-import { ErrorInterceptorProvider } from './_services/error.interceptor';
-import { HistoryComponent } from './history/history.component';
+import { ErrorInterceptorProvider } from './_services/error/error.interceptor';
 import { appRoutes } from './routes';
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { HasRoleDirective } from './_directives/hasRole.directive';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
-import { AdminService } from './_services/admin.service';
+import { AdminService } from './_services/admin/admin.service';
 import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
-import { RepairsComponent } from './admin/repairs/repairs.component';
 import { RepairModalComponent } from './admin/repair-modal/repair-modal.component';
 import { StatisticsComponent } from './admin/statistics/statistics.component';
 import { FilterComponent } from './filter/filter.component';
 import { RegisterModalComponent } from './register-modal/register-modal.component';
+import { RepairsComponent } from './repairs/repairs.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -37,7 +36,6 @@ export function tokenGetter() {
       AppComponent,
       NavComponent,
       HomeComponent,
-      HistoryComponent,
       AdminPanelComponent,
       HasRoleDirective,
       UserManagementComponent,
@@ -46,7 +44,8 @@ export function tokenGetter() {
       RepairModalComponent,
       StatisticsComponent,
       FilterComponent,
-      RegisterModalComponent
+      RegisterModalComponent,
+      RepairsComponent
    ],
    imports: [
       BrowserModule,

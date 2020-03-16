@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PaginatedResult } from '../_models/pagination';
-import { Repair } from '../_models/repair';
+import { PaginatedResult } from '../../_models/pagination';
+import { Repair } from '../../_models/repair';
 import { environment } from 'src/environments/environment';
 import { HttpParams, HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
