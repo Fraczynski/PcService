@@ -12,7 +12,8 @@ using PcService.API.Models;
 namespace PcService.API.Controllers
 {
    [Route("api/[controller]")]
-   [Authorize(Policy = "RequireSalesmanRole")]
+   // [Authorize(Policy = "RequireSalesmanRole")]
+   [AllowAnonymous]
    [ApiController]
    public class EquipmentsController : ControllerBase
    {
@@ -22,7 +23,6 @@ namespace PcService.API.Controllers
       {
          _mapper = mapper;
          _repo = repo;
-
       }
 
       [HttpPost]
@@ -40,7 +40,7 @@ namespace PcService.API.Controllers
       }
 
       [HttpGet]
-      [Authorize(Policy = "RequireEmployeeRole")]
+      // [Authorize(Policy = "RequireEmployeeRole")]
       public async Task<IActionResult> GetAllEquipments(UserParams userParams)
       {
          var equipments = await _repo.GetAllEquipments(userParams);
@@ -61,16 +61,16 @@ namespace PcService.API.Controllers
       }
 
       [HttpPut]
-      public async Task<IActionResult> UpdateUserEquipment(EquipmentForUpdateDto equipmentForUpdateDto)
+      public async Task<IActionResult> UpdateEquipment(int id, EquipmentForUpdateDto equipmentForUpdateDto)
       {
-         var equipmentFromRepo = await _repo.GetEquipment(equipmentForUpdateDto.Id);
+         var equipmentFromRepo = await _repo.GetEquipment(id);
 
          _mapper.Map(equipmentForUpdateDto, equipmentFromRepo);
 
          if (await _repo.SaveAll())
             return Ok(equipmentFromRepo);
 
-         throw new Exception($"Updating equipment {equipmentForUpdateDto.Id} failed on save");
+         throw new Exception($"Updating equipment {id} failed on save");
       }
    }
 }

@@ -13,6 +13,7 @@ namespace PcService.API.Helpers
          CreateMap<EquipmentForCreationDto, Equipment>();
          CreateMap<Equipment, EquipmentToReturnDto>();
          CreateMap<EquipmentForUpdateDto, Equipment>();
+         CreateMap<ElementForCreationDto, Element>();
       }
    }
 }

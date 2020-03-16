@@ -27,6 +27,7 @@ using AutoMapper;
 using PcService.API.Data.Auth;
 using PcService.API.Data.Users;
 using PcService.API.Data.Equipments;
+using PcService.API.Data.Elements;
 
 namespace PcService.API
 {
@@ -92,6 +93,7 @@ namespace PcService.API
          services.AddScoped<IAuthRepository, AuthRepository>();
          services.AddScoped<IEquipmentsRepository, EquipmentsRepository>();
          services.AddScoped<IUsersRepository, UsersRepository>();
+         services.AddScoped<IElementsRepository, ElementsRepository>();
       }
 
       // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
