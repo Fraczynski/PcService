@@ -9,8 +9,8 @@ using PcService.API.Data;
 namespace PcService.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200313120128_CreateRequiredEntities")]
-    partial class CreateRequiredEntities
+    [Migration("20200314151208_AddStatusToEquipment")]
+    partial class AddStatusToEquipment
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -121,7 +121,7 @@ namespace PcService.API.Migrations
                     b.Property<DateTime>("NewWarrantyPeriod")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int>("ServicemanId")
+                    b.Property<int?>("ServicemanId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
@@ -175,6 +175,9 @@ namespace PcService.API.Migrations
 
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.HasKey("Id");
 
@@ -348,9 +351,7 @@ namespace PcService.API.Migrations
 
                     b.HasOne("PcService.API.Models.User", "Serviceman")
                         .WithMany()
-                        .HasForeignKey("ServicemanId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ServicemanId");
                 });
 
             modelBuilder.Entity("PcService.API.Models.Equipment", b =>

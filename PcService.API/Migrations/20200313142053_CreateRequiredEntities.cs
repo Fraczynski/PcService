@@ -61,7 +61,7 @@ namespace PcService.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     EquipmentId = table.Column<int>(nullable: false),
-                    ServicemanId = table.Column<int>(nullable: false),
+                    ServicemanId = table.Column<int>(nullable: true),
                     NameId = table.Column<int>(nullable: false),
                     Status = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
@@ -88,7 +88,7 @@ namespace PcService.API.Migrations
                         column: x => x.ServicemanId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

@@ -7,7 +7,7 @@ namespace PcService.API.Models
       public int Id { get; set; }
       public int EquipmentId { get; set; }
       public Equipment Equipment { get; set; }
-      public int ServicemanId { get; set; }
+      public Nullable<int> ServicemanId { get; set; }
       public User Serviceman { get; set; }
       public int NameId { get; set; }
       public ElementName Name { get; set; }
