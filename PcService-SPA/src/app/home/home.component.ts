@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
-import { AlertifyService } from '../_services/alertify.service';
+import { AlertifyService } from '../_services/alertify/alertify.service';
 import { RegisterModalComponent } from '../register-modal/register-modal.component';
 
 @Component({

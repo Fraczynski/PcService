@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { AuthService } from '../_services/auth.service';
+import { AuthService } from '../_services/auth/auth.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { AlertifyService } from '../_services/alertify.service';
+import { AlertifyService } from '../_services/alertify/alertify.service';
 import { BsModalRef } from 'ngx-bootstrap';
 
 @Component({

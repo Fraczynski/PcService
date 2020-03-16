@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/_models/user';
-import { AdminService } from 'src/app/_services/admin.service';
+import { AdminService } from 'src/app/_services/admin/admin.service';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { RolesModalComponent } from '../roles-modal/roles-modal.component';
 import { map } from 'rxjs/operators';
-import { AlertifyService } from 'src/app/_services/alertify.service';
+import { AlertifyService } from 'src/app/_services/alertify/alertify.service';
 
 @Component({
   selector: 'app-user-management',
