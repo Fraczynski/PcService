@@ -1,19 +1,19 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { AlertifyService } from '../_services/alertify.service';
 import { Repair } from '../_models/repair';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Pagination } from '../_models/pagination';
-import { BsDatepickerConfig, BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { RepairsService } from '../_services/repairs/repairs.service';
+import { AlertifyService } from '../_services/alertify/alertify.service';
 import { RepairModalComponent } from '../admin/repair-modal/repair-modal.component';
-import { RepairsService } from '../_services/repairs.service';
 
 @Component({
-  selector: 'app-history',
-  templateUrl: './history.component.html',
-  styleUrls: ['./history.component.css']
+  selector: 'app-repairs',
+  templateUrl: './repairs.component.html',
+  styleUrls: ['./repairs.component.css']
 })
-export class HistoryComponent implements OnInit {
+export class RepairsComponent implements OnInit {
   @Input() admin = false;
   repairs: Repair[] = [];
   repairNumberForm: FormGroup;

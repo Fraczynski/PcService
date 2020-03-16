@@ -6,10 +6,10 @@
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/home']">Home</a>
       </li>
-      <li *appHasRole="['Client']" class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/history']">History</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/repairs']">Repairs</a>
       </li>
-      <li *appHasRole="['Administrator', 'Serviceman', 'Salesman']" class="nav-item" routerLinkActive="active">
+      <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/admin']">Admin</a>
       </li>
     </ul>
