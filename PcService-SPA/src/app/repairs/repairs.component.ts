@@ -5,7 +5,6 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Pagination } from '../_models/pagination';
 import { BsModalRef, BsModalService, PaginationComponent } from 'ngx-bootstrap';
 import { AlertifyService } from '../_services/alertify/alertify.service';
-import { RepairModalComponent } from '../admin/repair-modal/repair-modal.component';
 import { EquipmentsService } from '../_services/equipments/equipments.service';
 import { Equipment } from '../_models/equipment';
 import { EquipmentModalComponent } from '../admin/equipment-modal/equipment-modal.component';

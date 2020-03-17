@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Add new repair</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="equipmentForm" (ngSubmit)="addEquipment()">
+    <div class="form-group">
+      <input type="text" class="form-control" formControlName="name" placeholder="Equipment Name">
+    </div>
+
+    <div class="form-group">
+      <input type="text" class="form-control" formControlName="problemDescription" placeholder="Problem Description">
+      <div class="invalid-feedback">Please type your first name</div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
+  <button type="button" class="btn btn-success" (click)="addEquipment()" form="repairForm">Submit</button>
+</div>
