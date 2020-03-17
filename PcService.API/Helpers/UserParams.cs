@@ -13,5 +13,12 @@ namespace PcService.API.Helpers
          set { pageSize = (value > MaxPageSize) ? MaxPageSize : value; }
       }
       public string OrderBy { get; set; }
+      public string Name { get; set; }
+      public string Status { get; set; }
+      public string ProblemDescription { get; set; }
+      public Nullable<DateTime> MinRequestDate { get; set; }
+      public Nullable<DateTime> MaxRequestDate { get; set; }
+      public Nullable<DateTime> MinReleaseDate { get; set; }
+      public Nullable<DateTime> MaxReleaseDate { get; set; }
    }
 }

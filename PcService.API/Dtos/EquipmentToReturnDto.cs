@@ -5,11 +5,11 @@ namespace PcService.API.Dtos
    public class EquipmentToReturnDto
    {
       public int Id { get; set; }
-      public int ClientId { get; set; }
+      public Nullable<int> ClientId { get; set; }
       public string Name { get; set; }
       public string Status { get; set; }
       public string ProblemDescription { get; set; }
-      public DateTime ComplaintDate { get; set; }
-      public DateTime ReleaseDate { get; set; }
+      public DateTime RequestDate { get; set; }
+      public Nullable<DateTime> ReleaseDate { get; set; }
    }
 }

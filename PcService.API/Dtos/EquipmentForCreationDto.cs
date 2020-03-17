@@ -7,6 +7,7 @@ namespace PcService.API.Dtos
       public EquipmentForCreationDto()
       {
          RequestDate = DateTime.Now;
+         Status = "Requested";
       }
       public Nullable<int> ClientId { get; set; }
       public string Name { get; set; }
