@@ -21,11 +21,11 @@ import { HasRoleDirective } from './_directives/hasRole.directive';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
 import { AdminService } from './_services/admin/admin.service';
 import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
-import { RepairModalComponent } from './admin/repair-modal/repair-modal.component';
 import { StatisticsComponent } from './admin/statistics/statistics.component';
 import { FilterComponent } from './filter/filter.component';
 import { RegisterModalComponent } from './register-modal/register-modal.component';
 import { RepairsComponent } from './repairs/repairs.component';
+import { EquipmentModalComponent } from './admin/equipment-modal/equipment-modal.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -41,11 +41,11 @@ export function tokenGetter() {
       UserManagementComponent,
       RolesModalComponent,
       RepairsComponent,
-      RepairModalComponent,
       StatisticsComponent,
       FilterComponent,
       RegisterModalComponent,
-      RepairsComponent
+      RepairsComponent,
+      EquipmentModalComponent
    ],
    imports: [
       BrowserModule,
@@ -68,7 +68,7 @@ export function tokenGetter() {
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
       }),
-      ModalModule.forRoot()
+      ModalModule.forRoot(),
    ],
    providers: [
       AuthService,
