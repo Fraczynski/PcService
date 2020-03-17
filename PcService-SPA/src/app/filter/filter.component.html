@@ -1,38 +1,57 @@
 <div class="container">
   <form class="form-inline" [formGroup]="filterForm" (ngSubmit)="filter()">
-    <div class="form-group">
-      <input type="text" class="form-control" formControlName="repairId" placeholder="Find repair by ID">
+
+    <div class="form-group relative">
+      <input type="text" class="form-control" formControlName="name" placeholder="Name">
+      <button *ngIf="this.filterForm.controls.name.dirty && this.filterForm.controls.name.value.length > 0"
+        class="feedback" [@enterAnimation] (click)="this.filterForm.controls.name.reset()"><i
+          class="fa fa-times"></i></button>
     </div>
 
-    <div class="form-group">
-      <select class="form-control" formControlName="elementName">
-        <option value="null" disabled>- Element Name -</option>
-        <option *ngFor="let name of elementNameOptions" [value]="name">{{name}}</option>
+    <div class="form-group relative">
+      <select class="form-control" formControlName="status">
+        <option value="null" disabled>- Status -</option>
+        <option *ngFor="let status of statusOptions" [value]="status">{{status}}</option>
       </select>
+      <button *ngIf="this.filterForm.controls.status.dirty && this.filterForm.controls.status.value.length > 0"
+        class="feedback" [@enterAnimation] (click)="this.filterForm.controls.status.reset()"><i
+          class="fa fa-times"></i></button>
     </div>
 
-    <div class="form-group">
-      <select class="form-control" formControlName="result">
-        <option value="null" disabled>- Result -</option>
-        <option *ngFor="let name of resultOptions" [value]="name">{{name}}</option>
-      </select>
+    <div class="form-group relative">
+      <input type="text" class="form-control" formControlName="problemDescription" placeholder="Problem Description">
+      <button
+        *ngIf="this.filterForm.controls.problemDescription.dirty && this.filterForm.controls.problemDescription.value.length > 0"
+        class="feedback" [@enterAnimation] (click)="this.filterForm.controls.problemDescription.reset()"><i
+          class="fa fa-times"></i></button>
     </div>
 
-    <div class="form-group">
-      <select class="form-control" formControlName="warrantyRepair">
-        <option value="null" disabled>- Warranty Repair -</option>
-        <option *ngFor="let name of warrantyRepairOptions" [value]="name">{{name}}</option>
-      </select>
+    <div class="form-group relative">
+      <input class="form-control" placeholder="Min request date" formControlName="minRequestDate" type="text"
+        bsDatepicker>
+      <button *ngIf="this.filterForm.controls.minRequestDate.dirty" class="feedback" [@enterAnimation]
+        (click)="this.filterForm.controls.minRequestDate.reset()"><i class="fa fa-times"></i></button>
     </div>
 
-    <div class="form-group">
-      <input class="form-control" placeholder="Min warranty expiry date" formControlName="minWarrantyExpiryDate"
-        type="text" bsDatepicker>
+    <div class="form-group relative">
+      <input class="form-control" placeholder="Max request Date" formControlName="maxRequestDate" type="text"
+        bsDatepicker>
+      <button *ngIf="this.filterForm.controls.maxRequestDate.dirty" class="feedback" [@enterAnimation]
+        (click)="this.filterForm.controls.maxRequestDate.reset()"><i class="fa fa-times"></i></button>
     </div>
 
-    <div class="form-group">
-      <input class="form-control" placeholder="Max warranty expiry date" formControlName="maxWarrantyExpiryDate"
-        type="text" bsDatepicker>
+    <div class="form-group relative">
+      <input class="form-control" placeholder="Min request date" formControlName="minReleaseDate" type="text"
+        bsDatepicker>
+      <button *ngIf="this.filterForm.controls.minReleaseDate.dirty" class="feedback" [@enterAnimation]
+        (click)="this.filterForm.controls.minReleaseDate.reset()"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <input class="form-control" placeholder="Max request Date" formControlName="maxReleaseDate" type="text"
+        bsDatepicker>
+      <button *ngIf="this.filterForm.controls.maxReleaseDate.dirty" class="feedback" [@enterAnimation]
+        (click)="this.filterForm.controls.maxReleaseDate.reset()"><i class="fa fa-times"></i></button>
     </div>
 
     <div class="form-group text-center">
@@ -42,12 +61,11 @@
 
     <div class="col">
       <div class="btn-group float-right" btnRadioGroup formControlName="orderBy">
-        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="repairId">Repair
-          Number</button>
-        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="elementName">Element
-          Name</button>
-        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="warrantyExpiryDate">Warranty Expiry
-          Date</button>
+        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="id">ID</button>
+        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="name">Name</button>
+        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="status">Status</button>
+        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="requestDate">Request Date</button>
+        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="releaseDate">Release Date</button>
       </div>
     </div>
   </form>
