@@ -1,40 +1,38 @@
 <div class="container">
   <div class="text-center m-3">
-    <form *ngIf="!admin" class="form-inline" [formGroup]="repairNumberForm" (ngSubmit)="assignRepair()">
+    <form *ngIf="!admin" class="form-inline" [formGroup]="equipmentNumberForm" (ngSubmit)="assignClientToEquipment()">
       <div class="form-group">
-        <input type="text" class="form-control" formControlName="repairNumber" placeholder="Add repair by number">
+        <input type="text" class="form-control" formControlName="equipmentNumber" placeholder="Add equipment by number">
         <button class="btn btn-primary" type="submit">Add</button>
       </div>
     </form>
-    <button *ngIf="admin" class="btn btn-info" (click)="addRepairModal()">Add repair</button>
+    <button *ngIf="admin" class="btn btn-info" (click)="addEquipmentModal()">Add equipment</button>
   </div>
 
   <div class="text-center mb-4">
     <h2>Found {{pagination.totalItems}} repairs</h2>
   </div>
 
-  <app-filter (form)="reloadRepairs($event)" [elementNameOptions]="elementNames" [resultOptions]="resultNames">
+  <app-filter (form)="reloadEquipments($event)" [statusOptions]="statusOptions">
   </app-filter>
   <br>
 
   <div class="card-group mt-3">
-    <div *ngFor="let repair of repairs" class="p-3 c
+    <div *ngFor="let equipment of equipments" class="p-3 c
     ol-6 col-lg-4">
       <div class="card">
+        <div class="card-header text-center">{{equipment.status}}</div>
         <div class="card-body">
-          <h5 class="card-title">{{repair.elementName}} ({{repair.repairId}})</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{repair.result}}</h6>
-          <p class="card-text">
-            <p>{{repair.description}}</p>
-            <p>
-              Warranty repair:
-              <span *ngIf="repair.warrantyRepair">yes</span>
-              <span *ngIf="!repair.warrantyRepair">no</span>
-            </p>
-            <p *ngIf="repair.warrantyExpiryDate">
-              Warranty to: {{repair.warrantyExpiryDate | date}}
-            </p>
+          <h5 class="card-title text-center">{{equipment.name}} ({{equipment.id}})</h5>
+          <p class=" card-text">
+            <p>{{equipment.problemDescription}}</p>
+            <p class="text-muted">
+              Request date: {{equipment.requestDate | date}}
+              <p class="text-muted" *ngIf="equipment.releaseDate">
+                Release date: {{equipment.releaseDate | date}}
+              </p>
         </div>
+        <div *ngIf="admin" class="card-footer text-muted text-center">{{equipment.clientId}}</div>
       </div>
     </div>
   </div>
