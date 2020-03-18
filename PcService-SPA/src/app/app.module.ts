@@ -30,6 +30,7 @@ import { EquipmentsComponent } from './equipments/equipments.component';
 import { EquipmentCardComponent } from './equipment-card/equipment-card.component';
 import { ElementCardComponent } from './element-card/element-card.component';
 import { ElementsModalComponent } from './elements-modal/elements-modal.component';
+import { ElementsComponent } from './employee/elements/elements.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -52,7 +53,8 @@ export function tokenGetter() {
       EquipmentsComponent,
       EquipmentCardComponent,
       ElementCardComponent,
-      ElementsModalComponent
+      ElementsModalComponent,
+      ElementsComponent
    ],
    imports: [
       BrowserModule,

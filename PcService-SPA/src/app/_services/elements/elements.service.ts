@@ -13,7 +13,7 @@ export class ElementsService {
 
   constructor(private http: HttpClient) { }
 
-  getAllElements(page?, itemsPerPage?, userParams?): Observable<PaginatedResult<Element[]>> {
+  getElements(page?, itemsPerPage?, userParams?): Observable<PaginatedResult<Element[]>> {
     const paginatedResult: PaginatedResult<Element[]> = new PaginatedResult<Element[]>();
 
     const params = this.addParams(page, itemsPerPage, userParams);

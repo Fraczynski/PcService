@@ -7,8 +7,11 @@
           <app-user-management></app-user-management>
         </div>
       </tab>
-      <tab heading="Repairs" *appHasRole="['Administrator', 'Serviceman', 'Salesman']">
+      <tab heading="Equipments" *appHasRole="['Administrator', 'Serviceman', 'Salesman']">
         <app-equipments [employee]="true"></app-equipments>
+      </tab>
+      <tab heading="Elements" *appHasRole="['Administrator', 'Serviceman']">
+        <app-elements></app-elements>
       </tab>
       <tab heading="Statistics" *appHasRole="['Administrator', 'Serviceman']">
         <app-statistics></app-statistics>
