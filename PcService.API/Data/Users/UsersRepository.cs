@@ -19,6 +19,13 @@ namespace PcService.API.Data.Users
          return user;
       }
 
+      public async Task<User> GetUser(string userName)
+      {
+         var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
+
+         return user;
+      }
+
       public async Task<List<User>> GetUsers()
       {
          var users = await _context.Users.ToListAsync();

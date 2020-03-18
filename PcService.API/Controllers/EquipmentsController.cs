@@ -9,6 +9,7 @@ using PcService.API.Data.Equipments;
 using PcService.API.Dtos;
 using PcService.API.Helpers;
 using PcService.API.Models;
+using PcService.API.Data.Users;
 
 namespace PcService.API.Controllers
 {
@@ -18,8 +19,10 @@ namespace PcService.API.Controllers
    {
       private readonly IEquipmentsRepository _repo;
       private readonly IMapper _mapper;
-      public EquipmentsController(IEquipmentsRepository repo, IMapper mapper)
+      private readonly IUsersRepository _usersRepo;
+      public EquipmentsController(IEquipmentsRepository repo, IMapper mapper, IUsersRepository usersRepo)
       {
+         _usersRepo = usersRepo;
          _mapper = mapper;
          _repo = repo;
       }
@@ -29,6 +32,17 @@ namespace PcService.API.Controllers
       public async Task<IActionResult> AddEquipment(EquipmentForCreationDto equipmentForCreationDto)
       {
          var equipment = _mapper.Map<Equipment>(equipmentForCreationDto);
+
+         if (equipmentForCreationDto.ClientName != null && equipmentForCreationDto.ClientName != "")
+         {
+            var client = await _usersRepo.GetUser(equipmentForCreationDto.ClientName);
+
+            if (client == null)
+            {
+               return BadRequest("User doesn't exist");
+            }
+            equipment.ClientId = client.Id;
+         }
 
          _repo.Add(equipment);
 

@@ -9,7 +9,7 @@ namespace PcService.API.Dtos
          RequestDate = DateTime.Now;
          Status = "Requested";
       }
-      public Nullable<int> ClientId { get; set; }
+      public string ClientName { get; set; }
       public string Name { get; set; }
       public string Status { get; set; }
       public string ProblemDescription { get; set; }

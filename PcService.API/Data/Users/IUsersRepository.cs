@@ -8,5 +8,6 @@ namespace PcService.API.Data.Users
    {
       Task<List<User>> GetUsers();
       Task<User> GetUser(int id);
+      Task<User> GetUser(string userName);
    }
 }
