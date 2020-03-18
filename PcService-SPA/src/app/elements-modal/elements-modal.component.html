@@ -1,0 +1,10 @@
+<div *ngIf="elements !== undefined && elements.length > 0">
+  <div *ngFor="let element of elements">
+    <app-element-card [element]="element"></app-element-card>
+  </div>
+</div>
+<div *ngIf="!(elements !== undefined && elements.length > 0)">
+  <div class="m-4 text-center">
+    <h4>No Elements!</h4>
+  </div>
+</div>

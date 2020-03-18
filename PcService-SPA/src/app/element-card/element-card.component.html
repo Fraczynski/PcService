@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="card-header text-center">{{element.status}}</div>
+  <div class="card-body">
+    <h5 class="card-title text-center">{{element.name}}</h5>
+    <p class=" card-text">
+      <p>{{element.description}}</p>
+      <p class="text-muted">
+        Warranty Repair: {{element.warrantyRepair}}
+        <p class="text-muted" *ngIf="element.newWarrantyPeriod">
+          Release date: {{element.newWarrantyPeriod | date}}
+        </p>
+        <footer class="blockquote-footer" *ngIf="element.servicemanName !== null">{{element.servicemanName}}</footer>
+  </div>
+</div>
