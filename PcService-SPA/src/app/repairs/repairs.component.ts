@@ -7,7 +7,7 @@ import { BsModalRef, BsModalService, PaginationComponent } from 'ngx-bootstrap';
 import { AlertifyService } from '../_services/alertify/alertify.service';
 import { EquipmentsService } from '../_services/equipments/equipments.service';
 import { Equipment } from '../_models/equipment';
-import { EquipmentModalComponent } from '../admin/equipment-modal/equipment-modal.component';
+import { EquipmentModalComponent } from '../employee/equipment-modal/equipment-modal.component';
 
 @Component({
   selector: 'app-repairs',

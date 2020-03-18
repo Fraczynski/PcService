@@ -16,17 +16,17 @@ import { AuthService } from './_services/auth/auth.service';
 import { HomeComponent } from './home/home.component';
 import { ErrorInterceptorProvider } from './_services/error/error.interceptor';
 import { appRoutes } from './routes';
-import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { HasRoleDirective } from './_directives/hasRole.directive';
-import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { UserManagementComponent } from './employee/user-management/user-management.component';
 import { AdminService } from './_services/admin/admin.service';
-import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
-import { StatisticsComponent } from './admin/statistics/statistics.component';
+import { RolesModalComponent } from './employee/roles-modal/roles-modal.component';
+import { StatisticsComponent } from './employee/statistics/statistics.component';
 import { FilterComponent } from './filter/filter.component';
 import { RegisterModalComponent } from './register-modal/register-modal.component';
 import { RepairsComponent } from './repairs/repairs.component';
-import { EquipmentModalComponent } from './admin/equipment-modal/equipment-modal.component';
+import { EquipmentModalComponent } from './employee/equipment-modal/equipment-modal.component';
 import { ContactComponent } from './contact/contact.component';
+import { EmployeePanelComponent } from './employee/employee-panel/employee-panel.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -37,7 +37,7 @@ export function tokenGetter() {
       AppComponent,
       NavComponent,
       HomeComponent,
-      AdminPanelComponent,
+      EmployeePanelComponent,
       HasRoleDirective,
       UserManagementComponent,
       RolesModalComponent,
