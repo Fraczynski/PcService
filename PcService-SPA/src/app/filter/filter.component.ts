@@ -22,6 +22,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
   styleUrls: ['./filter.component.css']
 })
 export class FilterComponent implements OnInit {
+  @Input() employee;
   @Input() elementNameOptions;
   @Input() statusOptions;
   @Input() warrantyRepairOptions = ['Yes', 'No'];
@@ -32,6 +33,7 @@ export class FilterComponent implements OnInit {
 
   ngOnInit() {
     this.filterForm = this.formBuilder.group({
+      clientName: [''],
       name: [''],
       status: [],
       problemDescription: [''],

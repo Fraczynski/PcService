@@ -8,7 +8,7 @@
         </div>
       </tab>
       <tab heading="Repairs" *appHasRole="['Administrator', 'Serviceman', 'Salesman']">
-        <app-repairs [admin]="true"></app-repairs>
+        <app-repairs [employee]="true"></app-repairs>
       </tab>
       <tab heading="Statistics" *appHasRole="['Administrator', 'Serviceman']">
         <app-statistics></app-statistics>

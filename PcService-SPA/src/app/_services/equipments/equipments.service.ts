@@ -85,6 +85,9 @@ export class EquipmentsService {
     }
 
     if (userParams != null) {
+      if (userParams.clientName !== '' && userParams.clientName != null && userParams.clientName !== 'null') {
+        params = params.append('clientName', userParams.clientName);
+      }
       if (userParams.name !== '' && userParams.name != null && userParams.name !== 'null') {
         params = params.append('name', userParams.name);
       }

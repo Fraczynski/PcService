@@ -1,19 +1,22 @@
 <div class="container">
   <div class="text-center m-3">
-    <form *ngIf="!admin" class="form-inline" [formGroup]="equipmentNumberForm" (ngSubmit)="assignClientToEquipment()">
+    <form *ngIf="!employee" class="form-inline" [formGroup]="equipmentNumberForm"
+      (ngSubmit)="assignClientToEquipment()">
       <div class="form-group">
-        <input type="text" class="form-control" formControlName="equipmentNumber" placeholder="Add equipment by number">
+        <input type="text" class="form-control" formControlName="equipmentNumber" placeholder="Add equipment by ID">
         <button class="btn btn-primary" type="submit">Add</button>
       </div>
     </form>
-    <button *ngIf="admin" class="btn btn-info" (click)="addEquipmentModal()">Add equipment</button>
+    <div class="row justify-content-center" *ngIf="employee">
+      <button class="btn btn-info" (click)="addEquipmentModal()">Add equipment</button>
+    </div>
   </div>
 
   <div class="text-center mb-4">
     <h2>Found {{pagination.totalItems}} repairs</h2>
   </div>
 
-  <app-filter (form)="reloadEquipments($event)" [statusOptions]="statusOptions">
+  <app-filter (form)="reloadEquipments($event)" [employee]="employee" [statusOptions]="statusOptions">
   </app-filter>
   <br>
 
@@ -32,7 +35,8 @@
                 Release date: {{equipment.releaseDate | date}}
               </p>
         </div>
-        <div *ngIf="admin" class="card-footer text-muted text-center">{{equipment.clientId}}</div>
+        <div *ngIf="employee && equipment.clientName !== null" class="card-footer text-muted text-center">
+          {{equipment.clientName}}</div>
       </div>
     </div>
   </div>

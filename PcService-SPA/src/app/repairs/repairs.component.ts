@@ -15,7 +15,7 @@ import { EquipmentModalComponent } from '../employee/equipment-modal/equipment-m
   styleUrls: ['./repairs.component.css']
 })
 export class RepairsComponent implements OnInit {
-  @Input() admin = false;
+  @Input() employee = false;
   equipments: Equipment[] = [];
   equipmentNumberForm: FormGroup;
   currentUserId;
@@ -33,7 +33,7 @@ export class RepairsComponent implements OnInit {
   ngOnInit() {
     const token = localStorage.getItem('token');
     const decodedToken = this.jwtHelper.decodeToken(token);
-    if (!this.admin) {
+    if (!this.employee) {
       this.currentUserId = decodedToken.nameid;
     }
     this.getEquipments(new Object());
