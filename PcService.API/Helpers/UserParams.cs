@@ -21,5 +21,11 @@ namespace PcService.API.Helpers
       public Nullable<DateTime> MaxRequestDate { get; set; }
       public Nullable<DateTime> MinReleaseDate { get; set; }
       public Nullable<DateTime> MaxReleaseDate { get; set; }
+      public Nullable<int> EquipmentId { get; set; }
+      public string ServicemanName { get; set; }
+      public string Description { get; set; }
+      public Nullable<bool> WarrantyRepair { get; set; }
+      public Nullable<DateTime> MinNewWarrantyPeriod { get; set; }
+      public Nullable<DateTime> MaxNewWarrantyPeriod { get; set; }
    }
 }

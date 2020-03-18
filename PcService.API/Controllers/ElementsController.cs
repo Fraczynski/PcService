@@ -44,11 +44,15 @@ namespace PcService.API.Controllers
 
       [HttpGet]
       [Authorize(Policy = "RequireServicemanRole")]
-      public async Task<IActionResult> GetAllElements(int equipmentId, UserParams userParams)
+      public async Task<IActionResult> GetAllElements([FromQuery]UserParams userParams)
       {
-         var elements = await _repo.GetAllElements(equipmentId, userParams);
+         var elements = await _repo.GetAllElements(userParams);
 
-         return Ok(elements);
+         var elementsToReturn = _mapper.Map<IEnumerable<ElementToReturnDto>>(elements);
+
+         Response.AddPagination(elements.CurrentPage, elements.PageSize, elements.TotalCount, elements.TotalPages);
+
+         return Ok(elementsToReturn);
       }
 
       [HttpGet("equipment/{equipmentId}")]

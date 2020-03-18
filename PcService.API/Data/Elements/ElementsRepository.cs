@@ -45,11 +45,70 @@ namespace PcService.API.Data.Elements
          return await _context.SaveChangesAsync() > 0;
       }
 
-      public async Task<PagedList<Element>> GetAllElements(int id, UserParams userParams)
+      public async Task<PagedList<Element>> GetAllElements(UserParams userParams)
       {
-         var elements = _context.Elements;
+         var elements = _context.Elements.Include(n => n.Name).Include(s => s.Serviceman).AsQueryable();
+
+         elements = filterResults(elements, userParams);
 
          return await PagedList<Element>.CreateAsync(elements, userParams.PageNumber, userParams.PageSize); ;
+      }
+
+      private IQueryable<Element> filterResults(IQueryable<Element> elements, UserParams userParams)
+      {
+         elements = elements.OrderByDescending(u => u.Id);
+         if (userParams.EquipmentId != null)
+         {
+            elements = elements.Where(e => e.EquipmentId == userParams.EquipmentId);
+         }
+         if (!string.IsNullOrEmpty(userParams.ServicemanName))
+         {
+            elements = elements.Where(e => e.Serviceman.UserName.ToLower().Contains(userParams.ServicemanName.ToLower()));
+         }
+         if (!string.IsNullOrEmpty(userParams.Name))
+         {
+            elements = elements.Where(r => r.Name.Name.Equals(userParams.Name));
+         }
+         if (!string.IsNullOrEmpty(userParams.Status))
+         {
+            elements = elements.Where(r => r.Status.ToLower().Equals(userParams.Status.ToLower()));
+         }
+         if (!string.IsNullOrEmpty(userParams.Description))
+         {
+            elements = elements.Where(r => r.Description.ToLower().Contains(userParams.Description.ToLower()));
+         }
+         if (userParams.WarrantyRepair != null)
+         {
+            elements = elements.Where(r => r.WarrantyRepair == userParams.WarrantyRepair);
+         }
+         if (userParams.MinNewWarrantyPeriod != null)
+         {
+            elements = elements.Where(r => r.NewWarrantyPeriod >= userParams.MinNewWarrantyPeriod);
+         }
+         if (userParams.MaxNewWarrantyPeriod != null)
+         {
+            elements = elements.Where(r => r.NewWarrantyPeriod <= userParams.MaxNewWarrantyPeriod.GetValueOrDefault().AddHours(24));
+         }
+
+         if (!string.IsNullOrEmpty(userParams.OrderBy))
+         {
+            switch (userParams.OrderBy.ToLower())
+            {
+               case "name":
+                  elements = elements.OrderBy(r => r.Name.Name);
+                  break;
+               case "status":
+                  elements = elements.OrderBy(r => r.Status);
+                  break;
+               case "Newwarrantyperiod":
+                  elements = elements.OrderBy(r => r.NewWarrantyPeriod);
+                  break;
+               default:
+                  elements = elements.OrderByDescending(r => r.Id);
+                  break;
+            }
+         }
+         return elements;
       }
    }
 }

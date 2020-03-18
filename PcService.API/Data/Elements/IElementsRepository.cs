@@ -13,6 +13,6 @@ namespace PcService.API.Data.Elements
       Task<bool> SaveAll();
       Task<List<Element>> GetEquipmentElements(int equipmentId);
       Task<Element> GetElement(int id);
-      Task<PagedList<Element>> GetAllElements(int id, UserParams userParams);
+      Task<PagedList<Element>> GetAllElements(UserParams userParams);
    }
 }
