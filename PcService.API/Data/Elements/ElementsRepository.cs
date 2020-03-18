@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -24,11 +25,12 @@ namespace PcService.API.Data.Elements
          _context.Remove(entity);
       }
 
-      public async Task<PagedList<Element>> GetEquipmentElements(int equipmentId, UserParams userParams)
+      public async Task<List<Element>> GetEquipmentElements(int equipmentId)
       {
-         var elements = _context.Elements.Where(e => e.EquipmentId == equipmentId);
+         var elements = _context.Elements.Where(e => e.EquipmentId == equipmentId).Include(n => n.Name).Include(s => s.Serviceman);
 
-         return await PagedList<Element>.CreateAsync(elements, userParams.PageNumber, userParams.PageSize);
+         return await elements.ToListAsync();
+
       }
 
       public async Task<Element> GetElement(int id)

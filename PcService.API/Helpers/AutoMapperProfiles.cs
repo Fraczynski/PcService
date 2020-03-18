@@ -15,6 +15,9 @@ namespace PcService.API.Helpers
             .ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => src.Client.UserName));
          CreateMap<EquipmentForUpdateDto, Equipment>();
          CreateMap<ElementForCreationDto, Element>();
+         CreateMap<Element, ElementToReturnDto>()
+            .ForMember(dest => dest.ServicemanName, opt => opt.MapFrom(src => src.Serviceman.UserName))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name.Name));
       }
    }
 }

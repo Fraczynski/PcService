@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -12,8 +13,7 @@ using PcService.API.Models;
 
 namespace PcService.API.Controllers
 {
-   [Route("api/equipment/[controller]")]
-   [Authorize(Policy = "RequireServicemanRole")]
+   [Route("api/[controller]")]
    [ApiController]
    public class ElementsController : ControllerBase
    {
@@ -26,6 +26,7 @@ namespace PcService.API.Controllers
       }
 
       [HttpPost]
+      [Authorize(Policy = "RequireSalesmanRole")]
       public async Task<IActionResult> AddElement(ElementForCreationDto elementForCreation)
       {
          var element = _mapper.Map<Element>(elementForCreation);
@@ -42,6 +43,7 @@ namespace PcService.API.Controllers
       }
 
       [HttpGet]
+      [Authorize(Policy = "RequireServicemanRole")]
       public async Task<IActionResult> GetAllElements(int equipmentId, UserParams userParams)
       {
          var elements = await _repo.GetAllElements(equipmentId, userParams);
@@ -49,15 +51,19 @@ namespace PcService.API.Controllers
          return Ok(elements);
       }
 
-      [HttpGet("{equipmentId}")]
-      public async Task<IActionResult> GetEquipmentElements(int equipmentId, UserParams userParams)
+      [HttpGet("equipment/{equipmentId}")]
+      [Authorize(Policy = "RequireAuthorized")]
+      public async Task<IActionResult> GetEquipmentElements(int equipmentId)
       {
-         var elements = await _repo.GetEquipmentElements(equipmentId, userParams);
+         var elements = await _repo.GetEquipmentElements(equipmentId);
 
-         return Ok(elements);
+         var elementsToReturn = _mapper.Map<IEnumerable<ElementToReturnDto>>(elements);
+
+         return Ok(elementsToReturn);
       }
 
       [HttpGet("{id}")]
+      [Authorize(Policy = "RequireServicemanRole")]
       public async Task<IActionResult> GetElement(int id)
       {
          var element = await _repo.GetElement(id);
@@ -66,6 +72,7 @@ namespace PcService.API.Controllers
       }
 
       [HttpPut("{id}")]
+      [Authorize(Policy = "RequireEmployeeRole")]
       public async Task<IActionResult> UpdateElement(int id, ElementForUpdateDto elementForUpdateDto)
       {
          var elementFromRepo = await _repo.GetElement(id);

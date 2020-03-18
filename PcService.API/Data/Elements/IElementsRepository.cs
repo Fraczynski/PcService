@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using PcService.API.Dtos;
 using PcService.API.Helpers;
@@ -10,7 +11,7 @@ namespace PcService.API.Data.Elements
       void Add<T>(T entity) where T : class;
       void Delete<T>(T entity) where T : class;
       Task<bool> SaveAll();
-      Task<PagedList<Element>> GetEquipmentElements(int equipmentId, UserParams userParams);
+      Task<List<Element>> GetEquipmentElements(int equipmentId);
       Task<Element> GetElement(int id);
       Task<PagedList<Element>> GetAllElements(int id, UserParams userParams);
    }

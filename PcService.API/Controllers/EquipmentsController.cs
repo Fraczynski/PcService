@@ -66,7 +66,18 @@ namespace PcService.API.Controllers
          return Ok(equipmentsToReturn);
       }
 
-      [HttpGet("{clientId}")]
+      [HttpGet("{equipmentId}")]
+      [Authorize(Policy = "RequireEmployeeRole")]
+      public async Task<IActionResult> GetEquipment(int equipmentId)
+      {
+         var equipment = await _repo.GetEquipment(equipmentId);
+
+         var equipmentToReturn = _mapper.Map<EquipmentToReturnDto>(equipment);
+
+         return Ok(equipmentToReturn);
+      }
+
+      [HttpGet("client/{clientId}")]
       [Authorize(Policy = "RequireAuthorized")]
       public async Task<IActionResult> GetClientEquipments(int clientId, [FromQuery]UserParams userParams)
       {
