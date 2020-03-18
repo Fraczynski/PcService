@@ -5,7 +5,7 @@ namespace PcService.API.Dtos
    public class EquipmentToReturnDto
    {
       public int Id { get; set; }
-      public Nullable<int> ClientId { get; set; }
+      public string ClientName { get; set; }
       public string Name { get; set; }
       public string Status { get; set; }
       public string ProblemDescription { get; set; }

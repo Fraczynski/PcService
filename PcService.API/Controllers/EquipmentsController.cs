@@ -34,7 +34,7 @@ namespace PcService.API.Controllers
 
          if (await _repo.SaveAll())
          {
-            return Ok(equipment);
+            return Ok(equipment.Id);
          }
          return BadRequest("Creating the repair failed on save");
       }
@@ -45,7 +45,7 @@ namespace PcService.API.Controllers
       {
          var equipments = await _repo.GetAllEquipments(userParams);
 
-         var equipmentsToReturn = _mapper.Map<IEnumerable<Equipment>>(equipments);
+         var equipmentsToReturn = _mapper.Map<IEnumerable<EquipmentToReturnDto>>(equipments);
 
          Response.AddPagination(equipments.CurrentPage, equipments.PageSize, equipments.TotalCount, equipments.TotalPages);
 

@@ -11,7 +11,8 @@ namespace PcService.API.Helpers
          CreateMap<UserForRegisterDto, UserForLoginDto>();
          CreateMap<Equipment, EquipmentToReturnDto>();
          CreateMap<EquipmentForCreationDto, Equipment>();
-         CreateMap<Equipment, EquipmentToReturnDto>();
+         CreateMap<Equipment, EquipmentToReturnDto>()
+            .ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => src.Client.UserName));
          CreateMap<EquipmentForUpdateDto, Equipment>();
          CreateMap<ElementForCreationDto, Element>();
       }

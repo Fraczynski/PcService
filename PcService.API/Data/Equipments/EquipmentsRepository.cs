@@ -27,7 +27,7 @@ namespace PcService.API.Data.Equipments
 
       public async Task<PagedList<Equipment>> GetAllEquipments(UserParams userParams)
       {
-         var equipments = _context.Equipments.AsQueryable();
+         var equipments = _context.Equipments.Include(c => c.Client).AsQueryable();
 
          equipments = filterResults(equipments, userParams);
 
@@ -72,6 +72,10 @@ namespace PcService.API.Data.Equipments
       private IQueryable<Equipment> filterResults(IQueryable<Equipment> equipments, UserParams userParams)
       {
          equipments = equipments.OrderByDescending(u => u.Id);
+         if (!string.IsNullOrEmpty(userParams.ClientName))
+         {
+            equipments = equipments.Where(e => e.Client.UserName.ToLower().Equals(userParams.ClientName.ToLower()));
+         }
          if (!string.IsNullOrEmpty(userParams.Name))
          {
             equipments = equipments.Where(e => e.Name.ToLower().Contains(userParams.Name.ToLower()));
