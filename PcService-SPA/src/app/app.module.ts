@@ -26,6 +26,7 @@ import { FilterComponent } from './filter/filter.component';
 import { RegisterModalComponent } from './register-modal/register-modal.component';
 import { RepairsComponent } from './repairs/repairs.component';
 import { EquipmentModalComponent } from './admin/equipment-modal/equipment-modal.component';
+import { ContactComponent } from './contact/contact.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -45,7 +46,8 @@ export function tokenGetter() {
       FilterComponent,
       RegisterModalComponent,
       RepairsComponent,
-      EquipmentModalComponent
+      EquipmentModalComponent,
+      ContactComponent
    ],
    imports: [
       BrowserModule,

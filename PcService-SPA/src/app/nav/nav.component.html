@@ -2,14 +2,17 @@
   <div class="container">
     <a class="navbar-brand" [routerLink]="['/home']"><i class="fa fa-laptop"></i> Andrzej-Tech</a>
 
-    <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/home']">Home</a>
       </li>
-      <li class="nav-item" routerLinkActive="active">
+      <li *ngIf="loggedIn()" class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/repairs']">Repairs</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/contact']">Contact</a>
+      </li>
+      <li *ngIf="loggedIn()" class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/admin']">Admin</a>
       </li>
     </ul>
