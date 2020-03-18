@@ -10,8 +10,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl = environment.apiUrl;
+  private baseUrl = environment.apiUrl + 'users';
 
   constructor(private http: HttpClient) { }
 
+  checkUserExists(clientName: string) {
+    return this.http.get(this.baseUrl + '/' + clientName);
+  }
 }

@@ -7,6 +7,18 @@
 <div class="modal-body">
   <form [formGroup]="equipmentForm" (ngSubmit)="addEquipment()">
     <div class="form-group">
+      <div class="input-group">
+        <input type="text" class="form-control" formControlName="clientName" placeholder="Client Name">
+        <div class="input-group-append">
+          <div *ngIf="clientNameExists === false" class="feedback" [@enterAnimation]><i class="fa fa-times"></i></div>
+          <div *ngIf="clientNameExists === true" class="feedback" [@enterAnimation]><i class="fa fa-check"></i></div>
+          <button class="btn btn-primary" [disabled]="equipmentForm.controls.clientName.value.length < 1" type="button"
+            (click)="checkClientExists()">Check</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
       <input type="text" class="form-control" formControlName="name" placeholder="Equipment Name">
     </div>
 
@@ -18,5 +30,7 @@
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
-  <button type="button" class="btn btn-success" (click)="addEquipment()" form="repairForm">Submit</button>
+  <button type="button" class="btn btn-primary"
+    [disabled]="!(equipmentForm.controls.clientName.value === '' || clientNameExists === true)" (click)="addEquipment()"
+    form="repairForm">Submit</button>
 </div>
