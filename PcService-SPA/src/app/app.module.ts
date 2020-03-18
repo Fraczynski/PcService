@@ -23,10 +23,13 @@ import { RolesModalComponent } from './employee/roles-modal/roles-modal.componen
 import { StatisticsComponent } from './employee/statistics/statistics.component';
 import { FilterComponent } from './filter/filter.component';
 import { RegisterModalComponent } from './register-modal/register-modal.component';
-import { RepairsComponent } from './repairs/repairs.component';
 import { EquipmentModalComponent } from './employee/equipment-modal/equipment-modal.component';
 import { ContactComponent } from './contact/contact.component';
 import { EmployeePanelComponent } from './employee/employee-panel/employee-panel.component';
+import { EquipmentsComponent } from './equipments/equipments.component';
+import { EquipmentCardComponent } from './equipment-card/equipment-card.component';
+import { ElementCardComponent } from './element-card/element-card.component';
+import { ElementsModalComponent } from './elements-modal/elements-modal.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -41,13 +44,15 @@ export function tokenGetter() {
       HasRoleDirective,
       UserManagementComponent,
       RolesModalComponent,
-      RepairsComponent,
       StatisticsComponent,
       FilterComponent,
       RegisterModalComponent,
-      RepairsComponent,
       EquipmentModalComponent,
-      ContactComponent
+      ContactComponent,
+      EquipmentsComponent,
+      EquipmentCardComponent,
+      ElementCardComponent,
+      ElementsModalComponent
    ],
    imports: [
       BrowserModule,
@@ -63,6 +68,7 @@ export function tokenGetter() {
       BsDropdownModule.forRoot(),
       TabsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
+      ModalModule.forRoot(),
       JwtModule.forRoot({
          config: {
             tokenGetter: tokenGetter,
@@ -70,7 +76,6 @@ export function tokenGetter() {
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
       }),
-      ModalModule.forRoot(),
    ],
    providers: [
       AuthService,

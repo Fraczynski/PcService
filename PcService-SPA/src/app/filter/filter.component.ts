@@ -1,6 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { EquipmentsService } from '../_services/equipments/equipments.service';
+import { AlertifyService } from '../_services/alertify/alertify.service';
 
 @Component({
   selector: 'app-filter',
@@ -22,14 +24,15 @@ import { trigger, transition, style, animate } from '@angular/animations';
   styleUrls: ['./filter.component.css']
 })
 export class FilterComponent implements OnInit {
+  @Input() currentUserId;
   @Input() employee;
   @Input() elementNameOptions;
-  @Input() statusOptions;
   @Input() warrantyRepairOptions = ['Yes', 'No'];
   filterForm: FormGroup;
   @Output() form = new EventEmitter<FormGroup>();
+  statusOptions: string[];
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private equipmentsService: EquipmentsService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.filterForm = this.formBuilder.group({
@@ -43,14 +46,24 @@ export class FilterComponent implements OnInit {
       maxReleaseDate: [''],
       orderBy: 'id'
     });
+    this.getStatusList();
   }
 
   filter() {
     this.form.emit(this.filterForm);
+    this.getStatusList();
   }
 
   resetForm() {
     this.filterForm.reset();
     this.filter();
+  }
+
+  getStatusList() {
+    this.equipmentsService.getStatusList(this.currentUserId).subscribe((response: string[]) => {
+      this.statusOptions = response;
+    }, error => {
+      this.alertify.error(error);
+    });
   }
 }

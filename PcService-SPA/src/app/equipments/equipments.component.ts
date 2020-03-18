@@ -1,20 +1,34 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Repair } from '../_models/repair';
+import { Equipment } from '../_models/equipment';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Pagination } from '../_models/pagination';
-import { BsModalRef, BsModalService, PaginationComponent } from 'ngx-bootstrap';
-import { AlertifyService } from '../_services/alertify/alertify.service';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { EquipmentsService } from '../_services/equipments/equipments.service';
-import { Equipment } from '../_models/equipment';
+import { AlertifyService } from '../_services/alertify/alertify.service';
 import { EquipmentModalComponent } from '../employee/equipment-modal/equipment-modal.component';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
-  selector: 'app-repairs',
-  templateUrl: './repairs.component.html',
-  styleUrls: ['./repairs.component.css']
+  selector: 'app-equipments',
+  animations: [
+    trigger(
+      'enterAnimation', [
+      transition(':enter', [
+        style({ transform: 'translateX(100%)', opacity: 0 }),
+        animate('500ms', style({ transform: 'translateX(0)', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        style({ transform: 'translateX(0)', opacity: 1 }),
+        animate('500ms', style({ transform: 'translateX(100%)', opacity: 0 }))
+      ])
+    ]
+    )
+  ],
+  templateUrl: './equipments.component.html',
+  styleUrls: ['./equipments.component.css']
 })
-export class RepairsComponent implements OnInit {
+export class EquipmentsComponent implements OnInit {
   @Input() employee = false;
   equipments: Equipment[] = [];
   equipmentNumberForm: FormGroup;
@@ -23,7 +37,6 @@ export class RepairsComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
   pagination: Pagination = new Pagination();
-  statusOptions: string[];
   bsModalRef: BsModalRef;
 
   constructor(private equipmentsService: EquipmentsService, private alertify: AlertifyService, private formBuilder: FormBuilder,
@@ -47,12 +60,11 @@ export class RepairsComponent implements OnInit {
   }
 
   getEquipments(userParams?) {
-    this.equipmentsService.getClientEquipments(this.currentUserId, this.pageNumber, this.pageSize, userParams).subscribe((response) => {
+    this.equipmentsService.getEquipments(this.currentUserId, this.pageNumber, this.pageSize, userParams).subscribe((response) => {
       this.equipments = response.result;
       this.pagination = response.pagination;
       this.pageNumber = this.pagination.currentPage;
       this.pageSize = this.pagination.itemsPerPage;
-      this.getStatusList();
     }, error => {
       this.alertify.error(error);
     });
@@ -91,11 +103,14 @@ export class RepairsComponent implements OnInit {
     this.equipmentNumberForm = this.formBuilder.group({ equipmentNumber: [''] });
   }
 
-  getStatusList() {
-    this.equipmentsService.getStatusList(this.currentUserId).subscribe((response: string[]) => {
-      this.statusOptions = response;
-    }, error => {
-      this.alertify.error(error);
-    });
+  searchEquipment() {
+    if (this.equipmentNumberForm.controls.equipmentNumber.value > 0) {
+      this.equipmentsService.searchEquipment(this.equipmentNumberForm.value.equipmentNumber).subscribe((equipment: Equipment) => {
+        this.equipments = [];
+        this.equipments.push(equipment);
+      }, error => {
+        this.alertify.error(error);
+      });
+    }
   }
 }

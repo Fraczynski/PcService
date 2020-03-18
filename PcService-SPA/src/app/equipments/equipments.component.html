@@ -9,6 +9,14 @@
     </form>
     <div class="row justify-content-center" *ngIf="employee">
       <button class="btn btn-info" (click)="addEquipmentModal()">Add equipment</button>
+      <form class="form-inline" [formGroup]="equipmentNumberForm" (ngSubmit)="searchEquipment()">
+        <div class="form-group">
+          <input type="text" class="form-control" formControlName="equipmentNumber"
+            placeholder="Search equipment by ID">
+          <button class="btn btn-primary" type="submit"
+            [disabled]="this.equipmentNumberForm.controls.equipmentNumber.value.length < 1">Search</button>
+        </div>
+      </form>
     </div>
   </div>
 
@@ -16,28 +24,13 @@
     <h2>Found {{pagination.totalItems}} repairs</h2>
   </div>
 
-  <app-filter (form)="reloadEquipments($event)" [employee]="employee" [statusOptions]="statusOptions">
+  <app-filter (form)="reloadEquipments($event)" [employee]="employee" [currentUserId]="currentUserId">
   </app-filter>
   <br>
 
   <div class="card-group mt-3">
-    <div *ngFor="let equipment of equipments" class="p-3 c
-    ol-6 col-lg-4">
-      <div class="card">
-        <div class="card-header text-center">{{equipment.status}}</div>
-        <div class="card-body">
-          <h5 class="card-title text-center">{{equipment.name}} ({{equipment.id}})</h5>
-          <p class=" card-text">
-            <p>{{equipment.problemDescription}}</p>
-            <p class="text-muted">
-              Request date: {{equipment.requestDate | date}}
-              <p class="text-muted" *ngIf="equipment.releaseDate">
-                Release date: {{equipment.releaseDate | date}}
-              </p>
-        </div>
-        <div *ngIf="employee && equipment.clientName !== null" class="card-footer text-muted text-center">
-          {{equipment.clientName}}</div>
-      </div>
+    <div *ngFor="let equipment of equipments" class="p-3 col-6 col-lg-4">
+      <app-equipment-card [equipment]="equipment" [employee]="employee"></app-equipment-card>
     </div>
   </div>
 </div>

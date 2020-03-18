@@ -1,0 +1,15 @@
+<div class="card" (click)="showElementsModal()">
+  <div class="card-header text-center">{{equipment.status}}</div>
+  <div class="card-body">
+    <h5 class="card-title text-center">{{equipment.name}} ({{equipment.id}})</h5>
+    <p class=" card-text">
+      <p>{{equipment.problemDescription}}</p>
+      <p class="text-muted">
+        Request date: {{equipment.requestDate | date}}
+        <p class="text-muted" *ngIf="equipment.releaseDate">
+          Release date: {{equipment.releaseDate | date}}
+        </p>
+  </div>
+  <div *ngIf="employee && equipment.clientName !== null" class="card-footer text-muted text-center">
+    {{equipment.clientName}}</div>
+</div>

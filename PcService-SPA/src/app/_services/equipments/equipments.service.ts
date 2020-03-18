@@ -14,16 +14,19 @@ export class EquipmentsService {
 
   constructor(private http: HttpClient) { }
 
-  getClientEquipments(clientId?, page?, itemsPerPage?, userParams?): Observable<PaginatedResult<Equipment[]>> {
+  getEquipments(clientId?, page?, itemsPerPage?, userParams?): Observable<PaginatedResult<Equipment[]>> {
     const paginatedResult: PaginatedResult<Equipment[]> = new PaginatedResult<Equipment[]>();
 
     const params = this.addParams(page, itemsPerPage, userParams);
 
+    let url = this.baseUrl;
     if (clientId == null) {
       clientId = '';
+    } else {
+      url += '/client/';
     }
 
-    return this.http.get<Equipment[]>(this.baseUrl + '/' + clientId, { observe: 'response', params })
+    return this.http.get<Equipment[]>(url + clientId, { observe: 'response', params })
       .pipe(
         map(response => {
           paginatedResult.result = response.body;
@@ -37,23 +40,6 @@ export class EquipmentsService {
 
   addEquipment(equipment) {
     return this.http.post(this.baseUrl, equipment);
-  }
-
-  getAllEquipments(page?, itemsPerPage?, userParams?) {
-    // const paginatedResult: PaginatedResult<Equipment[]> = new PaginatedResult<Equipment[]>();
-    // let params = new HttpParams();
-
-    // return this.http.get<Equipment[]>(this.baseUrl, { observe: 'response', params })
-    //   .pipe(
-    //     map(response => {
-    //       console.log(response);
-    //       paginatedResult.result = response.body;
-    //       if (response.headers.get('Pagination') != null) {
-    //         paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-    //       }
-    //       return paginatedResult;
-    //     })
-    //   );
   }
 
   updateEquipment(equipmentId: number, equipment) {
@@ -74,6 +60,10 @@ export class EquipmentsService {
     } else {
       return this.http.get(this.baseUrl + '/statusList');
     }
+  }
+
+  searchEquipment(equipmentId: number) {
+    return this.http.get(this.baseUrl + '/' + equipmentId);
   }
 
   addParams(page?, itemsPerPage?, userParams?): HttpParams {
