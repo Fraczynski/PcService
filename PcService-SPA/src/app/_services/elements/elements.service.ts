@@ -34,6 +34,10 @@ export class ElementsService {
     return this.http.get(this.baseUrl + '/equipment/' + equipmentId);
   }
 
+  searchElement(elementId: number) {
+    return this.http.get(this.baseUrl + '/' + elementId);
+  }
+
   addParams(page?, itemsPerPage?, userParams?): HttpParams {
     let params = new HttpParams();
 
@@ -43,8 +47,11 @@ export class ElementsService {
     }
 
     if (userParams != null) {
-      if (userParams.clientName !== '' && userParams.clientName != null && userParams.clientName !== 'null') {
-        params = params.append('clientName', userParams.clientName);
+      if (userParams.equipmentId !== '' && userParams.equipmentId != null && userParams.equipmentId !== 'null') {
+        params = params.append('equipmentId', userParams.equipmentId);
+      }
+      if (userParams.servicemanName !== '' && userParams.servicemanName != null && userParams.servicemanName !== 'null') {
+        params = params.append('servicemanName', userParams.servicemanName);
       }
       if (userParams.name !== '' && userParams.name != null && userParams.name !== 'null') {
         params = params.append('name', userParams.name);
@@ -52,24 +59,19 @@ export class ElementsService {
       if (userParams.status !== '' && userParams.status != null && userParams.status !== 'null') {
         params = params.append('status', userParams.status);
       }
-      if (userParams.problemDescription !== '' && userParams.problemDescription != null && userParams.problemDescription !== 'null') {
-        params = params.append('problemDescription', userParams.problemDescription);
+      if (userParams.description !== '' && userParams.description != null && userParams.description !== 'null') {
+        params = params.append('description', userParams.description);
       }
-      if (userParams.minRequestDate !== '' && userParams.minRequestDate != null
-        && userParams.minRequestDate !== 'null') {
-        params = params.append('minRequestDate', userParams.minRequestDate.toDateString());
+      if (userParams.warrantyRepair !== '' && userParams.warrantyRepair != null && userParams.warrantyRepair !== 'null') {
+        params = params.append('warrantyRepair', userParams.warrantyRepair === 'Yes' ? 'true' : 'false');
       }
-      if (userParams.maxRequestDate !== '' && userParams.maxRequestDate != null
-        && userParams.maxRequestDate !== 'null') {
-        params = params.append('maxRequestDate', userParams.maxRequestDate.toDateString());
+      if (userParams.minNewWarrantyPeriod !== '' && userParams.minNewWarrantyPeriod != null
+        && userParams.minNewWarrantyPeriod !== 'null') {
+        params = params.append('minNewWarrantyPeriod', userParams.minNewWarrantyPeriod.toDateString());
       }
-      if (userParams.minReleaseDate !== '' && userParams.minReleaseDate != null
-        && userParams.minReleaseDate !== 'null') {
-        params = params.append('minReleaseDate', userParams.minReleaseDate.toDateString());
-      }
-      if (userParams.maxReleaseDate !== '' && userParams.maxReleaseDate != null
-        && userParams.maxReleaseDate !== 'null') {
-        params = params.append('maxReleaseDate', userParams.maxReleaseDate.toDateString());
+      if (userParams.maxNewWarrantyPeriod !== '' && userParams.maxNewWarrantyPeriod != null
+        && userParams.maxNewWarrantyPeriod !== 'null') {
+        params = params.append('maxNewWarrantyPeriod', userParams.maxNewWarrantyPeriod.toDateString());
       }
       if (userParams.orderBy !== '' && userParams.orderBy != null) {
         params = params.append('orderBy', userParams.orderBy);

@@ -5,7 +5,7 @@
     <p class=" card-text">
       <p>{{element.description}}</p>
       <p class="text-muted">
-        Warranty Repair: {{element.warrantyRepair}}
+        Warranty Repair: {{element.warrantyRepair === true ? 'Yes' : 'No'}}
         <p class="text-muted" *ngIf="element.newWarrantyPeriod">
           Release date: {{element.newWarrantyPeriod | date}}
         </p>

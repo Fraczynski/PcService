@@ -1,0 +1,15 @@
+.relative{
+   position: relative;
+   overflow: hidden;
+}
+
+.feedback{
+   position: absolute;
+   right: 0px;
+   border: none;
+   background: none;
+}
+
+input{
+   width: 100%;
+}

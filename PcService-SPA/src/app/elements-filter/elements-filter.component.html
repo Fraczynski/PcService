@@ -1,0 +1,81 @@
+<div class="container">
+  <form class="form-inline" [formGroup]="filterForm" (ngSubmit)="filter()">
+
+    <div class="form-group relative">
+      <input type="text" class="form-control" formControlName="equipmentId" placeholder="Equipment ID">
+      <button
+        *ngIf="this.filterForm.controls.equipmentId.dirty && this.filterForm.controls.equipmentId.value.length > 0"
+        class="feedback" [@enterAnimation] (click)="this.filterForm.controls.equipmentId.reset()"><i
+          class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <input type="text" class="form-control" formControlName="servicemanName" placeholder="Serviceman Name">
+      <button
+        *ngIf="this.filterForm.controls.servicemanName.dirty && this.filterForm.controls.servicemanName.value.length > 0"
+        class="feedback" [@enterAnimation] (click)="this.filterForm.controls.servicemanName.reset()"><i
+          class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <input type="text" class="form-control" formControlName="description" placeholder="Description">
+      <button
+        *ngIf="this.filterForm.controls.description.dirty && this.filterForm.controls.description.value.length > 0"
+        class="feedback" [@enterAnimation] (click)="this.filterForm.controls.description.reset()"><i
+          class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <input type="text" class="form-control" formControlName="name" placeholder="Name">
+      <button *ngIf="this.filterForm.controls.name.dirty && this.filterForm.controls.name.value.length > 0"
+        class="feedback" [@enterAnimation] (click)="this.filterForm.controls.name.reset()"><i
+          class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <input type="text" class="form-control" formControlName="status" placeholder="Status">
+      <button *ngIf="this.filterForm.controls.status.dirty && this.filterForm.controls.status.value.length > 0"
+        class="feedback" [@enterAnimation] (click)="this.filterForm.controls.status.reset()"><i
+          class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <select class="form-control" formControlName="warrantyRepair">
+        <option value="null" disabled>- Warranty Repair -</option>
+        <option *ngFor="let option of warrantyRepairOptions" [value]="option">{{option}}</option>
+      </select>
+      <button
+        *ngIf="this.filterForm.controls.warrantyRepair.dirty && this.filterForm.controls.warrantyRepair.value.length > 0"
+        class="feedback" [@enterAnimation] (click)="this.filterForm.controls.warrantyRepair.reset()"><i
+          class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <input class="form-control" placeholder="Min new warranty date" formControlName="minNewWarrantyPeriod" type="text"
+        bsDatepicker>
+      <button *ngIf="this.filterForm.controls.minNewWarrantyPeriod.dirty" class="feedback" [@enterAnimation]
+        (click)="this.filterForm.controls.minNewWarrantyPeriod.reset()"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <input class="form-control" placeholder="Max new warranty Date" formControlName="maxNewWarrantyPeriod" type="text"
+        bsDatepicker>
+      <button *ngIf="this.filterForm.controls.maxNewWarrantyPeriod.dirty" class="feedback" [@enterAnimation]
+        (click)="this.filterForm.controls.maxNewWarrantyPeriod.reset()"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group text-center">
+      <button class="btn btn-success" [disabled]="!filterForm.dirty" type="submit">Filter</button>
+      <button class="btn btn-info" (click)="resetForm()">Reset</button>
+    </div>
+
+    <div class="col">
+      <div class="btn-group float-right" btnRadioGroup formControlName="orderBy">
+        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="name">Name</button>
+        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="status">Status</button>
+        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="newWarrantyPeriod">Request
+          Date</button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertifyService } from 'src/app/_services/alertify/alertify.service';
 import { ElementsService } from 'src/app/_services/elements/elements.service';
 import { Pagination } from 'src/app/_models/pagination';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-elements',
@@ -13,11 +14,17 @@ export class ElementsComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
   pagination: Pagination = new Pagination();
+  elementNumberForm: FormGroup;
 
-  constructor(private alertify: AlertifyService, private elementsService: ElementsService) { }
+  constructor(private alertify: AlertifyService, private elementsService: ElementsService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.getElements();
+    this.createRegisterForm();
+  }
+
+  createRegisterForm() {
+    this.elementNumberForm = this.formBuilder.group({ elementId: [''] });
   }
 
   getElements(userParams?) {
@@ -31,4 +38,28 @@ export class ElementsComponent implements OnInit {
     });
   }
 
+  reloadElements(form: FormGroup) {
+    this.pageNumber = 1;
+    const userParams = Object.assign({}, form.value);
+    this.getElements(userParams);
+  }
+
+  pageChanged(event: any): void {
+    this.pagination.currentPage = event.page;
+    this.pageNumber = event.page;
+    this.getElements();
+  }
+
+  searchElement() {
+    if (this.elementNumberForm.controls.elementId.value > 0) {
+      this.elementsService.searchElement(this.elementNumberForm.value.elementId).subscribe((element: Element) => {
+        if (element !== null) {
+          this.elements = [];
+          this.elements.push(element);
+        }
+      }, error => {
+        this.alertify.error(error);
+      });
+    }
+  }
 }

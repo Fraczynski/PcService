@@ -100,7 +100,7 @@ namespace PcService.API.Data.Elements
                case "status":
                   elements = elements.OrderBy(r => r.Status);
                   break;
-               case "Newwarrantyperiod":
+               case "newwarrantyperiod":
                   elements = elements.OrderBy(r => r.NewWarrantyPeriod);
                   break;
                default:
