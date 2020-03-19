@@ -1,11 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { EquipmentsService } from '../_services/equipments/equipments.service';
 import { AlertifyService } from '../_services/alertify/alertify.service';
 
 @Component({
-  selector: 'app-filter',
+  selector: 'app-equipments-filter',
   animations: [
     trigger(
       'enterAnimation', [
@@ -20,10 +20,10 @@ import { AlertifyService } from '../_services/alertify/alertify.service';
     ]
     )
   ],
-  templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.css']
+  templateUrl: './equipments-filter.component.html',
+  styleUrls: ['./equipments-filter.component.css']
 })
-export class FilterComponent implements OnInit {
+export class EquipmentsFilterComponent implements OnInit {
   @Input() currentUserId;
   @Input() employee;
   @Input() elementNameOptions;

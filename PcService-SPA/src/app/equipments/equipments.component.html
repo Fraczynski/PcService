@@ -21,11 +21,11 @@
   </div>
 
   <div class="text-center mb-4">
-    <h2>Found {{pagination.totalItems}} repairs</h2>
+    <h2>Found {{pagination.totalItems}} equipments</h2>
   </div>
 
-  <app-filter (form)="reloadEquipments($event)" [employee]="employee" [currentUserId]="currentUserId">
-  </app-filter>
+  <app-equipments-filter (form)="reloadEquipments($event)" [employee]="employee" [currentUserId]="currentUserId">
+  </app-equipments-filter>
   <br>
 
   <div class="card-group mt-3">

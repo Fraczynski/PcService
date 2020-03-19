@@ -21,7 +21,6 @@ import { UserManagementComponent } from './employee/user-management/user-managem
 import { AdminService } from './_services/admin/admin.service';
 import { RolesModalComponent } from './employee/roles-modal/roles-modal.component';
 import { StatisticsComponent } from './employee/statistics/statistics.component';
-import { FilterComponent } from './filter/filter.component';
 import { RegisterModalComponent } from './register-modal/register-modal.component';
 import { EquipmentModalComponent } from './employee/equipment-modal/equipment-modal.component';
 import { ContactComponent } from './contact/contact.component';
@@ -31,6 +30,8 @@ import { EquipmentCardComponent } from './equipment-card/equipment-card.componen
 import { ElementCardComponent } from './element-card/element-card.component';
 import { ElementsModalComponent } from './elements-modal/elements-modal.component';
 import { ElementsComponent } from './employee/elements/elements.component';
+import { EquipmentsFilterComponent } from './equipments-filter/equipments-filter.component';
+import { ElementsFilterComponent } from './elements-filter/elements-filter.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -46,7 +47,6 @@ export function tokenGetter() {
       UserManagementComponent,
       RolesModalComponent,
       StatisticsComponent,
-      FilterComponent,
       RegisterModalComponent,
       EquipmentModalComponent,
       ContactComponent,
@@ -54,7 +54,9 @@ export function tokenGetter() {
       EquipmentCardComponent,
       ElementCardComponent,
       ElementsModalComponent,
-      ElementsComponent
+      ElementsComponent,
+      EquipmentsFilterComponent,
+      ElementsFilterComponent
    ],
    imports: [
       BrowserModule,
@@ -78,6 +80,7 @@ export function tokenGetter() {
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
       }),
+      ModalModule.forRoot(),
    ],
    providers: [
       AuthService,
