@@ -14,6 +14,8 @@ namespace PcService.API.Models
       public string Status { get; set; }
       public string Description { get; set; }
       public bool WarrantyRepair { get; set; }
+      public double PartsCost { get; set; }
+      public double ServiceCost { get; set; }
       public Nullable<DateTime> NewWarrantyPeriod { get; set; }
    }
 }
