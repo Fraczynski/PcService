@@ -1,6 +1,7 @@
 export interface Equipment {
    id: number;
-   clientId: number;
+   clientName: string;
+   employeeName: string;
    name: string;
    status: string;
    problemDescription: string;

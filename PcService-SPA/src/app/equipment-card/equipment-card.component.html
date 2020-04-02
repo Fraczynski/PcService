@@ -10,6 +10,14 @@
           Release date: {{equipment.releaseDate | date}}
         </p>
   </div>
-  <div *ngIf="employee && equipment.clientName !== null" class="card-footer text-muted text-center">
-    {{equipment.clientName}}</div>
+  <div class="card-footer text-muted text-center">
+    <div class="inline">
+      <span class="float-left">
+        Employee: {{equipment.employeeName}}
+      </span>
+      <span class="float-right" *ngIf="equipment.clientName !== null">
+        Client: {{equipment.clientName}}
+      </span>
+    </div>
+  </div>
 </div>
