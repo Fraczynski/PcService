@@ -9,14 +9,12 @@ namespace PcService.API.Migrations
             migrationBuilder.AddColumn<double>(
                 name: "PartsCost",
                 table: "Elements",
-                nullable: false,
-                defaultValue: 0.0);
+                nullable: true);
 
             migrationBuilder.AddColumn<double>(
                 name: "ServiceCost",
                 table: "Elements",
-                nullable: false,
-                defaultValue: 0.0);
+                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

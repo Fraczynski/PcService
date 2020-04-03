@@ -1,9 +1,7 @@
 using System;
 
-namespace PcService.API.Models
-{
-   public class Element
-   {
+namespace PcService.API.Models {
+   public class Element {
       public int Id { get; set; }
       public int EquipmentId { get; set; }
       public Equipment Equipment { get; set; }
@@ -13,9 +11,9 @@ namespace PcService.API.Models
       public ElementName Name { get; set; }
       public string Status { get; set; }
       public string Description { get; set; }
-      public bool WarrantyRepair { get; set; }
-      public double PartsCost { get; set; }
-      public double ServiceCost { get; set; }
+      public bool WarrantyRepair { get; set; } = false;
+      public Nullable<double> PartsCost { get; set; }
+      public Nullable<double> ServiceCost { get; set; }
       public Nullable<DateTime> NewWarrantyPeriod { get; set; }
    }
 }

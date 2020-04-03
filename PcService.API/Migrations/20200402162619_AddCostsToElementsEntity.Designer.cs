@@ -9,7 +9,7 @@ using PcService.API.Data;
 namespace PcService.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200402154709_AddCostsToElementsEntity")]
+    [Migration("20200402162619_AddCostsToElementsEntity")]
     partial class AddCostsToElementsEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -121,10 +121,10 @@ namespace PcService.API.Migrations
                     b.Property<DateTime?>("NewWarrantyPeriod")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<double>("PartsCost")
+                    b.Property<double?>("PartsCost")
                         .HasColumnType("double");
 
-                    b.Property<double>("ServiceCost")
+                    b.Property<double?>("ServiceCost")
                         .HasColumnType("double");
 
                     b.Property<int?>("ServicemanId")
