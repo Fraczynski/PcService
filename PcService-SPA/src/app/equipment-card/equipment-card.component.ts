@@ -19,7 +19,8 @@ export class EquipmentCardComponent implements OnInit {
 
   showElementsModal() {
     const initialState = {
-      equipment: this.equipment
+      equipment: this.equipment,
+      employee: this.employee
     };
     this.bsModalRef = this.modalService.show(ElementsModalComponent, { initialState });
   }

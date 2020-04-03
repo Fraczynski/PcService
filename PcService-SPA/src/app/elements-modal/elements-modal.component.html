@@ -1,3 +1,34 @@
+<div *ngIf="employee">
+  <div class="text-center">
+    <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed"
+      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Add Element
+    </button>
+  </div>
+  <hr>
+  <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">
+    <form [formGroup]="elementForm" (ngSubmit)="addElement()">
+
+      <div class="form-group">
+        <select class="form-control" formControlName="nameId">
+          <option value="null" disabled>- Element -</option>
+          <option *ngFor="let name of nameOptions" [value]="name.id">{{name.name}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <input type="text" class="form-control" formControlName="description" placeholder="Description">
+        <div class="invalid-feedback">Please type problem description</div>
+      </div>
+
+      <button type="button" class="btn btn-default" (click)="elementForm.reset()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!(elementForm.valid)">Submit</button>
+    </form>
+  </div>
+</div>
+<div class="m-4 text-center">
+  <h4>{{equipment.name}}</h4>
+</div>
+<hr class="divider">
 <div *ngIf="elements !== undefined && elements.length > 0">
   <div *ngFor="let element of elements">
     <app-element-card [element]="element"></app-element-card>
