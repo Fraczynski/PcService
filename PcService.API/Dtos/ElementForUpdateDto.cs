@@ -10,6 +10,8 @@ namespace PcService.API.Dtos
       public string Status { get; set; }
       public string Description { get; set; }
       public bool WarrantyRepair { get; set; }
+      public Nullable<double> PartsCost { get; set; }
+      public Nullable<double> ServiceCost { get; set; }
       public DateTime NewWarrantyPeriod { get; set; }
    }
 }
