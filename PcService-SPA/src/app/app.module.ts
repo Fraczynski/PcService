@@ -33,6 +33,7 @@ import { ElementsModalComponent } from './elements-modal/elements-modal.componen
 import { ElementsComponent } from './employee/elements/elements.component';
 import { EquipmentsFilterComponent } from './equipments-filter/equipments-filter.component';
 import { ElementsFilterComponent } from './elements-filter/elements-filter.component';
+import { ElementNamesComponent } from './employee/element-names/element-names.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -57,7 +58,8 @@ export function tokenGetter() {
       ElementsModalComponent,
       ElementsComponent,
       EquipmentsFilterComponent,
-      ElementsFilterComponent
+      ElementsFilterComponent,
+      ElementNamesComponent
    ],
    imports: [
       BrowserModule,

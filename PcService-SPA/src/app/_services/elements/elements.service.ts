@@ -14,7 +14,6 @@ export class ElementsService {
   constructor(private http: HttpClient) { }
 
   addElement(element: Element) {
-    debugger;
     return this.http.post(this.baseUrl, element);
   }
 

@@ -7,11 +7,17 @@
   <hr>
   <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">
     <form [formGroup]="elementForm" (ngSubmit)="addElement()">
-
       <div class="form-group">
         <select class="form-control" formControlName="nameId">
           <option value="null" disabled>- Element -</option>
           <option *ngFor="let name of nameOptions" [value]="name.id">{{name.name}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <select class="form-control" formControlName="warrantyRepair">
+          <option value="null" disabled>- Warranty Repair -</option>
+          <option *ngFor="let option of boolOptions" [value]="option">{{option}}</option>
         </select>
       </div>
 

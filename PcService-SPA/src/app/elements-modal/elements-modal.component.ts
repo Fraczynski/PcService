@@ -4,6 +4,8 @@ import { ElementsService } from '../_services/elements/elements.service';
 import { Equipment } from '../_models/equipment';
 import { BsModalRef } from 'ngx-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ElementNamesService } from '../_services/elementNames/elementNames.service';
+import { ElementName } from '../_models/elementName';
 
 @Component({
   selector: 'app-elements-modal',
@@ -17,17 +19,22 @@ export class ElementsModalComponent implements OnInit {
   isCollapsed = true;
   elementForm: FormGroup;
   statusOptions: string[];
-  nameOptions = [{ id: 1, name: 'Screen' }];
+  nameOptions;
+  boolOptions = [true, false];
 
   constructor(private alertify: AlertifyService, private elementsService: ElementsService, private bsModalRef: BsModalRef,
-    private formBuilder: FormBuilder) { }
+    private elementNamesService: ElementNamesService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.getEquipmentElements();
+    if (this.employee) {
+      this.getElementNameList();
+    }
     this.elementForm = this.formBuilder.group({
       equipmentId: [''],
       nameId: ['', Validators.required],
-      description: [''],
+      description: ['', Validators.required],
+      warrantyRepair: ['']
     });
   }
 
@@ -44,6 +51,14 @@ export class ElementsModalComponent implements OnInit {
     element.equipmentId = this.equipment.id;
     this.elementsService.addElement(element).subscribe((response: Element) => {
       this.elements.push(response);
+    }, error => {
+      this.alertify.error(error);
+    });
+  }
+
+  getElementNameList() {
+    this.elementNamesService.getElementNamesList().subscribe((response: ElementName[]) => {
+      this.nameOptions = response;
     }, error => {
       this.alertify.error(error);
     });
