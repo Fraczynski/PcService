@@ -28,115 +28,117 @@ using PcService.API.Data.Auth;
 using PcService.API.Data.Users;
 using PcService.API.Data.Equipments;
 using PcService.API.Data.Elements;
+using PcService.API.Data.ElementNames;
 
 namespace PcService.API
 {
-   public class Startup
-   {
-      public Startup(IConfiguration configuration)
-      {
-         Configuration = configuration;
-      }
+    public class Startup
+    {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-      public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-      public void ConfigureServices(IServiceCollection services)
-      {
-         services.AddControllers().AddNewtonsoftJson(opt =>
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.AddControllers().AddNewtonsoftJson(opt =>
+               {
+                   opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+               });
+            IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
             {
-               opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 4;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
             });
-         IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
-         {
-            opt.Password.RequireDigit = false;
-            opt.Password.RequiredLength = 4;
-            opt.Password.RequireNonAlphanumeric = false;
-            opt.Password.RequireUppercase = false;
-         });
 
-         builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
-         builder.AddEntityFrameworkStores<DataContext>();
-         builder.AddRoleValidator<RoleValidator<Role>>();
-         builder.AddRoleManager<RoleManager<Role>>();
-         builder.AddSignInManager<SignInManager<User>>();
+            builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
+            builder.AddEntityFrameworkStores<DataContext>();
+            builder.AddRoleValidator<RoleValidator<Role>>();
+            builder.AddRoleManager<RoleManager<Role>>();
+            builder.AddSignInManager<SignInManager<User>>();
 
-         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
-                options =>
-                {
-                   options.TokenValidationParameters = new TokenValidationParameters
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
+                   options =>
                    {
-                      ValidateIssuerSigningKey = true,
-                      IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
-                      ValidateIssuer = false,
-                      ValidateAudience = false
-                   };
-                });
-
-         services.AddAuthorization(options =>
-         {
-            options.AddPolicy("RequireClientRole", policy => policy.RequireRole("Client", "Administrator"));
-            options.AddPolicy("RequireSalesmanRole", policy => policy.RequireRole("Salesman", "Administrator"));
-            options.AddPolicy("RequireServicemanRole", policy => policy.RequireRole("Serviceman", "Administrator"));
-            options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
-
-            options.AddPolicy("RequireEmployeeRole", policy => policy.RequireRole("Administrator", "Serviceman", "Salesman"));
-            options.AddPolicy("RequireAuthorized", policy => policy.RequireRole("Administrator", "Serviceman", "Salesman", "Client"));
-         });
-
-         services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
-         services.AddControllers(options =>
-         {
-            var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
-            options.Filters.Add(new AuthorizeFilter(policy));
-         });
-         services.AddCors();
-         services.AddAutoMapper(typeof(UsersRepository).Assembly);
-         services.AddScoped<IAuthRepository, AuthRepository>();
-         services.AddScoped<IEquipmentsRepository, EquipmentsRepository>();
-         services.AddScoped<IUsersRepository, UsersRepository>();
-         services.AddScoped<IElementsRepository, ElementsRepository>();
-      }
-
-      // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-      public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-      {
-         if (env.IsDevelopment())
-         {
-            app.UseDeveloperExceptionPage();
-         }
-         else
-         {
-            app.UseExceptionHandler(builder =>
-            {
-               builder.Run(async context =>
+                       options.TokenValidationParameters = new TokenValidationParameters
                        {
-                          context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                           ValidateIssuerSigningKey = true,
+                           IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                           ValidateIssuer = false,
+                           ValidateAudience = false
+                       };
+                   });
 
-                          var error = context.Features.Get<IExceptionHandlerFeature>();
-                          if (error != null)
-                          {
-                             context.Response.AddApplicationError(error.Error.Message);
-                             await context.Response.WriteAsync(error.Error.Message);
-                          }
-                       });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireClientRole", policy => policy.RequireRole("Client", "Administrator"));
+                options.AddPolicy("RequireSalesmanRole", policy => policy.RequireRole("Salesman", "Administrator"));
+                options.AddPolicy("RequireServicemanRole", policy => policy.RequireRole("Serviceman", "Administrator"));
+                options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
+
+                options.AddPolicy("RequireEmployeeRole", policy => policy.RequireRole("Administrator", "Serviceman", "Salesman"));
+                options.AddPolicy("RequireAuthorized", policy => policy.RequireRole("Administrator", "Serviceman", "Salesman", "Client"));
             });
-         }
 
-         // app.UseHttpsRedirection();
+            services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddControllers(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+            });
+            services.AddCors();
+            services.AddAutoMapper(typeof(UsersRepository).Assembly);
+            services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IEquipmentsRepository, EquipmentsRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IElementsRepository, ElementsRepository>();
+            services.AddScoped<IElementNamesRepository, ElementNamesRepository>();
+        }
 
-         app.UseRouting();
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler(builder =>
+                {
+                    builder.Run(async context =>
+                        {
+                            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
-         app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+                            var error = context.Features.Get<IExceptionHandlerFeature>();
+                            if (error != null)
+                            {
+                                context.Response.AddApplicationError(error.Error.Message);
+                                await context.Response.WriteAsync(error.Error.Message);
+                            }
+                        });
+                });
+            }
 
-         app.UseAuthentication();
+            // app.UseHttpsRedirection();
 
-         app.UseAuthorization();
+            app.UseRouting();
 
-         app.UseEndpoints(endpoints =>
-         {
-            endpoints.MapControllers();
-            // endpoints.MapFallbackToController("Index", "Fallback");
-         });
-      }
-   }
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                // endpoints.MapFallbackToController("Index", "Fallback");
+            });
+        }
+    }
 }

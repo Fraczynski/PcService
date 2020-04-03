@@ -11,72 +11,81 @@ using PcService.API.Dtos;
 using PcService.API.Helpers;
 using PcService.API.Models;
 
-namespace PcService.API.Controllers {
-   [Route ("api/[controller]")]
-   [ApiController]
-   public class ElementsController : ControllerBase {
-      private readonly IElementsRepository _repo;
-      private readonly IMapper _mapper;
-      public ElementsController (IElementsRepository repo, IMapper mapper) {
-         _mapper = mapper;
-         _repo = repo;
-      }
+namespace PcService.API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ElementsController : ControllerBase
+    {
+        private readonly IElementsRepository _repo;
+        private readonly IMapper _mapper;
+        public ElementsController(IElementsRepository repo, IMapper mapper)
+        {
+            _mapper = mapper;
+            _repo = repo;
+        }
 
-      [HttpPost]
-      [Authorize (Policy = "RequireSalesmanRole")]
-      public async Task<IActionResult> AddElement (ElementForCreationDto elementForCreation) {
-         var element = _mapper.Map<Element> (elementForCreation);
+        [HttpPost]
+        [Authorize(Policy = "RequireSalesmanRole")]
+        public async Task<IActionResult> AddElement(ElementForCreationDto elementForCreation)
+        {
+            var element = _mapper.Map<Element>(elementForCreation);
 
-         _repo.Add (element);
+            _repo.Add(element);
 
-         if (await _repo.SaveAll ()) {
-            var elementToReturn = _mapper.Map<ElementToReturnDto> (element);
-            return Ok (elementToReturn);
-         }
-         return BadRequest ("Creating the repair failed on save");
-      }
+            if (await _repo.SaveAll())
+            {
+                var elementToReturn = _mapper.Map<ElementToReturnDto>(element);
+                return Ok(elementToReturn);
+            }
+            return BadRequest("Creating the repair failed on save");
+        }
 
-      [HttpGet]
-      [Authorize (Policy = "RequireServicemanRole")]
-      public async Task<IActionResult> GetAllElements ([FromQuery] UserParams userParams) {
-         var elements = await _repo.GetAllElements (userParams);
+        [HttpGet]
+        [Authorize(Policy = "RequireServicemanRole")]
+        public async Task<IActionResult> GetAllElements([FromQuery] UserParams userParams)
+        {
+            var elements = await _repo.GetAllElements(userParams);
 
-         var elementsToReturn = _mapper.Map<IEnumerable<ElementToReturnDto>> (elements);
+            var elementsToReturn = _mapper.Map<IEnumerable<ElementToReturnDto>>(elements);
 
-         Response.AddPagination (elements.CurrentPage, elements.PageSize, elements.TotalCount, elements.TotalPages);
+            Response.AddPagination(elements.CurrentPage, elements.PageSize, elements.TotalCount, elements.TotalPages);
 
-         return Ok (elementsToReturn);
-      }
+            return Ok(elementsToReturn);
+        }
 
-      [HttpGet ("equipment/{equipmentId}")]
-      [Authorize (Policy = "RequireAuthorized")]
-      public async Task<IActionResult> GetEquipmentElements (int equipmentId) {
-         var elements = await _repo.GetEquipmentElements (equipmentId);
+        [HttpGet("equipment/{equipmentId}")]
+        [Authorize(Policy = "RequireAuthorized")]
+        public async Task<IActionResult> GetEquipmentElements(int equipmentId)
+        {
+            var elements = await _repo.GetEquipmentElements(equipmentId);
 
-         var elementsToReturn = _mapper.Map<IEnumerable<ElementToReturnDto>> (elements);
+            var elementsToReturn = _mapper.Map<IEnumerable<ElementToReturnDto>>(elements);
 
-         return Ok (elementsToReturn);
-      }
+            return Ok(elementsToReturn);
+        }
 
-      [HttpGet ("{id}")]
-      [Authorize (Policy = "RequireServicemanRole")]
-      public async Task<IActionResult> GetElement (int id) {
-         var element = await _repo.GetElement (id);
+        [HttpGet("{id}")]
+        [Authorize(Policy = "RequireServicemanRole")]
+        public async Task<IActionResult> GetElement(int id)
+        {
+            var element = await _repo.GetElement(id);
 
-         return Ok (element);
-      }
+            return Ok(element);
+        }
 
-      [HttpPut ("{id}")]
-      [Authorize (Policy = "RequireEmployeeRole")]
-      public async Task<IActionResult> UpdateElement (int id, ElementForUpdateDto elementForUpdateDto) {
-         var elementFromRepo = await _repo.GetElement (id);
+        [HttpPut("{id}")]
+        [Authorize(Policy = "RequireEmployeeRole")]
+        public async Task<IActionResult> UpdateElement(int id, ElementForUpdateDto elementForUpdateDto)
+        {
+            var elementFromRepo = await _repo.GetElement(id);
 
-         _mapper.Map (elementForUpdateDto, elementFromRepo);
+            _mapper.Map(elementForUpdateDto, elementFromRepo);
 
-         if (await _repo.SaveAll ())
-            return Ok (elementFromRepo);
+            if (await _repo.SaveAll())
+                return Ok(elementFromRepo);
 
-         throw new Exception ($"Updating element {id} failed on save");
-      }
-   }
+            throw new Exception($"Updating element {id} failed on save");
+        }
+    }
 }
