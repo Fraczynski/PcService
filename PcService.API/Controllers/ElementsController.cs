@@ -71,21 +71,77 @@ namespace PcService.API.Controllers
         {
             var element = await _repo.GetElement(id);
 
-            return Ok(element);
+            var elementToReturn = _mapper.Map<ElementToReturnDto>(element);
+
+            return Ok(elementToReturn);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut]
         [Authorize(Policy = "RequireEmployeeRole")]
-        public async Task<IActionResult> UpdateElement(int id, ElementForUpdateDto elementForUpdateDto)
+        public async Task<IActionResult> UpdateElement(ElementForUpdateDto elementForUpdateDto)
         {
-            var elementFromRepo = await _repo.GetElement(id);
+            var elementFromRepo = await _repo.GetElement(elementForUpdateDto.Id);
 
-            _mapper.Map(elementForUpdateDto, elementFromRepo);
+            elementFromRepo.Status = elementForUpdateDto.Status;
+            elementFromRepo.Description = elementForUpdateDto.Description;
+            elementFromRepo.WarrantyRepair = elementForUpdateDto.WarrantyRepair;
+            elementFromRepo.PartsCost = elementForUpdateDto.PartsCost;
+            elementFromRepo.ServiceCost = elementForUpdateDto.ServiceCost;
+            elementFromRepo.NewWarrantyPeriod = elementForUpdateDto.NewWarrantyPeriod;
 
             if (await _repo.SaveAll())
                 return Ok(elementFromRepo);
 
-            throw new Exception($"Updating element {id} failed on save");
+            throw new Exception($"Updating element {elementForUpdateDto.Id} failed on save");
+        }
+
+        [HttpPatch("assign")]
+        [Authorize(Policy = "RequireEmployeeRole")]
+        public async Task<IActionResult> AssignElementToServiceman(IdForAssignDto idForAssignDto)
+        {
+            var servicemanId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var element = await _repo.GetElement(idForAssignDto.Id);
+
+            if (element == null || element.ServicemanId != null)
+            {
+                return BadRequest("Cannot assign this element");
+            }
+
+            element.ServicemanId = servicemanId;
+
+            if (await _repo.SaveAll())
+                return NoContent();
+
+            throw new Exception($"Updating element {idForAssignDto.Id} failed on save");
+        }
+
+        [HttpGet("serviceman")]
+        [Authorize(Policy = "RequireServicemanRole")]
+        public async Task<IActionResult> GetServicemanElements([FromQuery] UserParams userParams)
+        {
+            var servicemanId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            var elements = await _repo.GetServicemanElements(servicemanId, userParams);
+
+            var elementsToReturn = _mapper.Map<IEnumerable<ElementToReturnDto>>(elements);
+
+            Response.AddPagination(elements.CurrentPage, elements.PageSize, elements.TotalCount, elements.TotalPages);
+
+            return Ok(elementsToReturn);
+        }
+
+        [HttpGet("unassigned")]
+        [Authorize(Policy = "RequireServicemanRole")]
+        public async Task<IActionResult> GetUnassignedElements([FromQuery] UserParams userParams)
+        {
+            var elements = await _repo.GetUnassignedElements(userParams);
+
+            var elementsToReturn = _mapper.Map<IEnumerable<ElementToReturnDto>>(elements);
+
+            Response.AddPagination(elements.CurrentPage, elements.PageSize, elements.TotalCount, elements.TotalPages);
+
+            return Ok(elementsToReturn);
         }
     }
 }
