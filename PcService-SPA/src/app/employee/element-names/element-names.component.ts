@@ -33,8 +33,37 @@ export class ElementNamesComponent implements OnInit {
   addName() {
     this.elementNamesService.addElementName(this.elementNameForm.value).subscribe(() => {
       this.getElementNameList();
+      this.elementNameForm.reset();
     }, error => {
       this.alertify.error(error);
     });
+  }
+
+  sort(type: string) {
+    if (type === 'id') {
+      this.elementNames.sort((n1, n2) => {
+        if (n1.id > n2.id) {
+          return 1;
+        }
+
+        if (n1.id < n2.id) {
+          return -1;
+        }
+
+        return 0;
+      });
+    } else if (type === 'name') {
+      this.elementNames.sort((n1, n2) => {
+        if (n1.name > n2.name) {
+          return 1;
+        }
+
+        if (n1.name < n2.name) {
+          return -1;
+        }
+
+        return 0;
+      });
+    }
   }
 }
