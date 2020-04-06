@@ -32,8 +32,11 @@ import { ElementCardComponent } from './element-card/element-card.component';
 import { ElementsModalComponent } from './elements-modal/elements-modal.component';
 import { ElementsComponent } from './employee/elements/elements.component';
 import { EquipmentsFilterComponent } from './equipments-filter/equipments-filter.component';
-import { ElementsFilterComponent } from './elements-filter/elements-filter.component';
 import { ElementNamesComponent } from './employee/element-names/element-names.component';
+import { ElementsFilterComponent } from './elements-filter/elements-filter.component';
+import { AllElementsComponent } from './employee/all-elements/all-elements.component';
+import { ConfirmModalComponent } from './employee/confirm-modal/confirm-modal.component';
+import { EditElementModalComponent } from './employee/edit-element-modal/edit-element-modal.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -59,7 +62,10 @@ export function tokenGetter() {
       ElementsComponent,
       EquipmentsFilterComponent,
       ElementsFilterComponent,
-      ElementNamesComponent
+      ElementNamesComponent,
+      AllElementsComponent,
+      ConfirmModalComponent,
+      EditElementModalComponent
    ],
    imports: [
       BrowserModule,

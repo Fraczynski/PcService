@@ -8,5 +8,5 @@ export interface Element {
    warrantyRepair?: boolean;
    partsCost?: number;
    serviceCost?: number;
-   newWarrantyRepair?: Date;
+   newWarrantyPeriod?: Date;
 }

@@ -81,7 +81,7 @@ export class EquipmentsComponent implements OnInit {
     this.bsModalRef.content.addNewEquipment.subscribe((equipment) => {
       this.equipmentsService.addEquipment(equipment.value).subscribe(() => {
         this.getEquipments();
-        this.alertify.success('Repair with ID ' + ' added');
+        this.alertify.success('Added');
       }, error => {
         this.alertify.error(error);
       });

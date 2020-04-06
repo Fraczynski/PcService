@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
 import { AlertifyService } from 'src/app/_services/alertify/alertify.service';
 import { ElementsService } from 'src/app/_services/elements/elements.service';
 import { Pagination } from 'src/app/_models/pagination';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ConfirmModalComponent } from '../confirm-modal/confirm-modal.component';
+import { EditElementModalComponent } from '../edit-element-modal/edit-element-modal.component';
 
 @Component({
   selector: 'app-elements',
@@ -14,49 +16,69 @@ export class ElementsComponent implements OnInit {
   pageNumber = 1;
   pageSize = 5;
   pagination: Pagination = new Pagination();
-  elementNumberForm: FormGroup;
+  elementsType: string;
+  bsModalRef: BsModalRef;
 
-  constructor(private alertify: AlertifyService, private elementsService: ElementsService, private formBuilder: FormBuilder) { }
+  constructor(private alertify: AlertifyService, private elementsService: ElementsService, private modalService: BsModalService) { }
 
   ngOnInit() {
-    this.getElements();
-    this.createRegisterForm();
-  }
-
-  createRegisterForm() {
-    this.elementNumberForm = this.formBuilder.group({ elementId: [''] });
-  }
-
-  getElements(userParams?) {
-    this.elementsService.getElements(this.pageNumber, this.pageSize, userParams).subscribe((response) => {
-      this.elements = response.result;
-      this.pagination = response.pagination;
-      this.pageNumber = this.pagination.currentPage;
-      this.pageSize = this.pagination.itemsPerPage;
-    }, error => {
-      this.alertify.error(error);
-    });
-  }
-
-  reloadElements(form: FormGroup) {
-    this.pageNumber = 1;
-    const userParams = Object.assign({}, form.value);
-    this.getElements(userParams);
+    this.loadElements(this.elementsType);
   }
 
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
     this.pageNumber = event.page;
-    this.getElements();
+    this.loadElements(this.elementsType);
   }
 
-  searchElement() {
-    if (this.elementNumberForm.controls.elementId.value > 0) {
-      this.elementsService.searchElement(this.elementNumberForm.value.elementId).subscribe((element: Element) => {
-        if (element !== null) {
-          this.elements = [];
-          this.elements.push(element);
+  loadElements(type: string, userParams?) {
+    this.elementsType = type;
+    switch (this.elementsType) {
+      case 'unassigned':
+        this.elementsService.getUnassignedElements(this.pageNumber, this.pageSize, userParams).subscribe((response) => {
+          this.elements = response.result;
+          this.pagination = response.pagination;
+          this.pageNumber = this.pagination.currentPage;
+          this.pageSize = this.pagination.itemsPerPage;
+        }, error => {
+          this.alertify.error(error);
+        });
+        break;
+      default:
+        this.elementsService.getServicemanElements(this.pageNumber, this.pageSize, userParams).subscribe((response) => {
+          this.elements = response.result;
+          this.pagination = response.pagination;
+          this.pageNumber = this.pagination.currentPage;
+          this.pageSize = this.pagination.itemsPerPage;
+        }, error => {
+          this.alertify.error(error);
+        });
+        break;
+    }
+  }
+
+  showModal(element) {
+    if (element.servicemanName == null) {
+      this.bsModalRef = this.modalService.show(ConfirmModalComponent);
+      this.bsModalRef.content.returnMessage.subscribe((message: string) => {
+        if (message === 'confirm') {
+          this.elementsService.assignElement(element.id).subscribe(() => {
+            this.loadElements(this.elementsType);
+            this.alertify.success('Success');
+          }, error => {
+            this.alertify.error(error);
+          });
         }
+      }, error => {
+        this.alertify.error(error);
+      });
+    } else {
+      const initialState = {
+        editedElement: element
+      };
+      this.bsModalRef = this.modalService.show(EditElementModalComponent, { initialState });
+      this.bsModalRef.content.refreshElements.subscribe(() => {
+        this.loadElements(this.elementsType);
       }, error => {
         this.alertify.error(error);
       });

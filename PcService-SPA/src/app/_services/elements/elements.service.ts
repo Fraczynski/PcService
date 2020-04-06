@@ -42,6 +42,48 @@ export class ElementsService {
     return this.http.get(this.baseUrl + '/' + elementId);
   }
 
+  getServicemanElements(page?, itemsPerPage?, userParams?): Observable<PaginatedResult<Element[]>> {
+    const paginatedResult: PaginatedResult<Element[]> = new PaginatedResult<Element[]>();
+
+    const params = this.addParams(page, itemsPerPage, userParams);
+
+    return this.http.get<Element[]>(this.baseUrl + '/serviceman', { observe: 'response', params })
+      .pipe(
+        map(response => {
+          paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          return paginatedResult;
+        })
+      );
+  }
+
+  getUnassignedElements(page?, itemsPerPage?, userParams?): Observable<PaginatedResult<Element[]>> {
+    const paginatedResult: PaginatedResult<Element[]> = new PaginatedResult<Element[]>();
+
+    const params = this.addParams(page, itemsPerPage, userParams);
+
+    return this.http.get<Element[]>(this.baseUrl + '/unassigned', { observe: 'response', params })
+      .pipe(
+        map(response => {
+          paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') != null) {
+            paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+          }
+          return paginatedResult;
+        })
+      );
+  }
+
+  assignElement(id: number) {
+    return this.http.patch(this.baseUrl + '/assign', { id });
+  }
+
+  updateElement(element) {
+    return this.http.put(this.baseUrl, element);
+  }
+
   addParams(page?, itemsPerPage?, userParams?): HttpParams {
     let params = new HttpParams();
 
