@@ -2,19 +2,21 @@
   <h2>Employee Panel</h2>
   <div class="tab-panel">
     <tabset class="member-tabset">
-      <tab heading="User Management" *appHasRole="['Administrator']">
-        <div class="container">
-          <app-user-management></app-user-management>
-        </div>
-      </tab>
-      <tab heading="Equipments" *appHasRole="['Administrator', 'Serviceman', 'Salesman']">
+
+      <tab heading="Equipments" *appHasRole="['Administrator', 'Salesman']">
         <app-equipments [employee]="true"></app-equipments>
       </tab>
       <tab heading="Elements" *appHasRole="['Administrator', 'Serviceman']">
         <app-elements></app-elements>
       </tab>
+      <tab heading="All Elements" *appHasRole="['Administrator']">
+        <app-all-elements></app-all-elements>
+      </tab>
       <tab heading="Statistics" *appHasRole="['Administrator', 'Serviceman']">
         <app-statistics></app-statistics>
+      </tab>
+      <tab heading="User Management" *appHasRole="['Administrator']">
+        <app-user-management></app-user-management>
       </tab>
       <tab heading="Element Names" *appHasRole="['Administrator']">
         <app-element-names></app-element-names>
