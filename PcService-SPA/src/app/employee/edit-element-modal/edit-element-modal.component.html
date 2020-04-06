@@ -1,0 +1,45 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Edit Element (ID {{editedElement.id}})</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="elementForm" (ngSubmit)="updateElement()">
+    <div class="form-group">
+      <label for="status">Status</label>
+      <input type="text" class="form-control" formControlName="status">
+    </div>
+
+    <div class="form-group">
+      <label for="status">Description</label>
+      <input type="text" class="form-control" formControlName="description" placeholder="Problem Description">
+    </div>
+
+    <div class="form-group">
+      <label for="status">Warranty Repair</label>
+      <select class="form-control" formControlName="warrantyRepair">
+        <option value="null" disabled>- Warranty Repair -</option>
+        <option *ngFor="let option of boolOptions" [value]="option">{{option}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="status">New Warranty Period</label>
+      <input class="form-control" formControlName="newWarrantyPeriod" type="text" bsDatepicker>
+    </div>
+
+    <div class="form-group">
+      <label for="status">Parts Cost</label>
+      <input type="text" class="form-control" formControlName="partsCost">
+    </div>
+
+    <div class="form-group">
+      <label for="status">Service Cost</label>
+      <input type="text" class="form-control" formControlName="serviceCost">
+    </div>
+
+    <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
+    <button type="submit" class="btn btn-primary">Update</button>
+  </form>
+</div>
