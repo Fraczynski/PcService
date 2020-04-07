@@ -56,7 +56,7 @@ namespace PcService.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "RequireServicemanRole")]
+        [Authorize(Policy = "RequireSalesmanRole")]
         public async Task<IActionResult> GetAllEquipments([FromQuery] UserParams userParams)
         {
             var equipments = await _repo.GetAllEquipments(userParams);
@@ -193,17 +193,18 @@ namespace PcService.API.Controllers
             return Ok(statusList);
         }
 
-        [HttpPatch("{equipmentId}/release")]
+        [HttpPatch("release")]
         [Authorize(Policy = "RequireSalesmanRole")]
-        public async Task<IActionResult> ReleaseEquipment(int equipmentId)
+        public async Task<IActionResult> ReleaseEquipment(EquipmentForReleaseDto equipmentForReleaseDto)
         {
-            var equipmentFromRepo = await _repo.GetEquipment(equipmentId);
+            var equipmentFromRepo = await _repo.GetEquipment(equipmentForReleaseDto.Id);
 
             if (equipmentFromRepo == null)
             {
                 return BadRequest("Equipment doesn't exist");
             }
             equipmentFromRepo.ReleaseDate = DateTime.Now;
+            equipmentFromRepo.Status = "Repaired";
 
             if (await _repo.SaveAll())
                 return Ok(equipmentFromRepo);
