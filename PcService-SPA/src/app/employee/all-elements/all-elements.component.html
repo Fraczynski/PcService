@@ -3,20 +3,19 @@
     <div class="row justify-content-center">
       <form class="form-inline" [formGroup]="elementNumberForm" (ngSubmit)="searchElement()">
         <div class="form-group">
-          <input type="text" class="form-control" formControlName="elementId" placeholder="Search element by ID">
+          <input type="text" class="form-control" formControlName="elementId" placeholder="Wyszukaj element po ID">
           <button class="btn btn-primary" type="submit"
-            [disabled]="this.elementNumberForm.controls.elementId.value.length < 1">Search</button>
+            [disabled]="this.elementNumberForm.controls.elementId.value.length < 1">Wyszukaj</button>
         </div>
       </form>
     </div>
   </div>
 
   <div class="text-center mb-4">
-    <h2>Found {{pagination.totalItems}} elements</h2>
+    <h2>Znaleziono {{pagination.totalItems}} elementów</h2>
   </div>
 
-  <app-elements-filter (form)="reloadElements($event)">
-  </app-elements-filter>
+  <app-elements-filter (form)="reloadElements($event)"></app-elements-filter>
   <br>
 
   <div class="card-group mt-3">

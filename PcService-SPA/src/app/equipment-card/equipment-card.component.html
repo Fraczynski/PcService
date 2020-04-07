@@ -5,18 +5,18 @@
     <p class=" card-text">
       <p>{{equipment.problemDescription}}</p>
       <p class="text-muted">
-        Request date: {{equipment.requestDate | date}}
+        Data przyjęcia: {{equipment.requestDate | date}}
         <p class="text-muted" *ngIf="equipment.releaseDate">
-          Release date: {{equipment.releaseDate | date}}
+          Data wydania: {{equipment.releaseDate | date}}
         </p>
   </div>
   <div class="card-footer text-muted text-center">
     <div class="inline">
       <span class="float-left">
-        Employee: {{equipment.employeeName}}
+        Pracownik: {{equipment.employeeName}}
       </span>
       <span class="float-right" *ngIf="equipment.clientName !== null">
-        Client: {{equipment.clientName}}
+        Klient: {{equipment.clientName}}
       </span>
     </div>
   </div>

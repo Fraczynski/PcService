@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">Edit Your Profile</h4>
+  <h4 class="modal-title pull-left">Edycja profilu</h4>
   <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -7,12 +7,12 @@
 <div class="modal-body">
   <form [formGroup]="profileForm">
     <div class="form-group">
-      <label for="firstName">First Name</label>
+      <label for="firstName">Imię</label>
       <input type="text" class="form-control" formControlName="firstName">
     </div>
 
     <div class="form-group">
-      <label for="lastName">Last Name</label>
+      <label for="lastName">Nazwisko</label>
       <input type="text" class="form-control" formControlName="lastName">
     </div>
 
@@ -22,28 +22,28 @@
     </div>
 
     <div class="form-group">
-      <label for="phoneNumber">Phone Number</label>
+      <label for="phoneNumber">Numer telefonu</label>
       <input type="text" class="form-control" formControlName="phoneNumber">
     </div>
 
     <div class="form-group">
-      <label for="oldPassword">Old Password</label>
+      <label for="oldPassword">Stare hasło</label>
       <input type="password" class="form-control" formControlName="oldPassword">
     </div>
 
     <div class="form-group">
-      <label for="newPassword">New Password</label>
+      <label for="newPassword">Nowe hasło</label>
       <input type="password" class="form-control" formControlName="newPassword">
     </div>
 
     <div class="form-group">
-      <label for="confirmPassword">Confirm Password</label>
+      <label for="confirmPassword">Potwierdź hasło</label>
       <input type="password" class="form-control" formControlName="confirmPassword">
     </div>
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Anuluj</button>
   <button type="button" class="btn btn-primary" [disabled]="!(profileForm.valid)" (click)="editProfile()"
-    form="profileForm">Edit</button>
+    form="profileForm">Zatwierdź</button>
 </div>

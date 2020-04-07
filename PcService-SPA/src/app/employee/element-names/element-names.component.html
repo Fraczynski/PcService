@@ -3,9 +3,9 @@
     <div class="mx-auto my-3">
       <form class="form-inline" [formGroup]="elementNameForm" (ngSubmit)="addName()">
         <div class="form-group">
-          <input type="text" class="form-control" formControlName="name" placeholder="Equipment Name">
+          <input type="text" class="form-control" formControlName="name" placeholder="Nazwa sprzętu">
         </div>
-        <button type="submit" class="btn btn-primary" [disabled]="!(elementNameForm.valid)">Add</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!(elementNameForm.valid)">Dodaj</button>
       </form>
     </div>
   </div>
@@ -14,8 +14,8 @@
     <div class="mx-auto">
       <table class="table">
         <tr>
-          <th><button type="button" class="btn" (click)="sort('id')">Name ID</button></th>
-          <th><button type="button" class="btn" (click)="sort('name')">Element Name</button></th>
+          <th><button type="button" class="btn" (click)="sort('id')">ID</button></th>
+          <th><button type="button" class="btn" (click)="sort('name')">Nazwa</button></th>
         </tr>
         <tr *ngFor="let name of elementNames">
           <td>{{name.id}}</td>

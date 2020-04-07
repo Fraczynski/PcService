@@ -1,27 +1,27 @@
 <div class="container mt-5">
-  <h2>Employee Panel</h2>
+  <h2>Panel pracownika</h2>
   <div class="tab-panel">
     <tabset class="member-tabset">
 
-      <tab heading="Equipments" *appHasRole="['Administrator', 'Salesman']">
+      <tab heading="Sprzęty" *appHasRole="['Administrator', 'Salesman']">
         <app-equipments [employee]="true"></app-equipments>
       </tab>
-      <tab heading="Elements" *appHasRole="['Administrator', 'Serviceman']">
+      <tab heading="Elementy" *appHasRole="['Administrator', 'Serviceman']">
         <app-elements></app-elements>
       </tab>
-      <tab heading="All Elements" *appHasRole="['Administrator']">
+      <tab heading="Wszystkie elementy" *appHasRole="['Administrator']">
         <app-all-elements></app-all-elements>
       </tab>
-      <tab heading="All Statistics" *appHasRole="['Administrator']">
+      <tab heading="Wszystkie statystyki" *appHasRole="['Administrator']">
         <app-statistics></app-statistics>
       </tab>
-      <tab heading="Statistics" *appHasRole="['Serviceman']">
+      <tab heading="Twoje statystyki" *appHasRole="['Serviceman']">
         <app-serviceman-statistics></app-serviceman-statistics>
       </tab>
-      <tab heading="User Management" *appHasRole="['Administrator']">
+      <tab heading="Role użytkowników" *appHasRole="['Administrator']">
         <app-user-management></app-user-management>
       </tab>
-      <tab heading="Element Names" *appHasRole="['Administrator']">
+      <tab heading="Nazwy elementów" *appHasRole="['Administrator']">
         <app-element-names></app-element-names>
       </tab>
     </tabset>

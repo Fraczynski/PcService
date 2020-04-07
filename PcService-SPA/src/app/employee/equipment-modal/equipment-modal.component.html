@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">Add new repair</h4>
+  <h4 class="modal-title pull-left">Dodaj nową naprawę</h4>
   <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -8,29 +8,28 @@
   <form [formGroup]="equipmentForm" (ngSubmit)="addEquipment()">
     <div class="form-group">
       <div class="input-group">
-        <input type="text" class="form-control" formControlName="clientName" placeholder="Client Name">
+        <input type="text" class="form-control" formControlName="clientName" placeholder="Nazwa klienta">
         <div class="input-group-append">
           <div *ngIf="clientNameExists === false" class="feedback" [@enterAnimation]><i class="fa fa-times"></i></div>
           <div *ngIf="clientNameExists === true" class="feedback" [@enterAnimation]><i class="fa fa-check"></i></div>
           <button class="btn btn-primary" [disabled]="equipmentForm.controls.clientName.value.length < 1" type="button"
-            (click)="checkClientExists()">Check</button>
+            (click)="checkClientExists()">Sprawdź</button>
         </div>
       </div>
     </div>
 
     <div class="form-group">
-      <input type="text" class="form-control" formControlName="name" placeholder="Equipment Name">
+      <input type="text" class="form-control" formControlName="name" placeholder="Nazwa sprzętu">
     </div>
 
     <div class="form-group">
-      <input type="text" class="form-control" formControlName="problemDescription" placeholder="Problem Description">
-      <div class="invalid-feedback">Please type your first name</div>
+      <input type="text" class="form-control" formControlName="problemDescription" placeholder="Opis problemu">
     </div>
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Anuluj</button>
   <button type="button" class="btn btn-primary"
     [disabled]="!(equipmentForm.controls.clientName.value === '' || clientNameExists === true)" (click)="addEquipment()"
-    form="repairForm">Submit</button>
+    form="repairForm">Zatwierdź</button>
 </div>

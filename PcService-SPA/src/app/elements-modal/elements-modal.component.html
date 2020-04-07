@@ -1,9 +1,9 @@
 <div *ngIf="employee">
   <div class="text-center">
     <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed"
-      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Add Element
+      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Dodaj element
     </button>
-    <button type="button" class="btn btn-primary" (click)="releaseEquipment()">Release Equipment</button>
+    <button type="button" class="btn btn-primary" (click)="releaseEquipment()">Wydaj sprzęt</button>
   </div>
   <hr>
   <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">
@@ -17,18 +17,17 @@
 
       <div class="form-group">
         <select class="form-control" formControlName="warrantyRepair">
-          <option value="null" disabled>- Warranty Repair -</option>
+          <option value="null" disabled>- Naprawa gwarancyjna -</option>
           <option *ngFor="let option of boolOptions" [value]="option">{{option}}</option>
         </select>
       </div>
 
       <div class="form-group">
-        <input type="text" class="form-control" formControlName="description" placeholder="Description">
-        <div class="invalid-feedback">Please type problem description</div>
+        <input type="text" class="form-control" formControlName="description" placeholder="Opis">
       </div>
 
-      <button type="button" class="btn btn-default" (click)="elementForm.reset()">Cancel</button>
-      <button type="submit" class="btn btn-primary" [disabled]="!(elementForm.valid)">Submit</button>
+      <button type="button" class="btn btn-default" (click)="elementForm.reset()">Anuluj</button>
+      <button type="submit" class="btn btn-primary" [disabled]="!(elementForm.valid)">Dodaj element</button>
     </form>
   </div>
 </div>
@@ -43,6 +42,6 @@
 </div>
 <div *ngIf="!(elements !== undefined && elements.length > 0)">
   <div class="m-4 text-center">
-    <h4>No Elements!</h4>
+    <h4>Brak dodanych elementów!</h4>
   </div>
 </div>

@@ -5,15 +5,15 @@
     <p class=" card-text">
       <p>{{element.description}}</p>
       <p class="text-muted">
-        Warranty Repair: {{element.warrantyRepair === true ? 'Yes' : 'No'}}</p>
+        Naprawa Gwarancyjna: {{element.warrantyRepair === true ? 'Tak' : 'Nie'}}</p>
       <p class="text-muted" *ngIf="element.newWarrantyPeriod">
-        New Warranty Period: {{element.newWarrantyPeriod | date}}
+        Termin nowej gwarancji: {{element.newWarrantyPeriod | date}}
       </p>
       <p class="text-muted" *ngIf="element.partsCost">
-        Parts Cost: {{element.partsCost}}
+        Koszt części: {{element.partsCost}}
       </p>
       <p class="text-muted" *ngIf="element.serviceCost">
-        Service Cost: {{element.serviceCost}}
+        Koszt usługi: {{element.serviceCost}}
       </p>
       <footer class="blockquote-footer" *ngIf="element.servicemanName !== null ">
         {{element.servicemanName}}</footer>

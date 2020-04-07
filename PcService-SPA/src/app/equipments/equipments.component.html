@@ -3,25 +3,25 @@
     <form *ngIf="!employee" class="form-inline" [formGroup]="equipmentNumberForm"
       (ngSubmit)="assignClientToEquipment()">
       <div class="form-group">
-        <input type="text" class="form-control" formControlName="equipmentNumber" placeholder="Add equipment by ID">
-        <button class="btn btn-primary" type="submit">Add</button>
+        <input type="text" class="form-control" formControlName="equipmentNumber" placeholder="Dodaj sprzęt przez ID">
+        <button class="btn btn-primary" type="submit">Dodaj</button>
       </div>
     </form>
     <div class="row justify-content-center" *ngIf="employee">
-      <button class="btn btn-info" (click)="addEquipmentModal()">Add equipment</button>
+      <button class="btn btn-info" (click)="addEquipmentModal()">Dodaj sprzęt</button>
       <form class="form-inline" [formGroup]="equipmentNumberForm" (ngSubmit)="searchEquipment()">
         <div class="form-group">
           <input type="text" class="form-control" formControlName="equipmentNumber"
-            placeholder="Search equipment by ID">
+            placeholder="Wyszukaj sprzęt przez ID">
           <button class="btn btn-primary" type="submit"
-            [disabled]="this.equipmentNumberForm.controls.equipmentNumber.value.length < 1">Search</button>
+            [disabled]="this.equipmentNumberForm.controls.equipmentNumber.value.length < 1">Wyszukaj</button>
         </div>
       </form>
     </div>
   </div>
 
   <div class="text-center mb-4">
-    <h2>Found {{pagination.totalItems}} equipments</h2>
+    <h2>Znaleziono {{pagination.totalItems}} sprzętów</h2>
   </div>
 
   <app-equipments-filter (form)="reloadEquipments($event)" [employee]="employee" [currentUserId]="currentUserId">

@@ -2,14 +2,14 @@
   <form class="form-inline" [formGroup]="filterForm" (ngSubmit)="filter()">
 
     <div *ngIf="employee" class="form-group relative">
-      <input type="text" class="form-control" formControlName="clientName" placeholder="Client Name">
+      <input type="text" class="form-control" formControlName="clientName" placeholder="Nazwa klienta">
       <button *ngIf="this.filterForm.controls.clientName.dirty && this.filterForm.controls.clientName.value.length > 0"
         class="feedback" [@enterAnimation] (click)="this.filterForm.controls.clientName.reset()"><i
           class="fa fa-times"></i></button>
     </div>
 
     <div class="form-group relative">
-      <input type="text" class="form-control" formControlName="name" placeholder="Name">
+      <input type="text" class="form-control" formControlName="name" placeholder="Nazwa">
       <button *ngIf="this.filterForm.controls.name.dirty && this.filterForm.controls.name.value.length > 0"
         class="feedback" [@enterAnimation] (click)="this.filterForm.controls.name.reset()"><i
           class="fa fa-times"></i></button>
@@ -26,7 +26,7 @@
     </div>
 
     <div class="form-group relative">
-      <input type="text" class="form-control" formControlName="problemDescription" placeholder="Problem Description">
+      <input type="text" class="form-control" formControlName="problemDescription" placeholder="Opis problemu">
       <button
         *ngIf="this.filterForm.controls.problemDescription.dirty && this.filterForm.controls.problemDescription.value.length > 0"
         class="feedback" [@enterAnimation] (click)="this.filterForm.controls.problemDescription.reset()"><i
@@ -34,45 +34,45 @@
     </div>
 
     <div class="form-group relative">
-      <input class="form-control" placeholder="Min request date" formControlName="minRequestDate" type="text"
+      <input class="form-control" placeholder="Minimalny data przyjęcia" formControlName="minRequestDate" type="text"
         bsDatepicker>
       <button *ngIf="this.filterForm.controls.minRequestDate.dirty" class="feedback" [@enterAnimation]
         (click)="this.filterForm.controls.minRequestDate.reset()"><i class="fa fa-times"></i></button>
     </div>
 
     <div class="form-group relative">
-      <input class="form-control" placeholder="Max request Date" formControlName="maxRequestDate" type="text"
+      <input class="form-control" placeholder="Maksymalna data przyjęcia" formControlName="maxRequestDate" type="text"
         bsDatepicker>
       <button *ngIf="this.filterForm.controls.maxRequestDate.dirty" class="feedback" [@enterAnimation]
         (click)="this.filterForm.controls.maxRequestDate.reset()"><i class="fa fa-times"></i></button>
     </div>
 
     <div class="form-group relative">
-      <input class="form-control" placeholder="Min request date" formControlName="minReleaseDate" type="text"
+      <input class="form-control" placeholder="Minimalna data wydania" formControlName="minReleaseDate" type="text"
         bsDatepicker>
       <button *ngIf="this.filterForm.controls.minReleaseDate.dirty" class="feedback" [@enterAnimation]
         (click)="this.filterForm.controls.minReleaseDate.reset()"><i class="fa fa-times"></i></button>
     </div>
 
     <div class="form-group relative">
-      <input class="form-control" placeholder="Max request Date" formControlName="maxReleaseDate" type="text"
+      <input class="form-control" placeholder="Maksymalna data wydania" formControlName="maxReleaseDate" type="text"
         bsDatepicker>
       <button *ngIf="this.filterForm.controls.maxReleaseDate.dirty" class="feedback" [@enterAnimation]
         (click)="this.filterForm.controls.maxReleaseDate.reset()"><i class="fa fa-times"></i></button>
     </div>
 
     <div class="form-group text-center">
-      <button class="btn btn-success" [disabled]="!filterForm.dirty" type="submit">Filter</button>
-      <button class="btn btn-info" (click)="resetForm()">Reset</button>
+      <button class="btn btn-success" [disabled]="!filterForm.dirty" type="submit">Filtruj</button>
+      <button class="btn btn-info" (click)="resetForm()">Resetuj</button>
     </div>
 
     <div class="col">
       <div class="btn-group float-right" btnRadioGroup formControlName="orderBy">
         <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="id">ID</button>
-        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="name">Name</button>
+        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="name">Nazwa</button>
         <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="status">Status</button>
-        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="requestDate">Request Date</button>
-        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="releaseDate">Release Date</button>
+        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="requestDate">Data przyjęcia</button>
+        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="releaseDate">Data wydania</button>
       </div>
     </div>
   </form>

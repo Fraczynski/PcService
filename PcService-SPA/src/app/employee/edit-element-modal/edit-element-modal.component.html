@@ -1,5 +1,5 @@
 <div class="modal-header">
-  <h4 class="modal-title pull-left">Edit Element (ID {{editedElement.id}})</h4>
+  <h4 class="modal-title pull-left">Edytuj element (ID {{editedElement.id}})</h4>
   <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
     <span aria-hidden="true">&times;</span>
   </button>
@@ -12,35 +12,35 @@
     </div>
 
     <div class="form-group">
-      <label for="status">Description</label>
-      <input type="text" class="form-control" formControlName="description" placeholder="Problem Description">
+      <label for="status">Opis</label>
+      <input type="text" class="form-control" formControlName="description" placeholder="Opis problemu">
     </div>
 
     <div class="form-group">
-      <label for="status">Warranty Repair</label>
+      <label for="status">Naprawa gwarancyjna</label>
       <select class="form-control" formControlName="warrantyRepair">
-        <option value="null" disabled>- Warranty Repair -</option>
+        <option value="null" disabled>- Naprawa gwarancyjna -</option>
         <option *ngFor="let option of boolOptions" [value]="option">{{option}}</option>
       </select>
     </div>
 
     <div class="form-group">
-      <label for="status">New Warranty Period</label>
+      <label for="status">Termin nowej gwarancji</label>
       <input class="form-control" formControlName="newWarrantyPeriod" type="text" bsDatepicker>
     </div>
 
     <div class="form-group">
-      <label for="status">Parts Cost</label>
+      <label for="status">Koszt części</label>
       <input type="text" class="form-control" formControlName="partsCost">
     </div>
 
     <div class="form-group">
-      <label for="status">Service Cost</label>
+      <label for="status">Koszt usługi</label>
       <input type="text" class="form-control" formControlName="serviceCost">
     </div>
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
-  <button type="button" class="btn btn-primary" (click)="updateElement()" form="elementForm">Edit</button>
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Anuluj</button>
+  <button type="button" class="btn btn-primary" (click)="updateElement()" form="elementForm">Zatwierdź</button>
 </div>
