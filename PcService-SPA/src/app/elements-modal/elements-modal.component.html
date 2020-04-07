@@ -3,6 +3,7 @@
     <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed"
       [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Add Element
     </button>
+    <button type="button" class="btn btn-primary" (click)="releaseEquipment()">Release Equipment</button>
   </div>
   <hr>
   <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">

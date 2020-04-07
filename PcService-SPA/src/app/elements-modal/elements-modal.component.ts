@@ -6,6 +6,7 @@ import { BsModalRef } from 'ngx-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ElementNamesService } from '../_services/elementNames/elementNames.service';
 import { ElementName } from '../_models/elementName';
+import { EquipmentsService } from '../_services/equipments/equipments.service';
 
 @Component({
   selector: 'app-elements-modal',
@@ -23,7 +24,7 @@ export class ElementsModalComponent implements OnInit {
   boolOptions = [true, false];
 
   constructor(private alertify: AlertifyService, private elementsService: ElementsService, private bsModalRef: BsModalRef,
-    private elementNamesService: ElementNamesService, private formBuilder: FormBuilder) { }
+    private elementNamesService: ElementNamesService, private formBuilder: FormBuilder, private equipmentService: EquipmentsService) { }
 
   ngOnInit() {
     this.getEquipmentElements();
@@ -51,6 +52,8 @@ export class ElementsModalComponent implements OnInit {
     element.equipmentId = this.equipment.id;
     this.elementsService.addElement(element).subscribe((response: Element) => {
       this.elements.push(response);
+      this.alertify.success('Added');
+      this.elementForm.reset();
     }, error => {
       this.alertify.error(error);
     });
@@ -64,11 +67,11 @@ export class ElementsModalComponent implements OnInit {
     });
   }
 
-  getStatusList() {
-    // this.elementsService.getStatusList(this.currentUserId).subscribe((response: string[]) => {
-    //   this.statusOptions = response;
-    // }, error => {
-    //   this.alertify.error(error);
-    // });
+  releaseEquipment() {
+    this.equipmentService.releaseEquipment(this.equipment.id).subscribe(() => {
+      this.alertify.success('Released');
+    }, error => {
+      this.alertify.error(error);
+    });
   }
 }
