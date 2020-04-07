@@ -17,4 +17,12 @@ export class UserService {
   checkUserExists(clientName: string) {
     return this.http.get(this.baseUrl + '/' + clientName);
   }
+
+  getProfile() {
+    return this.http.get(this.baseUrl);
+  }
+
+  editProfile(profile) {
+    return this.http.put(this.baseUrl + '/edit', profile);
+  }
 }

@@ -37,6 +37,8 @@ import { ElementsFilterComponent } from './elements-filter/elements-filter.compo
 import { AllElementsComponent } from './employee/all-elements/all-elements.component';
 import { ConfirmModalComponent } from './employee/confirm-modal/confirm-modal.component';
 import { EditElementModalComponent } from './employee/edit-element-modal/edit-element-modal.component';
+import { ProfileEditorModalComponent } from './profile-editor-modal/profile-editor-modal.component';
+import { ServicemanStatisticsComponent } from './employee/serviceman-statistics/serviceman-statistics.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -65,7 +67,9 @@ export function tokenGetter() {
       ElementNamesComponent,
       AllElementsComponent,
       ConfirmModalComponent,
-      EditElementModalComponent
+      EditElementModalComponent,
+      ProfileEditorModalComponent,
+      ServicemanStatisticsComponent
    ],
    imports: [
       BrowserModule,
@@ -83,6 +87,7 @@ export function tokenGetter() {
       RouterModule.forRoot(appRoutes),
       ModalModule.forRoot(),
       CollapseModule.forRoot(),
+      ModalModule.forRoot(),
       JwtModule.forRoot({
          config: {
             tokenGetter: tokenGetter,
@@ -90,7 +95,6 @@ export function tokenGetter() {
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
       }),
-      ModalModule.forRoot(),
    ],
    providers: [
       AuthService,
