@@ -1,95 +1,43 @@
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PcService.API.Data.Statistics;
+using PcService.API.Helpers;
+using PcService.API.Models;
 
 namespace PcService.API.Controllers
 {
-   [ApiController]
-   [Authorize(Policy = "RequireAdministratorRole")]
-   [Route("api/[controller]")]
-   public class StatisticsController : ControllerBase
-   {
-      public StatisticsController()
-      {
-      }
+    [ApiController]
+    [Route("api/[controller]")]
+    public class StatisticsController : ControllerBase
+    {
+        private readonly IStatisticsRepository _repo;
+        public StatisticsController(IStatisticsRepository repo)
+        {
+            _repo = repo;
+        }
 
-      [HttpGet]
-      public IActionResult GetStatistics(string type)
-      {
-         // var repairs = await _repo.GetRepairs();
+        [Authorize(Policy = "RequireServicemanRole")]
+        [HttpGet("serviceman")]
+        public async Task<IActionResult> GetServicemanStatistics([FromQuery] string type)
+        {
+            var servicemanId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-         // var dictionary = new Dictionary<string, int>();
+            var statistics = await _repo.GetServicemanStatistics(servicemanId, type);
 
-         // switch (type.ToLower())
-         // {
-         //    case "elementname":
-         //       foreach (var repair in repairs)
-         //       {
-         //          var elementName = repair.ElementName.ToLower();
-         //          if (dictionary.ContainsKey(elementName))
-         //          {
-         //             dictionary[elementName]++;
-         //          }
-         //          else
-         //          {
-         //             dictionary.Add(elementName, 1);
-         //          }
-         //       }
-         //       break;
-         //    case "result":
-         //       foreach (var repair in repairs)
-         //       {
-         //          var result = repair.Result;
-         //          if (dictionary.ContainsKey(result))
-         //          {
-         //             dictionary[result]++;
-         //          }
-         //          else
-         //          {
-         //             dictionary.Add(result, 1);
-         //          }
-         //       }
-         //       break;
-         //    case "warrantyrepair":
-         //       foreach (var repair in repairs)
-         //       {
-         //          var warrantyrepair = repair.WarrantyRepair;
-         //          if (dictionary.ContainsKey(warrantyrepair.ToString()))
-         //          {
-         //             dictionary[warrantyrepair.ToString()]++;
-         //          }
-         //          else
-         //          {
-         //             dictionary.Add(warrantyrepair.ToString(), 1);
-         //          }
-         //       }
-         //       break;
-         //    case "employeeid":
-         //       foreach (var repair in repairs)
-         //       {
-         //          var employeeId = repair.EmployeeId;
-         //          if (dictionary.ContainsKey(employeeId.ToString()))
-         //          {
-         //             dictionary[employeeId.ToString()]++;
-         //          }
-         //          else
-         //          {
-         //             dictionary.Add(employeeId.ToString(), 1);
-         //          }
-         //       }
-         //       break;
-         // }
+            return Ok(statistics);
+        }
 
-         // var statistics = new List<(string, int)>();
+        [Authorize(Policy = "RequireAdministratorRole")]
+        [HttpGet]
+        public async Task<IActionResult> GetStatistics([FromQuery] string type)
+        {
+            var statistics = await _repo.GetStatistics(type);
 
-         // foreach (var key in dictionary.Keys)
-         // {
-         //    statistics.Add((key, dictionary[key]));
-         // }
-
-         // return Ok(statistics);
-         return Ok();
-      }
-   }
+            return Ok(statistics);
+        }
+    }
 }
