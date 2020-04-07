@@ -1,8 +1,7 @@
 namespace PcService.API.Dtos
 {
-    public class UserToReturnDto
+    public class EquipmentForReleaseDto
     {
         public int Id { get; set; }
-        public string Username { get; set; }
     }
 }

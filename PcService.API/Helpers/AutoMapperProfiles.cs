@@ -24,6 +24,11 @@ namespace PcService.API.Helpers
 
             CreateMap<ElementName, ElementNameToReturnDto>();
             CreateMap<ElementNameForCreationDto, ElementName>();
+
+            CreateMap<UserForRegisterDto, User>();
+            CreateMap<User, UserToReturnDto>();
+            CreateMap<User, UserToEditDto>();
+            CreateMap<UserToEditDto, User>();
         }
     }
 }
