@@ -6,13 +6,14 @@
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/home']">Home</a>
       </li>
-      <li *ngIf="loggedIn()" class="nav-item" routerLinkActive="active">
+      <li *ngIf="authService.roleMatch(['Client'])" class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/equipments']">Equipments</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/contact']">Contact</a>
       </li>
-      <li *ngIf="loggedIn()" class="nav-item" routerLinkActive="active">
+      <li *ngIf="authService.roleMatch(['Administrator', 'Serviceman', 'Salesman'])" class="nav-item"
+        routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/employee']">Employee</a>
       </li>
     </ul>
@@ -23,7 +24,7 @@
       </a>
 
       <div class="dropdown-menu mt-3" *dropdownMenu>
-        <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Edit Profile</a>
+        <a class="dropdown-item" (click)="editProfileModal()"><i class="fa fa-user"></i> Edit Profile</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out"></i> Logout</a>
       </div>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth/auth.service';
 import { AlertifyService } from '../_services/alertify/alertify.service';
 import { Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+import { ProfileEditorModalComponent } from '../profile-editor-modal/profile-editor-modal.component';
 
 @Component({
   selector: 'app-nav',
@@ -10,8 +12,10 @@ import { Router } from '@angular/router';
 })
 export class NavComponent implements OnInit {
   model: any = {};
+  bsModalRef: BsModalRef;
 
-  constructor(public authService: AuthService, private alertify: AlertifyService, private router: Router) { }
+  constructor(public authService: AuthService, private alertify: AlertifyService, private router: Router,
+    private modalService: BsModalService) { }
 
   ngOnInit() {
   }
@@ -40,5 +44,9 @@ export class NavComponent implements OnInit {
     localStorage.removeItem('token');
     this.alertify.message('Logged out');
     this.router.navigate(['/home']);
+  }
+
+  editProfileModal() {
+    this.bsModalRef = this.modalService.show(ProfileEditorModalComponent);
   }
 }
