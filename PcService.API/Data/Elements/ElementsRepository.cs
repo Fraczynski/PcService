@@ -51,7 +51,7 @@ namespace PcService.API.Data.Elements
 
             elements = filterResults(elements, userParams);
 
-            return await PagedList<Element>.CreateAsync(elements, userParams.PageNumber, userParams.PageSize); ;
+            return await PagedList<Element>.CreateAsync(elements, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<PagedList<Element>> GetServicemanElements(int servicemanId, UserParams userParams)
@@ -60,7 +60,7 @@ namespace PcService.API.Data.Elements
 
             elements = filterResults(elements, userParams);
 
-            return await PagedList<Element>.CreateAsync(elements, userParams.PageNumber, userParams.PageSize); ;
+            return await PagedList<Element>.CreateAsync(elements, userParams.PageNumber, userParams.PageSize);
         }
 
         public async Task<PagedList<Element>> GetUnassignedElements(UserParams userParams)
@@ -69,7 +69,7 @@ namespace PcService.API.Data.Elements
 
             elements = filterResults(elements, userParams);
 
-            return await PagedList<Element>.CreateAsync(elements, userParams.PageNumber, userParams.PageSize); ;
+            return await PagedList<Element>.CreateAsync(elements, userParams.PageNumber, userParams.PageSize);
         }
 
         private IQueryable<Element> filterResults(IQueryable<Element> elements, UserParams userParams)
