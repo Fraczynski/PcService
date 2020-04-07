@@ -1,13 +1,13 @@
-import { Component, OnInit, ViewChild, AfterViewInit, Input } from '@angular/core';
-import { AlertifyService } from 'src/app/_services/alertify/alertify.service';
+import { Component, OnInit } from '@angular/core';
 import { StatisticsService } from 'src/app/_services/statistics/statistics.service';
+import { AlertifyService } from 'src/app/_services/alertify/alertify.service';
 
 @Component({
-  selector: 'app-statistics',
-  templateUrl: './statistics.component.html',
-  styleUrls: ['./statistics.component.css']
+  selector: 'app-serviceman-statistics',
+  templateUrl: './serviceman-statistics.component.html',
+  styleUrls: ['./serviceman-statistics.component.css']
 })
-export class StatisticsComponent implements OnInit {
+export class ServicemanStatisticsComponent implements OnInit {
   statistics = [];
   chartOptions = {
     responsive: true,
@@ -44,7 +44,7 @@ export class StatisticsComponent implements OnInit {
   }
 
   loadStatistics(type = 'name') {
-    this.statisticsService.loadStatistics(type).subscribe((statistics: [string, number][]) => {
+    this.statisticsService.loadServicemanStatistics(type).subscribe((statistics: [string, number][]) => {
       this.statistics = statistics;
       this.drawChart();
     }, error => {
@@ -70,4 +70,5 @@ export class StatisticsComponent implements OnInit {
       this.legend = (this.chartType === 'pie' || this.chartType === 'doughnut' || this.chartType === 'polarArea') ? true : false;
     });
   }
+
 }

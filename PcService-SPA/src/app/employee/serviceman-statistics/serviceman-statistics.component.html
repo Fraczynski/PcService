@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row m-4">
+    <div class="mx-auto">
+      <button class="btn btn-primary btn-lg mr-2" (click)="loadStatistics('name')">Element name</button>
+      <button class="btn btn-primary btn-lg mr-2" (click)="loadStatistics('status')">Status</button>
+      <button class="btn btn-primary btn-lg mr-2" (click)="loadStatistics('warrantyRepair')">Warranty Repair</button>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngIf="chartReady" class="mx-auto" style="width: 60%;">
+      <canvas baseChart [chartType]="chartType" [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions"
+        [legend]="legend" [colors]="colors">
+      </canvas>
+    </div>
+  </div>
+  <div class="row m-4">
+    <div class="mx-auto">
+      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('bar')">Bar</button>
+      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('line')">Line</button>
+      <button *ngIf="namesArray.length > 2" class="btn btn-primary btn-lg mr-2"
+        (click)="setChartType('radar')">Radar</button>
+      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('pie')">Pie</button>
+      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('doughnut')">Doughnut</button>
+      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('polarArea')">PolarArea</button>
+    </div>
+  </div>
+</div>

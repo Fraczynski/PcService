@@ -12,8 +12,11 @@
       <tab heading="All Elements" *appHasRole="['Administrator']">
         <app-all-elements></app-all-elements>
       </tab>
-      <tab heading="Statistics" *appHasRole="['Administrator', 'Serviceman']">
+      <tab heading="All Statistics" *appHasRole="['Administrator']">
         <app-statistics></app-statistics>
+      </tab>
+      <tab heading="Statistics" *appHasRole="['Serviceman']">
+        <app-serviceman-statistics></app-serviceman-statistics>
       </tab>
       <tab heading="User Management" *appHasRole="['Administrator']">
         <app-user-management></app-user-management>
