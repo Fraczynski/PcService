@@ -28,18 +28,18 @@ export class RegisterModalComponent implements OnInit {
       password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(12)]],
       confirmPassword: ['', Validators.required],
       email: ['', Validators.required],
-      telNumber: ['', Validators.required],
+      phoneNumber: ['', Validators.required],
     }, { validator: this.passwordMatchValidator });
   }
 
   register() {
-    // this.authService.register(this.registerForm.value).subscribe(() => {
-    //   this.alertify.success('Created new account');
-    //   this.bsModalRef.hide();
-    // }, error => {
-    //   this.alertify.error(error);
-    // });
-    console.log(this.registerForm.value);
+    this.authService.register(this.registerForm.value).subscribe(() => {
+      this.alertify.success('Created new account');
+      this.bsModalRef.hide();
+    }, error => {
+      console.log(error);
+      this.alertify.error(error);
+    });
   }
 
   passwordMatchValidator(g: FormGroup) {
