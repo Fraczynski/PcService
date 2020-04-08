@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AlertifyService } from '../_services/alertify/alertify.service';
 import { ElementsService } from '../_services/elements/elements.service';
 import { Equipment } from '../_models/equipment';
@@ -14,6 +14,7 @@ import { EquipmentsService } from '../_services/equipments/equipments.service';
   styleUrls: ['./elements-modal.component.css']
 })
 export class ElementsModalComponent implements OnInit {
+  @Output() refreshEquipments = new EventEmitter();
   employee = false;
   equipment: Equipment;
   elements: Element[];
@@ -51,8 +52,9 @@ export class ElementsModalComponent implements OnInit {
     const element = this.elementForm.value;
     element.equipmentId = this.equipment.id;
     this.elementsService.addElement(element).subscribe((response: Element) => {
+      this.getEquipmentElements();
       this.elements.push(response);
-      this.alertify.success('Added');
+      this.alertify.success('Dodano');
       this.elementForm.reset();
     }, error => {
       this.alertify.error(error);
@@ -69,7 +71,27 @@ export class ElementsModalComponent implements OnInit {
 
   releaseEquipment() {
     this.equipmentService.releaseEquipment(this.equipment.id).subscribe(() => {
-      this.alertify.success('Released');
+      this.alertify.success('Wydano');
+      this.refreshEquipments.emit(null);
+      this.equipmentService.getEquipment(this.equipment.id).subscribe((equipment: Equipment) => {
+        this.equipment = equipment;
+      }, error => {
+        this.alertify.error(error);
+      });
+    }, error => {
+      this.alertify.error(error);
+    });
+  }
+
+  setRepairedStatus() {
+    this.equipmentService.setRepairedStatus(this.equipment.id).subscribe(() => {
+      this.alertify.success('Naprawiono');
+      this.refreshEquipments.emit(null);
+      this.equipmentService.getEquipment(this.equipment.id).subscribe((equipment: Equipment) => {
+        this.equipment = equipment;
+      }, error => {
+        this.alertify.error(error);
+      });
     }, error => {
       this.alertify.error(error);
     });

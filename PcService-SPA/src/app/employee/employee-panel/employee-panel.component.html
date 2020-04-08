@@ -2,9 +2,11 @@
   <h2>Panel pracownika</h2>
   <div class="tab-panel">
     <tabset class="member-tabset">
-
       <tab heading="Sprzęty" *appHasRole="['Salesman']">
         <app-equipments [employee]="true"></app-equipments>
+      </tab>
+      <tab heading="Wszystkie sprzęty" *appHasRole="['Administrator']">
+        <app-all-equipments></app-all-equipments>
       </tab>
       <tab heading="Elementy" *appHasRole="['Serviceman']">
         <app-elements></app-elements>

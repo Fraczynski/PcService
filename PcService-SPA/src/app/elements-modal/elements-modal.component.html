@@ -1,9 +1,13 @@
 <div *ngIf="employee">
   <div class="text-center">
-    <button type="button" class="btn btn-primary" (click)="isCollapsed = !isCollapsed"
-      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Dodaj element
-    </button>
-    <button type="button" class="btn btn-primary" (click)="releaseEquipment()">Wydaj sprzęt</button>
+    <span *ngIf="equipment.releaseDate === null">
+      <span *ngIf="equipment.status !== 'Naprawiony'">
+        <button type="button" class="btn btn-primary mr-2" (click)="isCollapsed = !isCollapsed"
+          [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Dodaj element</button>
+        <button type="button" class="btn btn-primary mr-2" (click)="setRepairedStatus()">Oznacz jako naprawiony</button>
+      </span>
+      <button type="button" class="btn btn-primary mr-2" (click)="releaseEquipment()">Wydaj sprzęt</button>
+    </span>
   </div>
   <hr>
   <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">

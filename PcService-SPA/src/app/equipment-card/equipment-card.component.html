@@ -1,4 +1,4 @@
-<div class="card" (click)="showElementsModal()">
+<div class="card">
   <div class="card-header text-center">{{equipment.status}}</div>
   <div class="card-body">
     <h5 class="card-title text-center">{{equipment.name}} ({{equipment.id}})</h5>
@@ -12,7 +12,7 @@
   </div>
   <div class="card-footer text-muted text-center">
     <div class="inline">
-      <span class="float-left">
+      <span *ngIf="equipment.employeeName !== null" class="float-left">
         Pracownik: {{equipment.employeeName}}
       </span>
       <span class="float-right" *ngIf="equipment.clientName !== null">

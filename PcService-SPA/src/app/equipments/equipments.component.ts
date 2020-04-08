@@ -8,6 +8,7 @@ import { EquipmentsService } from '../_services/equipments/equipments.service';
 import { AlertifyService } from '../_services/alertify/alertify.service';
 import { EquipmentModalComponent } from '../employee/equipment-modal/equipment-modal.component';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { ElementsModalComponent } from '../elements-modal/elements-modal.component';
 
 @Component({
   selector: 'app-equipments',
@@ -50,7 +51,7 @@ export class EquipmentsComponent implements OnInit {
       this.currentUserId = decodedToken.nameid;
     }
     this.getEquipments(new Object());
-    this.createRegisterForm();
+    this.createEquipmentNumberForm();
   }
 
   reloadEquipments(form: FormGroup) {
@@ -81,7 +82,8 @@ export class EquipmentsComponent implements OnInit {
     this.bsModalRef.content.addNewEquipment.subscribe((equipment) => {
       this.equipmentsService.addEquipment(equipment.value).subscribe(() => {
         this.getEquipments();
-        this.alertify.success('Added');
+        this.alertify.success('Dodano');
+        this.getEquipments(new Object());
       }, error => {
         this.alertify.error(error);
       });
@@ -93,13 +95,13 @@ export class EquipmentsComponent implements OnInit {
   assignClientToEquipment() {
     this.equipmentsService.assignClientToEquipment(this.equipmentNumberForm.value.equipmentNumber, this.currentUserId).subscribe(() => {
       this.getEquipments();
-      this.alertify.success('Assigned the repair to your account');
+      this.alertify.success('Pryzpisano sprzęt do Twojego konta');
     }, error => {
       this.alertify.error(error);
     });
   }
 
-  createRegisterForm() {
+  createEquipmentNumberForm() {
     this.equipmentNumberForm = this.formBuilder.group({ equipmentNumber: [''] });
   }
 
@@ -112,5 +114,18 @@ export class EquipmentsComponent implements OnInit {
         this.alertify.error(error);
       });
     }
+  }
+
+  showElementsModal(equipmentModal) {
+    const initialState = {
+      equipment: equipmentModal,
+      employee: this.employee
+    };
+    this.bsModalRef = this.modalService.show(ElementsModalComponent, { initialState });
+    this.bsModalRef.content.refreshEquipments.subscribe(() => {
+      this.getEquipments(new Object());
+    }, error => {
+      this.alertify.error(error);
+    });
   }
 }

@@ -70,6 +70,14 @@ export class EquipmentsService {
     return this.http.patch(this.baseUrl + '/release', { id });
   }
 
+  setRepairedStatus(id: number) {
+    return this.http.patch(this.baseUrl + '/' + id + '/repair', {});
+  }
+
+  getEquipment(id: number) {
+    return this.http.get(this.baseUrl + '/' + id);
+  }
+
   addParams(page?, itemsPerPage?, userParams?): HttpParams {
     let params = new HttpParams();
 

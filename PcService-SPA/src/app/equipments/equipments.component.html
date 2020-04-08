@@ -8,7 +8,7 @@
       </div>
     </form>
     <div class="row justify-content-center" *ngIf="employee">
-      <button class="btn btn-info" (click)="addEquipmentModal()">Dodaj sprzęt</button>
+      <button class="btn btn-info mr-5" (click)="addEquipmentModal()">Dodaj sprzęt</button>
       <form class="form-inline" [formGroup]="equipmentNumberForm" (ngSubmit)="searchEquipment()">
         <div class="form-group">
           <input type="text" class="form-control" formControlName="equipmentNumber"
@@ -30,7 +30,9 @@
 
   <div class="card-group mt-3">
     <div *ngFor="let equipment of equipments" class="p-3 col-6 col-lg-4">
-      <app-equipment-card [equipment]="equipment" [employee]="employee"></app-equipment-card>
+      <div class="pointer" (click)="showElementsModal(equipment)">
+        <app-equipment-card [equipment]="equipment" [employee]="employee"></app-equipment-card>
+      </div>
     </div>
   </div>
 </div>

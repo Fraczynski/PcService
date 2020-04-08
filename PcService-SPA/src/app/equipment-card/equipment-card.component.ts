@@ -16,12 +16,4 @@ export class EquipmentCardComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  showElementsModal() {
-    const initialState = {
-      equipment: this.equipment,
-      employee: this.employee
-    };
-    this.bsModalRef = this.modalService.show(ElementsModalComponent, { initialState });
-  }
 }

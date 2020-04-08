@@ -39,6 +39,7 @@ import { ConfirmModalComponent } from './employee/confirm-modal/confirm-modal.co
 import { EditElementModalComponent } from './employee/edit-element-modal/edit-element-modal.component';
 import { ProfileEditorModalComponent } from './profile-editor-modal/profile-editor-modal.component';
 import { ServicemanStatisticsComponent } from './employee/serviceman-statistics/serviceman-statistics.component';
+import { AllEquipmentsComponent } from './employee/all-equipments/all-equipments.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -66,6 +67,7 @@ export function tokenGetter() {
       ElementsFilterComponent,
       ElementNamesComponent,
       AllElementsComponent,
+      AllEquipmentsComponent,
       ConfirmModalComponent,
       EditElementModalComponent,
       ProfileEditorModalComponent,
