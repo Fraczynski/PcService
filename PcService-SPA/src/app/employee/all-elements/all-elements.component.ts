@@ -3,6 +3,8 @@ import { Pagination } from 'src/app/_models/pagination';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { AlertifyService } from 'src/app/_services/alertify/alertify.service';
 import { ElementsService } from 'src/app/_services/elements/elements.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { EditElementModalComponent } from '../edit-element-modal/edit-element-modal.component';
 
 @Component({
   selector: 'app-all-elements',
@@ -15,8 +17,10 @@ export class AllElementsComponent implements OnInit {
   pageSize = 5;
   pagination: Pagination = new Pagination();
   elementNumberForm: FormGroup;
+  bsModalRef: BsModalRef;
 
-  constructor(private alertify: AlertifyService, private elementsService: ElementsService, private formBuilder: FormBuilder) { }
+  constructor(private alertify: AlertifyService, private elementsService: ElementsService, private formBuilder: FormBuilder,
+    private modalService: BsModalService) { }
 
   ngOnInit() {
     this.getElements();
@@ -61,5 +65,17 @@ export class AllElementsComponent implements OnInit {
         this.alertify.error(error);
       });
     }
+  }
+
+  showModal(element) {
+    const initialState = {
+      editedElement: element
+    };
+    this.bsModalRef = this.modalService.show(EditElementModalComponent, { initialState });
+    this.bsModalRef.content.refreshElements.subscribe(() => {
+      this.getElements();
+    }, error => {
+      this.alertify.error(error);
+    });
   }
 }

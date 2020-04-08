@@ -3,10 +3,10 @@
   <div class="tab-panel">
     <tabset class="member-tabset">
 
-      <tab heading="Sprzęty" *appHasRole="['Administrator', 'Salesman']">
+      <tab heading="Sprzęty" *appHasRole="['Salesman']">
         <app-equipments [employee]="true"></app-equipments>
       </tab>
-      <tab heading="Elementy" *appHasRole="['Administrator', 'Serviceman']">
+      <tab heading="Elementy" *appHasRole="['Serviceman']">
         <app-elements></app-elements>
       </tab>
       <tab heading="Wszystkie elementy" *appHasRole="['Administrator']">
