@@ -34,7 +34,7 @@ export class RegisterModalComponent implements OnInit {
 
   register() {
     this.authService.register(this.registerForm.value).subscribe(() => {
-      this.alertify.success('Created new account');
+      this.alertify.success('Utworzono nowe konto');
       this.bsModalRef.hide();
     }, error => {
       console.log(error);

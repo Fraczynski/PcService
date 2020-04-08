@@ -37,7 +37,7 @@ export class EditElementModalComponent implements OnInit {
 
   updateElement() {
     this.elementsService.updateElement(this.elementForm.value).subscribe(() => {
-      this.alertify.success('Updated');
+      this.alertify.success('Zaktualizowano');
       this.refreshElements.emit(null);
       this.bsModalRef.hide();
     }, error => {

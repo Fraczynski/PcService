@@ -52,7 +52,7 @@ export class ProfileEditorModalComponent implements OnInit {
 
   editProfile() {
     this.userService.editProfile(this.profileForm.value).subscribe(() => {
-      this.alertify.success('Updated');
+      this.alertify.success('Zaktualizowano');
       this.bsModalRef.hide();
     }, error => {
       this.alertify.error(error);
