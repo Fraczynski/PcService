@@ -211,5 +211,23 @@ namespace PcService.API.Controllers
 
             throw new Exception($"Updating equipment failed on save");
         }
+
+        [HttpPatch("{equipmentId}/repair")]
+        [Authorize(Policy = "RequireSalesmanRole")]
+        public async Task<IActionResult> RepairEquipment(int equipmentId)
+        {
+            var equipmentFromRepo = await _repo.GetEquipment(equipmentId);
+
+            if (equipmentFromRepo == null)
+            {
+                return BadRequest("Equipment doesn't exist");
+            }
+            equipmentFromRepo.Status = "Naprawiony";
+
+            if (await _repo.SaveAll())
+                return Ok(equipmentFromRepo);
+
+            throw new Exception($"Updating equipment failed on save");
+        }
     }
 }
