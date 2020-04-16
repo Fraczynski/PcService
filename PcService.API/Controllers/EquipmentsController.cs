@@ -204,7 +204,7 @@ namespace PcService.API.Controllers
                 return BadRequest("Equipment doesn't exist");
             }
             equipmentFromRepo.ReleaseDate = DateTime.Now;
-            equipmentFromRepo.Status = "Repaired";
+            equipmentFromRepo.Status = "Wydany";
 
             if (await _repo.SaveAll())
                 return Ok(equipmentFromRepo);
