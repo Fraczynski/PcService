@@ -9,7 +9,9 @@
 
   <div class="card-group mt-3">
     <div *ngFor="let equipment of equipments" class="p-3 col-6 col-lg-4">
-      <app-equipment-card [equipment]="equipment" [employee]="employee"></app-equipment-card>
+      <div class="pointer" (click)="showElementsModal(equipment)">
+        <app-equipment-card [equipment]="equipment" [employee]="employee"></app-equipment-card>
+      </div>
     </div>
   </div>
 </div>

@@ -7,6 +7,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { EquipmentsService } from 'src/app/_services/equipments/equipments.service';
 import { AlertifyService } from 'src/app/_services/alertify/alertify.service';
 import { EquipmentModalComponent } from '../equipment-modal/equipment-modal.component';
+import { ElementsModalComponent } from 'src/app/elements-modal/elements-modal.component';
 
 @Component({
   selector: 'app-all-equipments',
@@ -50,5 +51,18 @@ export class AllEquipmentsComponent implements OnInit {
     this.pagination.currentPage = event.page;
     this.pageNumber = event.page;
     this.getEquipments();
+  }
+
+  showElementsModal(equipmentModal) {
+    const initialState = {
+      equipment: equipmentModal,
+      employee: this.employee
+    };
+    this.bsModalRef = this.modalService.show(ElementsModalComponent, { initialState });
+    this.bsModalRef.content.refreshEquipments.subscribe(() => {
+      this.getEquipments(new Object());
+    }, error => {
+      this.alertify.error(error);
+    });
   }
 }

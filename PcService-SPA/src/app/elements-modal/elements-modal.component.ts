@@ -34,9 +34,9 @@ export class ElementsModalComponent implements OnInit {
     }
     this.elementForm = this.formBuilder.group({
       equipmentId: [''],
-      nameId: ['', Validators.required],
+      nameId: [, Validators.required],
       description: ['', Validators.required],
-      warrantyRepair: ['']
+      warrantyRepair: []
     });
   }
 
