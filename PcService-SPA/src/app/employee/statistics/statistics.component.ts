@@ -26,12 +26,9 @@ export class StatisticsComponent implements OnInit {
   valuesArray: number[] = [];
   chartReady = false;
   chartType = 'bar';
-  colors = [
-    {
-      backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],
-    },
-  ];
+  colors = [];
   legend = false;
+  name: string;
 
   constructor(private statisticsService: StatisticsService, private alertify: AlertifyService) { }
 
@@ -39,16 +36,45 @@ export class StatisticsComponent implements OnInit {
     this.loadStatistics();
   }
 
-  change() {
-
+  randomizeColors() {
+    const colors = [];
+    const min = 0;
+    const max = 255;
+    this.statistics.forEach(() => {
+      let sum = 500;
+      let red;
+      let green;
+      let blue;
+      while (sum >= 500) {
+        red = Math.floor(Math.random() * (max - min + 1)) + min;
+        green = Math.floor(Math.random() * (max - min + 1)) + min;
+        blue = Math.floor(Math.random() * (max - min + 1)) + min;
+        sum = red + green + blue;
+      }
+      colors.push('rgba(' + red + ', ' + green + ', ' + blue + ', 0.6)');
+    });
+    this.colors = [{ backgroundColor: colors }];
   }
 
   loadStatistics(type = 'name') {
     this.statisticsService.loadStatistics(type).subscribe((statistics: [string, number][]) => {
       this.statistics = statistics;
+      this.correctNames();
       this.drawChart();
+      this.name = document.getElementById(type).innerHTML;
+      this.randomizeColors();
     }, error => {
       this.alertify.error(error);
+    });
+  }
+
+  correctNames() {
+    this.statistics.forEach(element => {
+      if (element.item1 === 'True') {
+        element.item1 = 'Tak';
+      } else if (element.item1 === 'False') {
+        element.item1 = 'Nie';
+      }
     });
   }
 

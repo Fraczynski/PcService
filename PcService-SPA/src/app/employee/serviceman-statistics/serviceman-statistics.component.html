@@ -1,25 +1,38 @@
 <div class="container">
   <div class="row m-4">
     <div class="mx-auto">
-      <button class="btn btn-primary btn-lg mr-2" (click)="loadStatistics('name')">Nazwa elementu</button>
-      <button class="btn btn-primary btn-lg mr-2" (click)="loadStatistics('status')">Status</button>
-      <button class="btn btn-primary btn-lg mr-2" (click)="loadStatistics('warrantyRepair')">Naprawa
+      <button class="btn btn-primary btn-lg mr-2" id="name" (click)="loadStatistics('name')">Nazwa elementu</button>
+      <button class="btn btn-primary btn-lg mr-2" id="status" (click)="loadStatistics('status')">Status</button>
+      <button class="btn btn-primary btn-lg mr-2" id="warrantyRepair" (click)="loadStatistics('warrantyRepair')">Naprawa
         gwarancyjna</button>
     </div>
   </div>
   <div class="row">
-    <div *ngIf="chartReady" class="mx-auto" style="width: 60%;">
+    <div class="mx-auto">
+      <h2>{{name}}</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div *ngIf="chartReady && chartType !== 'table'" class="mx-auto" style="width: 60%;">
       <canvas baseChart [chartType]="chartType" [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions"
         [legend]="legend" [colors]="colors">
       </canvas>
+    </div>
+    <div *ngIf="chartType === 'table'" class="mx-auto">
+      <table class="table table-striped table-bordered">
+        <tbody>
+          <tr *ngFor="let item of statistics">
+            <td>{{item.item1}}</td>
+            <td>{{item.item2}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
   <div class="row m-4">
     <div class="mx-auto">
       <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('bar')">Kolumnowy</button>
       <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('line')">Liniowy</button>
-      <button *ngIf="namesArray.length > 2" class="btn btn-primary btn-lg mr-2"
-        (click)="setChartType('radar')">Radarowy</button>
       <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('pie')">Kołowy</button>
       <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('doughnut')">Pierścieniowy</button>
       <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('polarArea')">Powierzchniowy</button>

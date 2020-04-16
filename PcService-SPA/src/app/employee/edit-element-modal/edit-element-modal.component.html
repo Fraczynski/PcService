@@ -20,7 +20,7 @@
       <label for="status">Naprawa gwarancyjna</label>
       <select class="form-control" formControlName="warrantyRepair">
         <option value="null" disabled>- Naprawa gwarancyjna -</option>
-        <option *ngFor="let option of boolOptions" [value]="option">{{option}}</option>
+        <option *ngFor="let option of boolOptions" [value]="option">{{option === true ? 'Tak' : 'Nie'}}</option>
       </select>
     </div>
 

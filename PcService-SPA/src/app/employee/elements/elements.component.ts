@@ -18,6 +18,7 @@ export class ElementsComponent implements OnInit {
   pagination: Pagination = new Pagination();
   elementsType: string;
   bsModalRef: BsModalRef;
+  elementsListType: string;
 
   constructor(private alertify: AlertifyService, private elementsService: ElementsService, private modalService: BsModalService) { }
 
@@ -40,6 +41,7 @@ export class ElementsComponent implements OnInit {
           this.pagination = response.pagination;
           this.pageNumber = this.pagination.currentPage;
           this.pageSize = this.pagination.itemsPerPage;
+          this.elementsListType = 'Nieprzypisane elementy';
         }, error => {
           this.alertify.error(error);
         });
@@ -50,6 +52,7 @@ export class ElementsComponent implements OnInit {
           this.pagination = response.pagination;
           this.pageNumber = this.pagination.currentPage;
           this.pageSize = this.pagination.itemsPerPage;
+          this.elementsListType = 'Twoje elementy';
         }, error => {
           this.alertify.error(error);
         });

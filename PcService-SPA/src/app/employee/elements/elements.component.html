@@ -1,11 +1,16 @@
 <div class="container">
   <div class="text-center m-3">
-    <button class="btn btn-primary m-1" type="button" (click)="loadElements('serviceman')">Załaduje Twoje naprawiane
+    <button class="btn btn-primary m-1" type="button" (click)="loadElements('serviceman')">Załaduj Twoje naprawiane
       elementy</button>
     <button class="btn btn-primary m-1" type="button" (click)="loadElements('unassigned')">Załaduj nieprzypisane
       elementy</button>
   </div>
 
+  <div class="row">
+    <div class="mx-auto">
+      <h3>{{elementsListType}}</h3>
+    </div>
+  </div>
 
   <div class="card-group mt-3">
     <div *ngFor="let element of elements" class="p-3 col-6 col-lg-4">
