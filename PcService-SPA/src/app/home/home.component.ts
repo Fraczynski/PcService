@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { AlertifyService } from '../_services/alertify/alertify.service';
 import { RegisterModalComponent } from '../register-modal/register-modal.component';
+import { AuthService } from '../_services/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -10,19 +11,13 @@ import { RegisterModalComponent } from '../register-modal/register-modal.compone
 })
 export class HomeComponent implements OnInit {
   registerMode = false;
+  loggedIn = false;
   bsModalRef: BsModalRef;
 
-  constructor(private alertify: AlertifyService, private modalService: BsModalService) { }
+  constructor(private alertify: AlertifyService, private modalService: BsModalService, public authService: AuthService) { }
 
   ngOnInit() {
-  }
-
-  registerToggle() {
-    this.registerMode = true;
-  }
-
-  cancelRegisterMode(registerMode: boolean) {
-    this.registerMode = registerMode;
+    this.loggedIn = this.authService.loggedIn();
   }
 
   showRegisterModal() {

@@ -4,7 +4,7 @@
       <h1 class="pt-5" style="font-size: 72px;"> Andrzej-Tech</h1>
     </div>
     <p class="lead">Naprawiamy wszystkie rodzaje komputerów.</p>
-    <div class="text-center">
+    <div *ngIf="!authService.loggedIn()" class="text-center">
       <button class="btn btn-primary btn-lg mr-2" (click)="showRegisterModal()">Rejestracja</button>
     </div>
   </div>
