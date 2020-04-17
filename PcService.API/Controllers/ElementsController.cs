@@ -109,6 +109,7 @@ namespace PcService.API.Controllers
             }
 
             element.ServicemanId = servicemanId;
+            element.StatusId = 2;
 
             if (await _repo.SaveAll())
                 return NoContent();

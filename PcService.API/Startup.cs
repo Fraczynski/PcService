@@ -30,6 +30,7 @@ using PcService.API.Data.Equipments;
 using PcService.API.Data.Elements;
 using PcService.API.Data.ElementNames;
 using PcService.API.Data.Statistics;
+using PcService.API.Data.Statuses;
 
 namespace PcService.API
 {
@@ -99,6 +100,7 @@ namespace PcService.API
             services.AddScoped<IElementsRepository, ElementsRepository>();
             services.AddScoped<IElementNamesRepository, ElementNamesRepository>();
             services.AddScoped<IStatisticsRepository, StatisticsRepository>();
+            services.AddScoped<IStatusesRepository, StatusesRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

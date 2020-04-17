@@ -39,7 +39,7 @@ namespace PcService.API.Controllers
 
                 if (client == null)
                 {
-                    return BadRequest("User doesn't exist");
+                    return BadRequest("Użytkownik nie istnieje");
                 }
                 equipment.ClientId = client.Id;
             }
@@ -52,7 +52,7 @@ namespace PcService.API.Controllers
             {
                 return Ok(equipment.Id);
             }
-            return BadRequest("Creating the repair failed on save");
+            return BadRequest("Dodawanie sprzętu zakończyło się niepowodzeniem");
         }
 
         [HttpGet]
@@ -120,7 +120,7 @@ namespace PcService.API.Controllers
             if (await _repo.SaveAll())
                 return Ok(equipmentFromRepo);
 
-            throw new Exception($"Updating equipment {equipmentId} failed on save");
+            return BadRequest($"Aktualizowanie sprzętu (ID: {equipmentId}) zakończyło się niepowodzeniem");
         }
 
         [HttpPatch("{equipmentId}/assign")]
@@ -130,32 +130,14 @@ namespace PcService.API.Controllers
             var equipmentFromRepo = await _repo.GetEquipment(equipmentId);
 
             if (equipmentFromRepo.ClientId != null)
-                return BadRequest("Invalid equipment ID");
+                return BadRequest("Niepoprawny ID sprzętu");
 
             equipmentFromRepo.ClientId = clientForAssignDto.ClientId;
 
             if (await _repo.SaveAll())
                 return Ok(equipmentFromRepo);
 
-            throw new Exception($"Assigning equipment {equipmentId} to you failed on save");
-        }
-
-        [HttpPatch("{equipmentId}/status")]
-        [Authorize(Policy = "RequireServicemanRole")]
-        public async Task<IActionResult> UpdateStatus(int equipmentId, StatusForUpdateDto statusForUpdateDto)
-        {
-            var equipmentFromRepo = await _repo.GetEquipment(equipmentId);
-
-            if (equipmentFromRepo == null)
-            {
-                return BadRequest("Equipment doesn't exist");
-            }
-            equipmentFromRepo.StatusId = statusForUpdateDto.StatusId;
-
-            if (await _repo.SaveAll())
-                return Ok(equipmentFromRepo);
-
-            throw new Exception($"Updating equipment status failed on save");
+            return BadRequest($"Przypisanie sprzętu (ID: {equipmentId}) zakończyło się niepowodzeniem");
         }
 
         [HttpPatch("release")]
@@ -166,14 +148,15 @@ namespace PcService.API.Controllers
 
             if (equipmentFromRepo == null)
             {
-                return BadRequest("Equipment doesn't exist");
+                return BadRequest("Sprzęt nie istnieje");
             }
             equipmentFromRepo.ReleaseDate = DateTime.Now;
+            equipmentFromRepo.StatusId = 4;
 
             if (await _repo.SaveAll())
                 return Ok(equipmentFromRepo);
 
-            throw new Exception($"Updating equipment failed on save");
+            return BadRequest($"Błąd aktualizacji");
         }
 
         [HttpPatch("{equipmentId}/repair")]
@@ -184,13 +167,34 @@ namespace PcService.API.Controllers
 
             if (equipmentFromRepo == null)
             {
-                return BadRequest("Equipment doesn't exist");
+                return BadRequest("Sprzęt nie istnieje");
             }
+
+            equipmentFromRepo.StatusId = 3;
 
             if (await _repo.SaveAll())
                 return Ok(equipmentFromRepo);
 
-            throw new Exception($"Updating equipment failed on save");
+            return BadRequest("Błąd aktualizacji");
+        }
+
+        [HttpPatch("{equipmentId}/takeToRepair")]
+        [Authorize(Policy = "RequireSalesmanRole")]
+        public async Task<IActionResult> TakeEquipmentToRepair(int equipmentId)
+        {
+            var equipmentFromRepo = await _repo.GetEquipment(equipmentId);
+
+            if (equipmentFromRepo == null)
+            {
+                return BadRequest("Sprzęt nie istnieje");
+            }
+
+            equipmentFromRepo.StatusId = 2;
+
+            if (await _repo.SaveAll())
+                return Ok(equipmentFromRepo);
+
+            return BadRequest("Błąd aktualizacji");
         }
     }
 }
