@@ -26,6 +26,9 @@ namespace PcService.API.Helpers
             CreateMap<ElementName, ElementNameToReturnDto>();
             CreateMap<ElementNameForCreationDto, ElementName>();
 
+            CreateMap<EquipmentStatus, StatusToReturnDto>();
+            CreateMap<ElementStatus, StatusToReturnDto>();
+
             CreateMap<UserForRegisterDto, User>();
             CreateMap<User, UserToReturnDto>();
             CreateMap<User, UserToEditDto>();
