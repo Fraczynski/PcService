@@ -120,13 +120,13 @@ namespace PcService.API.Data.Statistics
                         var status = element.Status;
                         if (status != null)
                         {
-                            if (dictionary.ContainsKey(status))
+                            if (dictionary.ContainsKey(status.Name))
                             {
-                                dictionary[status]++;
+                                dictionary[status.Name]++;
                             }
                             else
                             {
-                                dictionary.Add(status, 1);
+                                dictionary.Add(status.Name, 1);
                             }
                         }
                     }

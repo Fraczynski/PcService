@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PcService.API.Migrations
 {
-    public partial class IdentityInitial : Migration
+    public partial class CreateRequiredEntities : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -42,11 +42,52 @@ namespace PcService.API.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ElementNames",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ElementNames", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ElementStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ElementStatuses", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EquipmentStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EquipmentStatuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,6 +196,88 @@ namespace PcService.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Equipments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    ClientId = table.Column<int>(nullable: true),
+                    EmployeeId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    StatusId = table.Column<int>(nullable: false),
+                    ProblemDescription = table.Column<string>(nullable: true),
+                    RequestDate = table.Column<DateTime>(nullable: false),
+                    ReleaseDate = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Equipments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Equipments_AspNetUsers_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Equipments_AspNetUsers_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Equipments_EquipmentStatuses_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "EquipmentStatuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Elements",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    EquipmentId = table.Column<int>(nullable: false),
+                    ServicemanId = table.Column<int>(nullable: true),
+                    NameId = table.Column<int>(nullable: false),
+                    StatusId = table.Column<int>(nullable: false),
+                    Description = table.Column<string>(nullable: true),
+                    WarrantyRepair = table.Column<bool>(nullable: false),
+                    PartsCost = table.Column<double>(nullable: true),
+                    ServiceCost = table.Column<double>(nullable: true),
+                    NewWarrantyPeriod = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Elements", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Elements_Equipments_EquipmentId",
+                        column: x => x.EquipmentId,
+                        principalTable: "Equipments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Elements_ElementNames_NameId",
+                        column: x => x.NameId,
+                        principalTable: "ElementNames",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Elements_AspNetUsers_ServicemanId",
+                        column: x => x.ServicemanId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Elements_ElementStatuses_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "ElementStatuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +314,41 @@ namespace PcService.API.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Elements_EquipmentId",
+                table: "Elements",
+                column: "EquipmentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Elements_NameId",
+                table: "Elements",
+                column: "NameId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Elements_ServicemanId",
+                table: "Elements",
+                column: "ServicemanId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Elements_StatusId",
+                table: "Elements",
+                column: "StatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Equipments_ClientId",
+                table: "Equipments",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Equipments_EmployeeId",
+                table: "Equipments",
+                column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Equipments_StatusId",
+                table: "Equipments",
+                column: "StatusId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,10 +369,25 @@ namespace PcService.API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Elements");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Equipments");
+
+            migrationBuilder.DropTable(
+                name: "ElementNames");
+
+            migrationBuilder.DropTable(
+                name: "ElementStatuses");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "EquipmentStatuses");
         }
     }
 }

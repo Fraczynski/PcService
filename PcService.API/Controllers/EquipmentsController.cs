@@ -150,7 +150,7 @@ namespace PcService.API.Controllers
             {
                 return BadRequest("Equipment doesn't exist");
             }
-            equipmentFromRepo.Status = statusForUpdateDto.Status;
+            equipmentFromRepo.StatusId = statusForUpdateDto.StatusId;
 
             if (await _repo.SaveAll())
                 return Ok(equipmentFromRepo);
@@ -204,7 +204,6 @@ namespace PcService.API.Controllers
                 return BadRequest("Equipment doesn't exist");
             }
             equipmentFromRepo.ReleaseDate = DateTime.Now;
-            equipmentFromRepo.Status = "Wydany";
 
             if (await _repo.SaveAll())
                 return Ok(equipmentFromRepo);
@@ -222,7 +221,6 @@ namespace PcService.API.Controllers
             {
                 return BadRequest("Equipment doesn't exist");
             }
-            equipmentFromRepo.Status = "Naprawiony";
 
             if (await _repo.SaveAll())
                 return Ok(equipmentFromRepo);

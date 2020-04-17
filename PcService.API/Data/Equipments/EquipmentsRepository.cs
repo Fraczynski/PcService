@@ -34,14 +34,14 @@ namespace PcService.API.Data.Equipments
             return await PagedList<Equipment>.CreateAsync(equipments, userParams.PageNumber, userParams.PageSize);
         }
 
-        public async Task<List<string>> GetAllEquipmentsStatusList()
+        public async Task<List<EquipmentStatus>> GetAllEquipmentsStatusList()
         {
             var statusList = await _context.Equipments.GroupBy(s => s.Status).Select(s => s.Key).Where(s => s != null).ToListAsync();
 
             return statusList;
         }
 
-        public async Task<List<string>> GetClientEquipmentsStatusList(int clientId)
+        public async Task<List<EquipmentStatus>> GetClientEquipmentsStatusList(int clientId)
         {
             var statusList = await _context.Equipments.Where(e => e.ClientId == clientId).GroupBy(s => s.Status).Select(s => s.Key).Where(s => s != null).ToListAsync();
 

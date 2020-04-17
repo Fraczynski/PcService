@@ -13,6 +13,8 @@ namespace PcService.API.Data
         public DbSet<Equipment> Equipments { get; set; }
         public DbSet<Element> Elements { get; set; }
         public DbSet<ElementName> ElementNames { get; set; }
+        public DbSet<ElementStatus> ElementStatuses { get; set; }
+        public DbSet<EquipmentStatus> EquipmentStatuses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -34,6 +36,11 @@ namespace PcService.API.Data
                       .WithMany(u => u.AssignedEquipments)
                       .HasForeignKey(u => u.EmployeeId)
                       .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Equipment>()
+                      .HasOne(r => r.Status)
+                      .WithMany(u => u.Equipments)
+                      .HasForeignKey(u => u.StatusId)
+                      .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Element>().HasKey(k => new { k.Id });
             builder.Entity<Element>()
@@ -46,8 +53,17 @@ namespace PcService.API.Data
                       .WithMany(u => u.Elements)
                       .HasForeignKey(u => u.NameId)
                       .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Element>()
+                      .HasOne(r => r.Status)
+                      .WithMany(u => u.Elements)
+                      .HasForeignKey(u => u.StatusId)
+                      .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<ElementName>().HasKey(k => new { k.Id });
+
+            builder.Entity<ElementStatus>().HasKey(k => new { k.Id });
+
+            builder.Entity<EquipmentStatus>().HasKey(k => new { k.Id });
         }
     }
 }

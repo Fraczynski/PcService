@@ -1,7 +1,7 @@
 namespace PcService.API.Dtos
 {
-   public class StatusForUpdateDto
-   {
-      public string Status { get; set; }
-   }
+    public class StatusForUpdateDto
+    {
+        public int StatusId { get; set; }
+    }
 }

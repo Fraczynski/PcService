@@ -89,7 +89,7 @@ namespace PcService.API.Data.Elements
             }
             if (!string.IsNullOrEmpty(userParams.Status))
             {
-                elements = elements.Where(r => r.Status.ToLower().Equals(userParams.Status.ToLower()));
+                elements = elements.Where(r => r.Status.Name.ToLower().Equals(userParams.Status.ToLower()));
             }
             if (!string.IsNullOrEmpty(userParams.Description))
             {

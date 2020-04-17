@@ -82,7 +82,7 @@ namespace PcService.API.Controllers
         {
             var elementFromRepo = await _repo.GetElement(elementForUpdateDto.Id);
 
-            elementFromRepo.Status = elementForUpdateDto.Status;
+            elementFromRepo.StatusId = elementForUpdateDto.StatusId;
             elementFromRepo.Description = elementForUpdateDto.Description;
             elementFromRepo.WarrantyRepair = elementForUpdateDto.WarrantyRepair;
             elementFromRepo.PartsCost = elementForUpdateDto.PartsCost;

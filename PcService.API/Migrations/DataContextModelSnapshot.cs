@@ -128,8 +128,8 @@ namespace PcService.API.Migrations
                     b.Property<int?>("ServicemanId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("WarrantyRepair")
                         .HasColumnType("tinyint(1)");
@@ -141,6 +141,8 @@ namespace PcService.API.Migrations
                     b.HasIndex("NameId");
 
                     b.HasIndex("ServicemanId");
+
+                    b.HasIndex("StatusId");
 
                     b.ToTable("Elements");
                 });
@@ -157,6 +159,20 @@ namespace PcService.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ElementNames");
+                });
+
+            modelBuilder.Entity("PcService.API.Models.ElementStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ElementStatuses");
                 });
 
             modelBuilder.Entity("PcService.API.Models.Equipment", b =>
@@ -183,8 +199,8 @@ namespace PcService.API.Migrations
                     b.Property<DateTime>("RequestDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<int>("StatusId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -192,7 +208,23 @@ namespace PcService.API.Migrations
 
                     b.HasIndex("EmployeeId");
 
+                    b.HasIndex("StatusId");
+
                     b.ToTable("Equipments");
+                });
+
+            modelBuilder.Entity("PcService.API.Models.EquipmentStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EquipmentStatuses");
                 });
 
             modelBuilder.Entity("PcService.API.Models.Role", b =>
@@ -361,6 +393,12 @@ namespace PcService.API.Migrations
                     b.HasOne("PcService.API.Models.User", "Serviceman")
                         .WithMany()
                         .HasForeignKey("ServicemanId");
+
+                    b.HasOne("PcService.API.Models.ElementStatus", "Status")
+                        .WithMany("Elements")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PcService.API.Models.Equipment", b =>
@@ -373,6 +411,12 @@ namespace PcService.API.Migrations
                     b.HasOne("PcService.API.Models.User", "Employee")
                         .WithMany("AssignedEquipments")
                         .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("PcService.API.Models.EquipmentStatus", "Status")
+                        .WithMany("Equipments")
+                        .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
