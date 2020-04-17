@@ -21,21 +21,21 @@ namespace PcService.API.Controllers
         }
 
         [Authorize(Policy = "RequireServicemanRole")]
-        [HttpGet("serviceman")]
-        public async Task<IActionResult> GetServicemanStatistics([FromQuery] string type)
+        [HttpGet("serviceman/{type}")]
+        public async Task<IActionResult> GetServicemanStatistics(string type, [FromQuery] StatisticParams statisticParams)
         {
             var servicemanId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            var statistics = await _repo.GetServicemanStatistics(servicemanId, type);
+            var statistics = await _repo.GetServicemanStatistics(servicemanId, type, statisticParams);
 
             return Ok(statistics);
         }
 
         [Authorize(Policy = "RequireAdministratorRole")]
-        [HttpGet]
-        public async Task<IActionResult> GetStatistics([FromQuery] string type)
+        [HttpGet("{type}")]
+        public async Task<IActionResult> GetStatistics(string type, [FromQuery] StatisticParams statisticParams)
         {
-            var statistics = await _repo.GetStatistics(type);
+            var statistics = await _repo.GetStatistics(type, statisticParams);
 
             return Ok(statistics);
         }
