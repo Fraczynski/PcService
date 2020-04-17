@@ -13,7 +13,8 @@ namespace PcService.API.Helpers
             CreateMap<EquipmentForCreationDto, Equipment>();
             CreateMap<Equipment, EquipmentToReturnDto>()
                .ForMember(dest => dest.ClientName, opt => opt.MapFrom(src => src.Client.UserName))
-               .ForMember(dest => dest.EmployeeName, opt => opt.MapFrom(src => src.Employee.UserName));
+               .ForMember(dest => dest.EmployeeName, opt => opt.MapFrom(src => src.Employee.UserName))
+               .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name));
             CreateMap<EquipmentForUpdateDto, Equipment>();
 
             CreateMap<ElementForCreationDto, Element>();

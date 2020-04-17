@@ -7,11 +7,9 @@ namespace PcService.API.Dtos
         public EquipmentForCreationDto()
         {
             RequestDate = DateTime.Now;
-            Status = "Zgłoszony";
         }
         public string ClientName { get; set; }
         public string Name { get; set; }
-        public string Status { get; set; }
         public string ProblemDescription { get; set; }
         public DateTime RequestDate { get; set; }
     }

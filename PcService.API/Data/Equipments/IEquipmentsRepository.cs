@@ -13,7 +13,5 @@ namespace PcService.API.Data.Equipments
         Task<PagedList<Equipment>> GetAllEquipments(UserParams userParams);
         Task<PagedList<Equipment>> GetUserEquipments(int clientId, UserParams userParams);
         Task<Equipment> GetEquipment(int id);
-        Task<List<EquipmentStatus>> GetClientEquipmentsStatusList(int clientId);
-        Task<List<EquipmentStatus>> GetAllEquipmentsStatusList();
     }
 }

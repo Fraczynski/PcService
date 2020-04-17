@@ -158,41 +158,6 @@ namespace PcService.API.Controllers
             throw new Exception($"Updating equipment status failed on save");
         }
 
-        [HttpGet("{clientId}/statusList")]
-        [Authorize(Policy = "RequireAuthorized")]
-        public async Task<IActionResult> GetClientEquipmentsStatusList(int clientId)
-        {
-            if (clientId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-            {
-                var roles = User.FindAll(ClaimTypes.Role);
-                var access = false;
-                foreach (var role in roles)
-                {
-                    if (role.Value == "Salesman" || role.Value == "Serviceman" || role.Value == "Administrator")
-                    {
-                        access = true;
-                    }
-                }
-                if (access == false)
-                {
-                    return Unauthorized();
-                }
-            }
-
-            var statusList = await _repo.GetClientEquipmentsStatusList(clientId);
-
-            return Ok(statusList);
-        }
-
-        [HttpGet("statusList")]
-        [Authorize(Policy = "RequireEmployeeRole")]
-        public async Task<IActionResult> GetAllEquipmentsStatusList()
-        {
-            var statusList = await _repo.GetAllEquipmentsStatusList();
-
-            return Ok(statusList);
-        }
-
         [HttpPatch("release")]
         [Authorize(Policy = "RequireSalesmanRole")]
         public async Task<IActionResult> ReleaseEquipment(EquipmentForReleaseDto equipmentForReleaseDto)

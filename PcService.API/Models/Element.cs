@@ -22,6 +22,7 @@ namespace PcService.API.Models
         public Element()
         {
             WarrantyRepair = false;
+            StatusId = 1;
         }
     }
 }

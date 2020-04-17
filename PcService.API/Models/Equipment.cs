@@ -5,6 +5,10 @@ namespace PcService.API.Models
 {
     public class Equipment
     {
+        public Equipment()
+        {
+            StatusId = 1;
+        }
         public int Id { get; set; }
         public Nullable<int> ClientId { get; set; }
         public User Client { get; set; }
@@ -18,4 +22,5 @@ namespace PcService.API.Models
         public Nullable<DateTime> ReleaseDate { get; set; }
         public ICollection<Element> Elements { get; set; }
     }
+
 }
