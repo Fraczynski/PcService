@@ -41,6 +41,7 @@ import { ProfileEditorModalComponent } from './profile-editor-modal/profile-edit
 import { ServicemanStatisticsComponent } from './employee/serviceman-statistics/serviceman-statistics.component';
 import { AllEquipmentsComponent } from './employee/all-equipments/all-equipments.component';
 import { StatisticsFilterComponent } from './employee/statistics-filter/statistics-filter.component';
+import { PolishRolePipe } from './_pipes/polishRole/polishRole.pipe';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -73,7 +74,8 @@ export function tokenGetter() {
       EditElementModalComponent,
       ProfileEditorModalComponent,
       ServicemanStatisticsComponent,
-      StatisticsFilterComponent
+      StatisticsFilterComponent,
+      PolishRolePipe
    ],
    imports: [
       BrowserModule,

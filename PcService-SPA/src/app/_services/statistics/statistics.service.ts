@@ -15,7 +15,6 @@ export class StatisticsService {
     if (statisticParams) {
       params = this.addParams(statisticParams);
     }
-    debugger;
     return this.http.get(this.baseUrl + 'statistics/' + type, { params });
   }
 

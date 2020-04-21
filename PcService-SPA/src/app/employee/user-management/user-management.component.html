@@ -9,7 +9,9 @@
     <tr *ngFor="let user of users">
       <td>{{user.id}}</td>
       <td>{{user.userName}}</td>
-      <td>{{user.roles}}</td>
+      <td><span *ngFor="let role of user.roles">
+          {{role | polishRole}}
+        </span></td>
       <td><button class="btn btn-info" (click)="editRolesModal(user)">Edytuj role</button></td>
     </tr>
   </table>

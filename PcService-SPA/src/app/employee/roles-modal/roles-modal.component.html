@@ -8,8 +8,8 @@
   <form #rolesForm="ngForm" id="rolesForm">
     <div *ngFor="let role of roles" class="form-check">
       <input type="checkbox" class="form-check-input" value="{{role.name}}" [checked]="role.checked"
-        (change)="role.checked = !role.checked" [disabled]="role.name === 'Admin' && user.userName === 'Admin'">
-      <label>{{role.name}}</label>
+        (change)="role.checked = !role.checked" [disabled]="role.name === 'Administrator' && user.userName === 'Admin'">
+      <label>{{role.name | polishRole}}</label>
     </div>
   </form>
 </div>
