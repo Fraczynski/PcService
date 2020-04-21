@@ -27,7 +27,7 @@ namespace PcService.API.Data.Elements
 
         public async Task<List<Element>> GetEquipmentElements(int equipmentId)
         {
-            var elements = _context.Elements.Where(e => e.EquipmentId == equipmentId).Include(n => n.Name).Include(s => s.Serviceman);
+            var elements = _context.Elements.Where(e => e.EquipmentId == equipmentId).Include(n => n.Name).Include(s => s.Serviceman).Include(s => s.Status);
 
             return await elements.ToListAsync();
 
@@ -35,7 +35,7 @@ namespace PcService.API.Data.Elements
 
         public async Task<Element> GetElement(int id)
         {
-            var element = await _context.Elements.FirstOrDefaultAsync(e => e.Id == id);
+            var element = await _context.Elements.Include(s => s.Status).FirstOrDefaultAsync(e => e.Id == id);
 
             return element;
         }
@@ -47,7 +47,7 @@ namespace PcService.API.Data.Elements
 
         public async Task<PagedList<Element>> GetAllElements(UserParams userParams)
         {
-            var elements = _context.Elements.Include(n => n.Name).Include(s => s.Serviceman).AsQueryable();
+            var elements = _context.Elements.Include(n => n.Name).Include(s => s.Serviceman).Include(s => s.Status).AsQueryable();
 
             elements = filterResults(elements, userParams);
 
@@ -56,7 +56,7 @@ namespace PcService.API.Data.Elements
 
         public async Task<PagedList<Element>> GetServicemanElements(int servicemanId, UserParams userParams)
         {
-            var elements = _context.Elements.Where(e => e.ServicemanId == servicemanId).Include(n => n.Name).Include(s => s.Serviceman).AsQueryable();
+            var elements = _context.Elements.Where(e => e.ServicemanId == servicemanId).Include(n => n.Name).Include(s => s.Status).Include(s => s.Serviceman).AsQueryable();
 
             elements = filterResults(elements, userParams);
 
@@ -65,7 +65,7 @@ namespace PcService.API.Data.Elements
 
         public async Task<PagedList<Element>> GetUnassignedElements(UserParams userParams)
         {
-            var elements = _context.Elements.Where(e => e.ServicemanId == null).Include(n => n.Name).Include(s => s.Serviceman).AsQueryable();
+            var elements = _context.Elements.Where(e => e.ServicemanId == null).Include(n => n.Name).Include(s => s.Status).Include(s => s.Serviceman).AsQueryable();
 
             elements = filterResults(elements, userParams);
 
@@ -87,9 +87,9 @@ namespace PcService.API.Data.Elements
             {
                 elements = elements.Where(r => r.Name.Name.Equals(userParams.Name));
             }
-            if (!string.IsNullOrEmpty(userParams.Status))
+            if (userParams.Status != null)
             {
-                elements = elements.Where(r => r.Status.Name.ToLower().Equals(userParams.Status.ToLower()));
+                elements = elements.Where(r => r.Status.Id == userParams.Status);
             }
             if (!string.IsNullOrEmpty(userParams.Description))
             {

@@ -20,7 +20,8 @@ namespace PcService.API.Helpers
             CreateMap<ElementForCreationDto, Element>();
             CreateMap<Element, ElementToReturnDto>()
                .ForMember(dest => dest.ServicemanName, opt => opt.MapFrom(src => src.Serviceman.UserName))
-               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name.Name));
+               .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name.Name))
+               .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name));
             CreateMap<ElementForUpdateDto, Element>();
 
             CreateMap<ElementName, ElementNameToReturnDto>();

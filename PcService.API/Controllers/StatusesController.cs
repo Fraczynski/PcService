@@ -57,11 +57,22 @@ namespace PcService.API.Controllers
             return Ok(statusesToReturn);
         }
 
-        [HttpGet]
+        [HttpGet("equipments")]
         [Authorize(Policy = "RequireSalesmanRole")]
         public async Task<IActionResult> GetAllEquipmentStatuses()
         {
             var statusList = await _statusesRepo.GetAllEquipmentStatuses();
+
+            var statusesToReturn = _mapper.Map<List<StatusToReturnDto>>(statusList);
+
+            return Ok(statusesToReturn);
+        }
+
+        [HttpGet("elements")]
+        [Authorize(Policy = "RequireServicemanRole")]
+        public async Task<IActionResult> GetAllElementStatuses()
+        {
+            var statusList = await _statusesRepo.GetAllElementStatuses();
 
             var statusesToReturn = _mapper.Map<List<StatusToReturnDto>>(statusList);
 

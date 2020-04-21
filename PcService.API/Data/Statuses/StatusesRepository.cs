@@ -56,5 +56,12 @@ namespace PcService.API.Data.Statuses
 
             return statusList;
         }
+
+        public async Task<List<ElementStatus>> GetAllElementStatuses()
+        {
+            var statusList = await _context.ElementStatuses.ToListAsync();
+
+            return statusList;
+        }
     }
 }

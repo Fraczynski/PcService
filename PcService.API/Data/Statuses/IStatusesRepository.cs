@@ -13,5 +13,6 @@ namespace PcService.API.Data.Statuses
         Task<List<EquipmentStatus>> GetSalesmanEquipmentStatuses(int salesmanId);
         Task<List<ElementStatus>> GetServicemanElementStatuses(int servicemanId);
         Task<List<EquipmentStatus>> GetAllEquipmentStatuses();
+        Task<List<ElementStatus>> GetAllElementStatuses();
     }
 }

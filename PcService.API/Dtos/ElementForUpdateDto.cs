@@ -6,7 +6,7 @@ namespace PcService.API.Dtos
     {
         public int Id { get; set; }
         public int EquipmentId { get; set; }
-        public int StatusId { get; set; }
+        public int Status { get; set; }
         public string Description { get; set; }
         public bool WarrantyRepair { get; set; }
         public Nullable<double> PartsCost { get; set; }

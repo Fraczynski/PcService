@@ -80,26 +80,9 @@ namespace PcService.API.Controllers
         }
 
         [HttpGet("client/{clientId}")]
-        [Authorize(Policy = "RequireAuthorized")]
+        [Authorize(Policy = "RequireClientRole")]
         public async Task<IActionResult> GetClientEquipments(int clientId, [FromQuery] UserParams userParams)
         {
-            if (clientId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-            {
-                var roles = User.FindAll(ClaimTypes.Role);
-                var access = false;
-                foreach (var role in roles)
-                {
-                    if (role.Value == "Salesman" || role.Value == "Serviceman" || role.Value == "Administrator")
-                    {
-                        access = true;
-                    }
-                }
-                if (access == false)
-                {
-                    return Unauthorized();
-                }
-            }
-
             var equipments = await _repo.GetUserEquipments(clientId, userParams);
 
             var equipmentsToReturn = _mapper.Map<IEnumerable<EquipmentToReturnDto>>(equipments);

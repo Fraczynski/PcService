@@ -27,7 +27,7 @@ namespace PcService.API.Data.Equipments
 
         public async Task<PagedList<Equipment>> GetAllEquipments(UserParams userParams)
         {
-            var equipments = _context.Equipments.Include(c => c.Client).AsQueryable();
+            var equipments = _context.Equipments.Include(c => c.Client).Include(e => e.Status).Include(s => s.Employee).AsQueryable();
 
             equipments = filterResults(equipments, userParams);
 
@@ -36,14 +36,14 @@ namespace PcService.API.Data.Equipments
 
         public async Task<Equipment> GetEquipment(int id)
         {
-            var equipment = await _context.Equipments.FirstOrDefaultAsync(e => e.Id == id);
+            var equipment = await _context.Equipments.Include(e => e.Status).FirstOrDefaultAsync(e => e.Id == id);
 
             return equipment;
         }
 
         public async Task<PagedList<Equipment>> GetUserEquipments(int clientId, UserParams userParams)
         {
-            var equipments = _context.Equipments.Include(e => e.Employee).Where(e => e.ClientId == clientId);
+            var equipments = _context.Equipments.Include(e => e.Employee).Include(e => e.Status).Where(e => e.ClientId == clientId);
 
             equipments = filterResults(equipments, userParams);
 
@@ -66,9 +66,9 @@ namespace PcService.API.Data.Equipments
             {
                 equipments = equipments.Where(e => e.Name.ToLower().Contains(userParams.Name.ToLower()));
             }
-            if (!string.IsNullOrEmpty(userParams.Status))
+            if (userParams.Status != null)
             {
-                equipments = equipments.Where(r => r.Status.Equals(userParams.Status));
+                equipments = equipments.Where(r => r.Status.Id == userParams.Status);
             }
             if (!string.IsNullOrEmpty(userParams.ProblemDescription))
             {

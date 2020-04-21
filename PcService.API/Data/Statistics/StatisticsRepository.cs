@@ -50,17 +50,17 @@ namespace PcService.API.Data.Statistics
         private IQueryable<Element> Filter(IQueryable<Element> elements, StatisticParams statisticParams)
         {
             elements = elements.OrderBy(e => e.Name.Name);
-            if (!string.IsNullOrEmpty(statisticParams.ElementName))
+            if (statisticParams.ElementName != null)
             {
-                elements = elements.Where(e => e.Name.Name.ToLower().Equals(statisticParams.ElementName.ToLower()));
+                elements = elements.Where(e => e.Name.Id == statisticParams.ElementName);
             }
             if (!string.IsNullOrEmpty(statisticParams.ServicemanName))
             {
                 elements = elements.Where(e => e.Serviceman.UserName.ToLower().Contains(statisticParams.ServicemanName.ToLower()));
             }
-            if (!string.IsNullOrEmpty(statisticParams.ElementStatus))
+            if (statisticParams.ElementStatus != null)
             {
-                elements = elements.Where(r => r.Status.Equals(statisticParams.ElementStatus));
+                elements = elements.Where(r => r.Status.Id == statisticParams.ElementStatus);
             }
             if (statisticParams.MinEquipmentRequestDate != null)
             {
