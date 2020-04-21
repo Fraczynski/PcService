@@ -4,6 +4,7 @@ import { ElementsService } from 'src/app/_services/elements/elements.service';
 import { AlertifyService } from 'src/app/_services/alertify/alertify.service';
 import { Element } from 'src/app/_models/element';
 import { BsModalRef } from 'ngx-bootstrap';
+import { StatusesService } from 'src/app/_services/statuses/statuses.service';
 
 @Component({
   selector: 'app-edit-element-modal',
@@ -15,12 +16,14 @@ export class EditElementModalComponent implements OnInit {
   editedElement: Element;
   elementForm: FormGroup;
   boolOptions = [true, false];
+  statusOptions;
 
   constructor(private elementsService: ElementsService, private alertify: AlertifyService, private formBuilder: FormBuilder,
-    public bsModalRef: BsModalRef) { }
+    public bsModalRef: BsModalRef, private statusesService: StatusesService) { }
 
   ngOnInit() {
     this.createElementForm();
+    this.getStatusList();
   }
 
   createElementForm() {
@@ -42,6 +45,14 @@ export class EditElementModalComponent implements OnInit {
       this.bsModalRef.hide();
     }, error => {
       console.log(error);
+      this.alertify.error(error);
+    });
+  }
+
+  getStatusList() {
+    this.statusesService.getElementStatuses().subscribe((response) => {
+      this.statusOptions = response;
+    }, error => {
       this.alertify.error(error);
     });
   }

@@ -3,6 +3,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { EquipmentsService } from '../_services/equipments/equipments.service';
 import { AlertifyService } from '../_services/alertify/alertify.service';
+import { StatusesService } from '../_services/statuses/statuses.service';
 
 @Component({
   selector: 'app-equipments-filter',
@@ -26,13 +27,12 @@ import { AlertifyService } from '../_services/alertify/alertify.service';
 export class EquipmentsFilterComponent implements OnInit {
   @Input() currentUserId;
   @Input() employee;
-  @Input() elementNameOptions;
-  @Input() warrantyRepairOptions = ['Yes', 'No'];
   filterForm: FormGroup;
   @Output() form = new EventEmitter<FormGroup>();
-  statusOptions: string[];
+  statusOptions;
 
-  constructor(private formBuilder: FormBuilder, private equipmentsService: EquipmentsService, private alertify: AlertifyService) { }
+  constructor(private formBuilder: FormBuilder, private equipmentsService: EquipmentsService, private alertify: AlertifyService,
+    private statusesService: StatusesService) { }
 
   ngOnInit() {
     this.filterForm = this.formBuilder.group({
@@ -60,10 +60,18 @@ export class EquipmentsFilterComponent implements OnInit {
   }
 
   getStatusList() {
-    this.equipmentsService.getStatusList(this.currentUserId).subscribe((response: string[]) => {
-      this.statusOptions = response;
-    }, error => {
-      this.alertify.error(error);
-    });
+    if (!this.employee && this.currentUserId !== null && this.currentUserId) {
+      this.statusesService.getClientStatuses(this.currentUserId).subscribe((response) => {
+        this.statusOptions = response;
+      }, error => {
+        this.alertify.error(error);
+      });
+    } else {
+      this.statusesService.getEquipmentStatuses().subscribe((response) => {
+        this.statusOptions = response;
+      }, error => {
+        this.alertify.error(error);
+      });
+    }
   }
 }

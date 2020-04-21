@@ -3,6 +3,8 @@ import { BsModalRef } from 'ngx-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UserService } from 'src/app/_services/user/user.service';
 import { trigger, style, animate, transition } from '@angular/animations';
+import { EquipmentsService } from 'src/app/_services/equipments/equipments.service';
+import { AlertifyService } from 'src/app/_services/alertify/alertify.service';
 
 @Component({
   selector: 'app-equipment-modal',
@@ -28,7 +30,8 @@ export class EquipmentModalComponent implements OnInit {
   equipmentForm: FormGroup;
   clientNameExists: boolean = null;
 
-  constructor(public bsModalRef: BsModalRef, private formBuilder: FormBuilder, private userService: UserService) { }
+  constructor(public bsModalRef: BsModalRef, private formBuilder: FormBuilder, private userService: UserService,
+    private equipmentsService: EquipmentsService, private alertify: AlertifyService) { }
 
   ngOnInit() {
     this.equipmentForm = this.formBuilder.group({
@@ -39,8 +42,13 @@ export class EquipmentModalComponent implements OnInit {
   }
 
   addEquipment() {
-    this.addNewEquipment.emit(this.equipmentForm);
-    this.bsModalRef.hide();
+    this.equipmentsService.addEquipment(this.equipmentForm.value).subscribe(() => {
+      this.alertify.success('Dodano');
+      this.addNewEquipment.emit();
+      this.bsModalRef.hide();
+    }, error => {
+      this.alertify.error(error);
+    });
   }
 
   checkClientExists() {

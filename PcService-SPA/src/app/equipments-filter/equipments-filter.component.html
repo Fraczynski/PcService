@@ -18,7 +18,7 @@
     <div class="form-group relative">
       <select class="form-control" formControlName="status">
         <option value="null" disabled>- Status -</option>
-        <option *ngFor="let status of statusOptions" [value]="status">{{status}}</option>
+        <option *ngFor="let status of statusOptions" [value]="status.id">{{status.name}}</option>
       </select>
       <button *ngIf="this.filterForm.controls.status.dirty && this.filterForm.controls.status.value.length > 0"
         class="feedback" [@enterAnimation] (click)="this.filterForm.controls.status.reset()"><i
@@ -65,15 +65,13 @@
       <button class="btn btn-success" [disabled]="!filterForm.dirty" type="submit">Filtruj</button>
       <button class="btn btn-info" (click)="resetForm()">Resetuj</button>
     </div>
-
-    <div class="col">
-      <div class="btn-group float-right" btnRadioGroup formControlName="orderBy">
-        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="id">ID</button>
-        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="name">Nazwa</button>
-        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="status">Status</button>
-        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="requestDate">Data przyjęcia</button>
-        <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="releaseDate">Data wydania</button>
-      </div>
-    </div>
   </form>
+
+  <div class="btn-group float-right" btnRadioGroup formControlName="orderBy">
+    <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="id">ID</button>
+    <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="name">Nazwa</button>
+    <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="status">Status</button>
+    <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="requestDate">Data przyjęcia</button>
+    <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="releaseDate">Data wydania</button>
+  </div>
 </div>

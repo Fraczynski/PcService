@@ -79,14 +79,8 @@ export class EquipmentsComponent implements OnInit {
 
   addEquipmentModal() {
     this.bsModalRef = this.modalService.show(EquipmentModalComponent);
-    this.bsModalRef.content.addNewEquipment.subscribe((equipment) => {
-      this.equipmentsService.addEquipment(equipment.value).subscribe(() => {
-        this.getEquipments();
-        this.alertify.success('Dodano');
-        this.getEquipments(new Object());
-      }, error => {
-        this.alertify.error(error);
-      });
+    this.bsModalRef.content.addNewEquipment.subscribe(() => {
+      this.getEquipments(new Object());
     }, error => {
       this.alertify.error(error);
     });
@@ -95,7 +89,7 @@ export class EquipmentsComponent implements OnInit {
   assignClientToEquipment() {
     this.equipmentsService.assignClientToEquipment(this.equipmentNumberForm.value.equipmentNumber, this.currentUserId).subscribe(() => {
       this.getEquipments();
-      this.alertify.success('Pryzpisano sprzęt do Twojego konta');
+      this.alertify.success('Przypisano sprzęt do Twojego konta');
     }, error => {
       this.alertify.error(error);
     });

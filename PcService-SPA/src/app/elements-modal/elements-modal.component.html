@@ -6,7 +6,9 @@
           [attr.aria-expanded]="!isCollapsed" aria-controls="collapseBasic">Dodaj element</button>
         <button type="button" class="btn btn-primary mr-2" (click)="setRepairedStatus()">Oznacz jako naprawiony</button>
       </span>
-      <button type="button" class="btn btn-primary mr-2" (click)="releaseEquipment()">Wydaj sprzęt</button>
+      <span *ngIf="equipment.status === 'Naprawiony'">
+        <button type="button" class="btn btn-primary mr-2" (click)="releaseEquipment()">Wydaj sprzęt</button>
+      </span>
     </span>
   </div>
   <hr>
@@ -22,7 +24,7 @@
       <div class="form-group">
         <select class="form-control" formControlName="warrantyRepair">
           <option value="null" disabled>- Naprawa gwarancyjna -</option>
-          <option *ngFor="let option of boolOptions" [value]="option">{{option}}</option>
+          <option *ngFor="let option of boolOptions" [value]="option">{{option ? 'Tak' : 'Nie'}}</option>
         </select>
       </div>
 

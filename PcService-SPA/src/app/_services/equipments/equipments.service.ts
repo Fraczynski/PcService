@@ -50,18 +50,6 @@ export class EquipmentsService {
     return this.http.patch(this.baseUrl + '/' + equipmentId + '/assign', { clientId });
   }
 
-  updateStatus(equipmentId: number, status) {
-    return this.http.patch(this.baseUrl + '/' + equipmentId + '/status', status);
-  }
-
-  getStatusList(clientId: number) {
-    if (clientId) {
-      return this.http.get(this.baseUrl + '/' + clientId + '/statusList');
-    } else {
-      return this.http.get(this.baseUrl + '/statusList');
-    }
-  }
-
   searchEquipment(equipmentId: number) {
     return this.http.get(this.baseUrl + '/' + equipmentId);
   }

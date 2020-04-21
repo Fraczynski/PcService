@@ -7,6 +7,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ElementNamesService } from '../_services/elementNames/elementNames.service';
 import { ElementName } from '../_models/elementName';
 import { EquipmentsService } from '../_services/equipments/equipments.service';
+import { StatusesService } from '../_services/statuses/statuses.service';
 
 @Component({
   selector: 'app-elements-modal',
@@ -20,12 +21,12 @@ export class ElementsModalComponent implements OnInit {
   elements: Element[];
   isCollapsed = true;
   elementForm: FormGroup;
-  statusOptions: string[];
+  statusOptions;
   nameOptions;
   boolOptions = [true, false];
 
   constructor(private alertify: AlertifyService, private elementsService: ElementsService, private bsModalRef: BsModalRef,
-    private elementNamesService: ElementNamesService, private formBuilder: FormBuilder, private equipmentService: EquipmentsService) { }
+    private elementNamesService: ElementNamesService, private formBuilder: FormBuilder, private equipmentService: EquipmentsService, private statusesService: StatusesService) { }
 
   ngOnInit() {
     this.getEquipmentElements();
