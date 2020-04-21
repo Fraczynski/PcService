@@ -1,0 +1,67 @@
+<div class="container">
+  <form class="form-inline" [formGroup]="filterForm" (ngSubmit)="filter()">
+
+    <div class="form-group relative">
+      <input type="text" class="form-control" formControlName="servicemanName" placeholder="Nazwa serwisanta">
+      <button
+        *ngIf="this.filterForm.controls.servicemanName.dirty && this.filterForm.controls.servicemanName.value.length > 0"
+        class="feedback" [@enterAnimation] (click)="this.filterForm.controls.servicemanName.reset()"><i
+          class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <select class="form-control" formControlName="elementName">
+        <option value="null" disabled>- Nazwa elementu -</option>
+        <option *ngFor="let name of elementNames" [value]="name.id">{{name.name}}</option>
+      </select>
+      <button
+        *ngIf="this.filterForm.controls.elementName.dirty && this.filterForm.controls.elementName.value.length > 0"
+        class="feedback" [@enterAnimation] (click)="this.filterForm.controls.elementName.reset()"><i
+          class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <select class="form-control" formControlName="elementStatus">
+        <option value="null" disabled>- Status -</option>
+        <option *ngFor="let status of statusOptions" [value]="status.id">{{status.name}}</option>
+      </select>
+      <button
+        *ngIf="this.filterForm.controls.elementStatus.dirty && this.filterForm.controls.elementStatus.value.length > 0"
+        class="feedback" [@enterAnimation] (click)="this.filterForm.controls.elementStatus.reset()"><i
+          class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <input class="form-control" placeholder="Minimalna data przyjęcia" formControlName="minEquipmentRequestDate"
+        type="text" bsDatepicker>
+      <button *ngIf="this.filterForm.controls.minEquipmentRequestDate.dirty" class="feedback" [@enterAnimation]
+        (click)="this.filterForm.controls.minEquipmentRequestDate.reset()"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <input class="form-control" placeholder="Maksymalna data przyjęcia" formControlName="maxEquipmentRequestDate"
+        type="text" bsDatepicker>
+      <button *ngIf="this.filterForm.controls.maxEquipmentRequestDate.dirty" class="feedback" [@enterAnimation]
+        (click)="this.filterForm.controls.maxEquipmentRequestDate.reset()"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <input class="form-control" placeholder="Minimalna data wydania" formControlName="minEquipmentReleaseDate"
+        type="text" bsDatepicker>
+      <button *ngIf="this.filterForm.controls.minEquipmentReleaseDate.dirty" class="feedback" [@enterAnimation]
+        (click)="this.filterForm.controls.minEquipmentReleaseDate.reset()"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group relative">
+      <input class="form-control" placeholder="Maksymalna data wydania" formControlName="maxEquipmentReleaseDate"
+        type="text" bsDatepicker>
+      <button *ngIf="this.filterForm.controls.maxEquipmentReleaseDate.dirty" class="feedback" [@enterAnimation]
+        (click)="this.filterForm.controls.maxEquipmentReleaseDate.reset()"><i class="fa fa-times"></i></button>
+    </div>
+
+    <div class="form-group text-center">
+      <button class="btn btn-success" [disabled]="!filterForm.dirty" type="submit">Filtruj</button>
+      <button class="btn btn-info" (click)="resetForm()">Resetuj</button>
+    </div>
+  </form>
+</div>
