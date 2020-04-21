@@ -25,4 +25,8 @@ export class UserService {
   editProfile(profile) {
     return this.http.put(this.baseUrl + '/edit', profile);
   }
+
+  getContactDetails(userName: string) {
+    return this.http.get(this.baseUrl + '/contact/' + userName);
+  }
 }

@@ -34,7 +34,7 @@
     </div>
 
     <div class="form-group relative">
-      <input class="form-control" placeholder="Minimalny data przyjęcia" formControlName="minRequestDate" type="text"
+      <input class="form-control" placeholder="Minimalna data przyjęcia" formControlName="minRequestDate" type="text"
         bsDatepicker>
       <button *ngIf="this.filterForm.controls.minRequestDate.dirty" class="feedback" [@enterAnimation]
         (click)="this.filterForm.controls.minRequestDate.reset()"><i class="fa fa-times"></i></button>
@@ -67,11 +67,13 @@
     </div>
   </form>
 
-  <div class="btn-group float-right" btnRadioGroup formControlName="orderBy">
-    <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="id">ID</button>
-    <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="name">Nazwa</button>
-    <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="status">Status</button>
-    <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="requestDate">Data przyjęcia</button>
-    <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="releaseDate">Data wydania</button>
+  <div [formGroup]="filterForm">
+    <div class="btn-group float-right" btnRadioGroup formControlName="orderBy">
+      <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="id">ID</button>
+      <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="name">Nazwa</button>
+      <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="status">Status</button>
+      <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="requestDate">Data przyjęcia</button>
+      <button type="button" (click)="filter()" class="btn btn-primary" btnRadio="releaseDate">Data wydania</button>
+    </div>
   </div>
 </div>

@@ -11,13 +11,19 @@
         </p>
   </div>
   <div class="card-footer text-muted text-center">
-    <div class="inline">
-      <span *ngIf="equipment.employeeName !== null" class="float-left">
-        Pracownik: {{equipment.employeeName}}
-      </span>
-      <span class="float-right" *ngIf="equipment.clientName !== null">
-        Klient: {{equipment.clientName}}
-      </span>
+    <span *ngIf="equipment.employeeName !== null" class="float-left"
+      (click)="$event.stopPropagation();toggleCollapse(equipment.employeeName)">
+      Pracownik: {{equipment.employeeName}}
+    </span>
+    <span class="float-right" *ngIf="equipment.clientName !== null"
+      (click)="$event.stopPropagation();toggleCollapse(equipment.clientName)">
+      Klient: {{equipment.clientName}}
+    </span>
+    <br>
+    <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">
+      <span>Numer telefonu: {{contactDetails.phoneNumber}}</span>
+      <br>
+      <span>Adres email: {{contactDetails.email}}</span>
     </div>
   </div>
 </div>

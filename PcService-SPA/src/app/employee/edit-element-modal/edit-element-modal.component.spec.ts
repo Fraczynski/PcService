@@ -11,9 +11,9 @@ describe('EditElementModalComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditElementModalComponent ]
+      declarations: [EditElementModalComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

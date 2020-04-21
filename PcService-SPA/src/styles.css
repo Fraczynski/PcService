@@ -6,10 +6,27 @@
 @import '../node_modules/alertifyjs/build/css/themes/bootstrap.min.css';
 @import "../node_modules/ngx-bootstrap/datepicker/bs-datepicker.css";
 
+
 :disabled{
     cursor: default;
 }
 
 .disabled{
     cursor: default;
+}
+
+.relative{
+   position: relative;
+   overflow: hidden;
+}
+
+.feedback{
+   position: absolute;
+   right: 0px;
+   border: none;
+   background: none;
+}
+
+input{
+   width: 100%;
 }

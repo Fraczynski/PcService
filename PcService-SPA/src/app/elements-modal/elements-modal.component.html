@@ -42,7 +42,7 @@
 </div>
 <hr class="divider">
 <div *ngIf="elements !== undefined && elements.length > 0">
-  <div *ngFor="let element of elements">
+  <div *ngFor="let element of elements" class="m-2">
     <app-element-card [element]="element"></app-element-card>
   </div>
 </div>

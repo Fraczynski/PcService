@@ -15,7 +15,14 @@
       <p class="text-muted" *ngIf="element.serviceCost">
         Koszt usługi: {{element.serviceCost}}
       </p>
-      <footer class="blockquote-footer" *ngIf="element.servicemanName !== null ">
-        {{element.servicemanName}}</footer>
+      <div class="text-muted container" *ngIf="element.servicemanName !== null">
+        <p class="row">Serwisant:
+          <a class="mx-2" (click)="getContactDetails()" [attr.aria-expanded]="!isCollapsed"
+            aria-controls="collapseBasic">{{element.servicemanName}}</a>
+          <span id="collapseBasic" class="my-auto" [collapse]="isCollapsed" [isAnimated]="true">
+            <p>Nr telefonu: {{contactDetails.phoneNumber}}</p>
+            <p>Email: {{contactDetails.email}}</p>
+          </span>
+      </div>
   </div>
 </div>

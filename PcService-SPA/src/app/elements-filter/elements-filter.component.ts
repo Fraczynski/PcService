@@ -44,7 +44,7 @@ export class ElementsFilterComponent implements OnInit {
       maxNewWarrantyPeriod: [''],
       orderBy: 'id'
     });
-    // this.getStatusList();
+    this.getStatusList();
   }
 
   filter() {

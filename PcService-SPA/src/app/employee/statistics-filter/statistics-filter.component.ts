@@ -30,6 +30,7 @@ export class StatisticsFilterComponent implements OnInit {
       maxEquipmentReleaseDate: ['']
     });
     this.getStatusList();
+    this.getElementNames();
   }
 
   filter() {
