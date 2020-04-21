@@ -4,10 +4,12 @@ import { StatusesService } from 'src/app/_services/statuses/statuses.service';
 import { EquipmentsService } from 'src/app/_services/equipments/equipments.service';
 import { AlertifyService } from 'src/app/_services/alertify/alertify.service';
 import { ElementNamesService } from 'src/app/_services/elementNames/elementNames.service';
+import { ResetInputAnimation } from 'src/app/_animations/resetInputAnimation';
 
 @Component({
   selector: 'app-statistics-filter',
   templateUrl: './statistics-filter.component.html',
+  animations: [ResetInputAnimation.animeTrigger],
   styleUrls: ['./statistics-filter.component.css']
 })
 export class StatisticsFilterComponent implements OnInit {

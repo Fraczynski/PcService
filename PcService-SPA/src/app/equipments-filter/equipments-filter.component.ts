@@ -4,23 +4,11 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { EquipmentsService } from '../_services/equipments/equipments.service';
 import { AlertifyService } from '../_services/alertify/alertify.service';
 import { StatusesService } from '../_services/statuses/statuses.service';
+import { ResetInputAnimation } from '../_animations/resetInputAnimation';
 
 @Component({
   selector: 'app-equipments-filter',
-  animations: [
-    trigger(
-      'enterAnimation', [
-      transition(':enter', [
-        style({ transform: 'translateX(100%)', opacity: 0 }),
-        animate('500ms', style({ transform: 'translateX(0)', opacity: 1 }))
-      ]),
-      transition(':leave', [
-        style({ transform: 'translateX(0)', opacity: 1 }),
-        animate('500ms', style({ transform: 'translateX(100%)', opacity: 0 }))
-      ])
-    ]
-    )
-  ],
+  animations: [ResetInputAnimation.animeTrigger],
   templateUrl: './equipments-filter.component.html',
   styleUrls: ['./equipments-filter.component.css']
 })
