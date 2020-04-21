@@ -98,5 +98,19 @@ namespace PcService.API.Controllers
             }
             return BadRequest("Fail");
         }
+
+        [HttpGet("contact/{userName}")]
+        [Authorize]
+        public async Task<IActionResult> GetContactDetails(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+
+            var contactDetails = _mapper.Map<ContactDetailsToReturnDto>(user);
+
+            if (contactDetails != null)
+                return Ok(contactDetails);
+            else
+                return BadRequest("Użytkownik nie istnieje");
+        }
     }
 }

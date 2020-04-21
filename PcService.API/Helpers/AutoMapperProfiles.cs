@@ -34,6 +34,7 @@ namespace PcService.API.Helpers
             CreateMap<User, UserToReturnDto>();
             CreateMap<User, UserToEditDto>();
             CreateMap<UserToEditDto, User>();
+            CreateMap<User, ContactDetailsToReturnDto>();
         }
     }
 }
