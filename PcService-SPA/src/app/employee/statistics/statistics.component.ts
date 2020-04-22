@@ -30,6 +30,7 @@ export class StatisticsComponent implements OnInit {
   legend = false;
   name: string;
   type = 'name';
+  form;
 
   constructor(private statisticsService: StatisticsService, private alertify: AlertifyService) { }
 
@@ -58,8 +59,11 @@ export class StatisticsComponent implements OnInit {
   }
 
   loadStatistics(type, form?) {
+    if (form) {
+      this.form = form;
+    }
     this.type = type;
-    this.statisticsService.loadStatistics(type, form).subscribe((statistics: [string, number][]) => {
+    this.statisticsService.loadStatistics(type, this.form).subscribe((statistics: [string, number][]) => {
       this.statistics = statistics;
       this.correctNames();
       this.drawChart();

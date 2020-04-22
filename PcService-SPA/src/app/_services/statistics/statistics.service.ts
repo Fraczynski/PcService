@@ -18,9 +18,11 @@ export class StatisticsService {
     return this.http.get(this.baseUrl + 'statistics/' + type, { params });
   }
 
-  loadServicemanStatistics(type: string, statisticsParams?) {
+  loadServicemanStatistics(type: string, statisticParams?) {
     let params = new HttpParams();
-    params = params.append('statisticsParams', statisticsParams);
+    if (statisticParams) {
+      params = this.addParams(statisticParams);
+    }
     return this.http.get(this.baseUrl + 'statistics/serviceman/' + type, { params });
   }
 

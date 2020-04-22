@@ -33,11 +33,13 @@ export class ServicemanStatisticsComponent implements OnInit {
   ];
   legend = false;
   name: string;
+  type = 'name';
+  form;
 
   constructor(private statisticsService: StatisticsService, private alertify: AlertifyService) { }
 
   ngOnInit() {
-    this.loadStatistics();
+    this.loadStatistics(this.type);
   }
 
   randomizeColors() {
@@ -60,8 +62,13 @@ export class ServicemanStatisticsComponent implements OnInit {
     this.colors = [{ backgroundColor: colors }];
   }
 
-  loadStatistics(type = 'name') {
-    this.statisticsService.loadServicemanStatistics(type).subscribe((statistics: [string, number][]) => {
+  loadStatistics(type, form?) {
+    if (form) {
+      this.form = form;
+      debugger;
+    }
+    this.type = type;
+    this.statisticsService.loadServicemanStatistics(type, this.form).subscribe((statistics: [string, number][]) => {
       this.statistics = statistics;
       this.correctNames();
       this.drawChart();

@@ -1,7 +1,7 @@
 <div class="container">
   <form class="form-inline" [formGroup]="filterForm" (ngSubmit)="filter()">
 
-    <div class="form-group relative">
+    <div *ngIf="!serviceman" class="form-group relative">
       <input type="text" class="form-control" formControlName="servicemanName" placeholder="Nazwa serwisanta">
       <button
         *ngIf="this.filterForm.controls.servicemanName.dirty && this.filterForm.controls.servicemanName.value.length > 0"

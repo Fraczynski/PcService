@@ -7,6 +7,16 @@
         gwarancyjna</button>
     </div>
   </div>
+  <div class="row m-4">
+    <div class="mx-auto">
+      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('bar')">Kolumnowy</button>
+      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('line')">Liniowy</button>
+      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('pie')">Kołowy</button>
+      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('doughnut')">Pierścieniowy</button>
+      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('polarArea')">Powierzchniowy</button>
+    </div>
+  </div>
+  <app-statistics-filter [serviceman]='true' (form)="loadStatistics(type, $event)"></app-statistics-filter>
   <div class="row">
     <div class="mx-auto">
       <h2>{{name}}</h2>
@@ -27,15 +37,6 @@
           </tr>
         </tbody>
       </table>
-    </div>
-  </div>
-  <div class="row m-4">
-    <div class="mx-auto">
-      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('bar')">Kolumnowy</button>
-      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('line')">Liniowy</button>
-      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('pie')">Kołowy</button>
-      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('doughnut')">Pierścieniowy</button>
-      <button class="btn btn-primary btn-lg mr-2" (click)="setChartType('polarArea')">Powierzchniowy</button>
     </div>
   </div>
 </div>

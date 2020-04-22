@@ -31,7 +31,7 @@ namespace PcService.API.Data.Statistics
 
         public async Task<List<(string, int)>> GetStatistics(string type, StatisticParams statisticParams)
         {
-            var elements = _context.Elements.Include(n => n.Name).Include(s => s.Serviceman).Include(e => e.Equipment).AsQueryable();
+            var elements = _context.Elements.Include(n => n.Name).Include(s => s.Serviceman).Include(e => e.Equipment).Include(s => s.Status).AsQueryable();
 
             elements = Filter(elements, statisticParams);
 
@@ -40,7 +40,7 @@ namespace PcService.API.Data.Statistics
 
         public async Task<List<(string, int)>> GetServicemanStatistics(int servicemanId, string type, StatisticParams statisticParams)
         {
-            var elements = _context.Elements.Where(e => e.ServicemanId == servicemanId).Include(n => n.Name).Include(e => e.Equipment).AsQueryable();
+            var elements = _context.Elements.Where(e => e.ServicemanId == servicemanId).Include(n => n.Name).Include(e => e.Equipment).Include(s => s.Status).AsQueryable();
 
             elements = Filter(elements, statisticParams);
 

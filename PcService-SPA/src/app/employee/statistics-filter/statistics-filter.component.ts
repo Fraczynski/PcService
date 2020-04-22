@@ -13,6 +13,7 @@ import { ResetInputAnimation } from 'src/app/_animations/resetInputAnimation';
   styleUrls: ['./statistics-filter.component.css']
 })
 export class StatisticsFilterComponent implements OnInit {
+  @Input() serviceman = false;
   filterForm: FormGroup;
   @Output() form = new EventEmitter<FormGroup>();
   statusOptions;
