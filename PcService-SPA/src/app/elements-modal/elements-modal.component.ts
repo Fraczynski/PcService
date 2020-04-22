@@ -2,12 +2,13 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AlertifyService } from '../_services/alertify/alertify.service';
 import { ElementsService } from '../_services/elements/elements.service';
 import { Equipment } from '../_models/equipment';
-import { BsModalRef } from 'ngx-bootstrap';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ElementNamesService } from '../_services/elementNames/elementNames.service';
 import { ElementName } from '../_models/elementName';
 import { EquipmentsService } from '../_services/equipments/equipments.service';
 import { StatusesService } from '../_services/statuses/statuses.service';
+import { ReleaseConfirmModalComponent } from '../employee/release-confirm-modal/release-confirm-modal.component';
 
 @Component({
   selector: 'app-elements-modal',
@@ -26,7 +27,8 @@ export class ElementsModalComponent implements OnInit {
   boolOptions = [true, false];
 
   constructor(private alertify: AlertifyService, private elementsService: ElementsService, private bsModalRef: BsModalRef,
-    private elementNamesService: ElementNamesService, private formBuilder: FormBuilder, private equipmentService: EquipmentsService, private statusesService: StatusesService) { }
+    private elementNamesService: ElementNamesService, private formBuilder: FormBuilder, private equipmentService: EquipmentsService,
+    private statusesService: StatusesService, private modalService: BsModalService) { }
 
   ngOnInit() {
     this.getEquipmentElements();
@@ -71,11 +73,20 @@ export class ElementsModalComponent implements OnInit {
   }
 
   releaseEquipment() {
-    this.equipmentService.releaseEquipment(this.equipment.id).subscribe(() => {
-      this.alertify.success('Wydano');
-      this.refreshEquipments.emit(null);
-      this.equipmentService.getEquipment(this.equipment.id).subscribe((equipment: Equipment) => {
-        this.equipment = equipment;
+    const initialState = {
+      equipment: this.equipment,
+      elements: this.elements
+    };
+    this.bsModalRef = this.modalService.show(ReleaseConfirmModalComponent, { initialState });
+    this.bsModalRef.content.releaseEquipment.subscribe(() => {
+      this.equipmentService.releaseEquipment(this.equipment.id).subscribe(() => {
+        this.alertify.success('Wydano');
+        this.refreshEquipments.emit(null);
+        this.equipmentService.getEquipment(this.equipment.id).subscribe((equipment: Equipment) => {
+          this.equipment = equipment;
+        }, error => {
+          this.alertify.error(error);
+        });
       }, error => {
         this.alertify.error(error);
       });

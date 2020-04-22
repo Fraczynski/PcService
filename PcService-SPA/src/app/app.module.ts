@@ -42,6 +42,7 @@ import { ServicemanStatisticsComponent } from './employee/serviceman-statistics/
 import { AllEquipmentsComponent } from './employee/all-equipments/all-equipments.component';
 import { StatisticsFilterComponent } from './employee/statistics-filter/statistics-filter.component';
 import { PolishRolePipe } from './_pipes/polishRole/polishRole.pipe';
+import { ReleaseConfirmModalComponent } from './employee/release-confirm-modal/release-confirm-modal.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -75,7 +76,8 @@ export function tokenGetter() {
       ProfileEditorModalComponent,
       ServicemanStatisticsComponent,
       StatisticsFilterComponent,
-      PolishRolePipe
+      PolishRolePipe,
+      ReleaseConfirmModalComponent
    ],
    imports: [
       BrowserModule,

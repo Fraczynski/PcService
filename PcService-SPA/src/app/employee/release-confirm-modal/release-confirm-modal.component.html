@@ -1,0 +1,15 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Potwiedź wydanie: {{equipment.name}}</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p>Koszt części: {{partsCost}}</p>
+  <p>Koszt usługi: {{serviceCost}}</p>
+  <p>Całkowity koszt: {{totalCost}}</p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Anuluj</button>
+  <button type="button" class="btn btn-primary" (click)="confirm()">Zatwierdź</button>
+</div>
