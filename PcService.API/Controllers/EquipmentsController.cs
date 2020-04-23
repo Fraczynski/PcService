@@ -153,6 +153,14 @@ namespace PcService.API.Controllers
                 return BadRequest("Sprzęt nie istnieje");
             }
 
+            foreach (var element in equipmentFromRepo.Elements)
+            {
+                if (element.StatusId != 3)
+                {
+                    return BadRequest("Nie wszystkie elementy zostały naprawione");
+                }
+            }
+
             equipmentFromRepo.StatusId = 3;
 
             if (await _repo.SaveAll())

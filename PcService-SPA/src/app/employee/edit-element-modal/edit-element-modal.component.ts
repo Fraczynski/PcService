@@ -34,7 +34,7 @@ export class EditElementModalComponent implements OnInit {
       warrantyRepair: [this.editedElement.warrantyRepair],
       partsCost: [this.editedElement.partsCost],
       serviceCost: [this.editedElement.serviceCost],
-      newWarrantyPeriod: [this.editedElement.newWarrantyPeriod]
+      newWarrantyPeriod: [new Date(this.editedElement.newWarrantyPeriod)]
     });
   }
 
@@ -52,9 +52,13 @@ export class EditElementModalComponent implements OnInit {
   getStatusList() {
     this.statusesService.getElementStatuses().subscribe((response) => {
       this.statusOptions = response;
+      this.statusOptions.forEach(item => {
+        if (item.name === this.editedElement.status) {
+          this.elementForm.controls.status.setValue(item.id);
+        }
+      });
     }, error => {
       this.alertify.error(error);
     });
   }
-
 }

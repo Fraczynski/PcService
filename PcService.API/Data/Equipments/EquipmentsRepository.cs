@@ -36,7 +36,7 @@ namespace PcService.API.Data.Equipments
 
         public async Task<Equipment> GetEquipment(int id)
         {
-            var equipment = await _context.Equipments.Include(e => e.Status).FirstOrDefaultAsync(e => e.Id == id);
+            var equipment = await _context.Equipments.Include(e => e.Client).Include(e => e.Status).Include(e => e.Elements).FirstOrDefaultAsync(e => e.Id == id);
 
             return equipment;
         }
