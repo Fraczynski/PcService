@@ -1,0 +1,56 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Dane do faktury</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="container">
+    <div class="form-group">
+      <label>Nazwa klienta</label>
+      <input type="text" class="form-control" placeholder="Nazwa klienta" [(ngModel)]="equipment.clientName">
+    </div>
+    <div class="form-group">
+      <label>Nazwa sprzętu</label>
+      <input type="text" class="form-control" placeholder="Nazwa sprzętu" [(ngModel)]="equipment.name">
+    </div>
+    <hr>
+    <span *ngFor="let element of elements">
+      <hr>
+      <div class="row">
+        <div class="col-md-8">
+          <label>Nazwa elementu</label>
+          <input type="text" class="form-control" placeholder="Nazwa elementu" [(ngModel)]="element.name">
+        </div>
+        <div class="form-group col-md-4">
+          <label>Koszt elementu</label>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Koszt części" [(ngModel)]="element.partsCost">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">PLN</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <label>Nazwa usługi</label>
+          <input type="text" class="form-control" placeholder="Nazwa usługi" [(ngModel)]="element.description">
+        </div>
+        <div class="form-group col-md-4">
+          <label>Koszt usługi</label>
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Koszt usługi" [(ngModel)]="element.serviceCost">
+            <div class="input-group-append">
+              <span class="input-group-text" id="basic-addon2">PLN</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Anuluj</button>
+  <button type="button" class="btn btn-success" (click)="createInvoice()">Zatwierdź</button>
+</div>

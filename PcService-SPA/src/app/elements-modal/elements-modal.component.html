@@ -10,6 +10,9 @@
         <button type="button" class="btn btn-primary mr-2" (click)="releaseEquipment()">Wydaj sprzęt</button>
       </span>
     </span>
+    <span *ngIf="equipment.status === 'Wydany'">
+      <button type="button" class="btn btn-primary mr-2" (click)="showInvoiceModal()">Pobierz fakturę</button>
+    </span>
   </div>
   <hr>
   <div id="collapseBasic" [collapse]="isCollapsed" [isAnimated]="true">

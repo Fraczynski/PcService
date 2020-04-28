@@ -9,6 +9,8 @@ import { ElementName } from '../_models/elementName';
 import { EquipmentsService } from '../_services/equipments/equipments.service';
 import { StatusesService } from '../_services/statuses/statuses.service';
 import { ReleaseConfirmModalComponent } from '../employee/release-confirm-modal/release-confirm-modal.component';
+import { InvoicesService } from '../_services/invoices/invoices.service';
+import { InvoiceModalComponent } from '../employee/invoice-modal/invoice-modal.component';
 
 @Component({
   selector: 'app-elements-modal',
@@ -19,12 +21,13 @@ export class ElementsModalComponent implements OnInit {
   @Output() refreshEquipments = new EventEmitter();
   employee = false;
   equipment: Equipment;
-  elements: Element[];
+  elements = [];
   isCollapsed = true;
   elementForm: FormGroup;
   statusOptions;
   nameOptions;
   boolOptions = [true, false];
+  allElementsRepaired = true;
 
   constructor(private alertify: AlertifyService, private elementsService: ElementsService, private bsModalRef: BsModalRef,
     private elementNamesService: ElementNamesService, private formBuilder: FormBuilder, private equipmentService: EquipmentsService,
@@ -46,6 +49,7 @@ export class ElementsModalComponent implements OnInit {
   getEquipmentElements() {
     this.elementsService.getEquipmentElements(this.equipment.id).subscribe((response: Element[]) => {
       this.elements = response;
+      this.checkElements();
     }, error => {
       this.alertify.error(error);
     });
@@ -107,5 +111,22 @@ export class ElementsModalComponent implements OnInit {
     }, error => {
       this.alertify.error(error);
     });
+  }
+
+  showInvoiceModal() {
+    const initialState = {
+      equipment: Object.assign({}, this.equipment),
+      inputElements: this.elements
+    };
+    this.bsModalRef = this.modalService.show(InvoiceModalComponent, { initialState });
+  }
+
+  checkElements() {
+    for (const element of this.elements) {
+      if (element.partsCost === null || element.serviceCost === null) {
+        this.allElementsRepaired = false;
+        break;
+      }
+    }
   }
 }
