@@ -21,6 +21,7 @@ namespace PcService.API.Models
         public DateTime RequestDate { get; set; }
         public Nullable<DateTime> ReleaseDate { get; set; }
         public ICollection<Element> Elements { get; set; }
+        public string InvoiceId { get; set; }
     }
 
 }
