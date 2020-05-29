@@ -9,7 +9,8 @@
     <div class="form-group">
       <label for="status">Status</label>
       <select class="form-control" formControlName="status">
-        <option *ngFor="let status of statusOptions" [ngValue]="status.id">{{status.name}}</option>
+        <option *ngFor="let status of statusOptions" [ngValue]="status.id">{{status.name}}
+        </option>
       </select>
     </div>
 

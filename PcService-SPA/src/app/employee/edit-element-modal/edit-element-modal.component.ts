@@ -52,6 +52,7 @@ export class EditElementModalComponent implements OnInit {
   getStatusList() {
     this.statusesService.getElementStatuses().subscribe((response) => {
       this.statusOptions = response;
+      this.statusOptions.shift();
       this.statusOptions.forEach(item => {
         if (item.name === this.editedElement.status) {
           this.elementForm.controls.status.setValue(item.id);

@@ -67,7 +67,7 @@ export class ElementsComponent implements OnInit {
         if (message === 'confirm') {
           this.elementsService.assignElement(element.id).subscribe(() => {
             this.loadElements(this.elementsType);
-            this.alertify.success('Success');
+            this.alertify.success('Przypisano');
           }, error => {
             this.alertify.error(error);
           });

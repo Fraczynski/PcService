@@ -7,4 +7,5 @@ export interface Equipment {
    problemDescription: string;
    requestDate: Date;
    releaseDate?: Date;
+   invoiceId: string;
 }

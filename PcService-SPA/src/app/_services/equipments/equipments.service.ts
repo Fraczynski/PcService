@@ -66,6 +66,10 @@ export class EquipmentsService {
     return this.http.get(this.baseUrl + '/' + id);
   }
 
+  addInvoice(equipmentId: number, id: string) {
+    return this.http.patch(this.baseUrl + '/' + equipmentId + '/invoice', { id });
+  }
+
   addParams(page?, itemsPerPage?, userParams?): HttpParams {
     let params = new HttpParams();
 

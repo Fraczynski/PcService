@@ -3,26 +3,26 @@
   <div class="card-body">
     <h5 class="card-title text-center">{{element.name}}</h5>
     <p class=" card-text">
-      <p>{{element.description}}</p>
-      <p class="text-muted">
-        Naprawa Gwarancyjna: {{element.warrantyRepair === true ? 'Tak' : 'Nie'}}</p>
-      <p class="text-muted" *ngIf="element.newWarrantyPeriod">
-        Termin nowej gwarancji: {{element.newWarrantyPeriod | date}}
-      </p>
-      <p class="text-muted" *ngIf="element.partsCost">
-        Koszt części: {{element.partsCost}}
-      </p>
-      <p class="text-muted" *ngIf="element.serviceCost">
-        Koszt usługi: {{element.serviceCost}}
-      </p>
-      <div class="text-muted container" *ngIf="element.servicemanName !== null">
-        <p class="row">Serwisant:
-          <a class="mx-2" (click)="getContactDetails()" [attr.aria-expanded]="!isCollapsed"
-            aria-controls="collapseBasic">{{element.servicemanName}}</a>
-          <span id="collapseBasic" class="my-auto" [collapse]="isCollapsed" [isAnimated]="true">
-            <p>Nr telefonu: {{contactDetails.phoneNumber}}</p>
-            <p>Email: {{contactDetails.email}}</p>
-          </span>
-      </div>
+    <p>{{element.description}}</p>
+    <p class="text-muted">
+      Naprawa Gwarancyjna: {{element.warrantyRepair === true ? 'Tak' : 'Nie'}}</p>
+    <p class="text-muted" *ngIf="element.newWarrantyPeriod && element.newWarrantyPeriod > 2000">
+      Termin nowej gwarancji: {{element.newWarrantyPeriod | date}}
+    </p>
+    <p class="text-muted" *ngIf="element.partsCost">
+      Koszt części: {{element.partsCost}}
+    </p>
+    <p class="text-muted" *ngIf="element.serviceCost">
+      Koszt usługi: {{element.serviceCost}}
+    </p>
+    <div class="text-muted container" *ngIf="element.servicemanName !== null">
+      <p class="row">Serwisant:
+        <a class="mx-2" (click)="getContactDetails()" [attr.aria-expanded]="!isCollapsed"
+          aria-controls="collapseBasic">{{element.servicemanName}}</a>
+        <span id="collapseBasic" class="my-auto" [collapse]="isCollapsed" [isAnimated]="true">
+          <p>Nr telefonu: {{contactDetails.phoneNumber}}</p>
+          <p>Email: {{contactDetails.email}}</p>
+        </span>
+    </div>
   </div>
 </div>

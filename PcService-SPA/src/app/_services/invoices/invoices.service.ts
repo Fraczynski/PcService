@@ -5,8 +5,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
   providedIn: 'root'
 })
 export class InvoicesService {
-  private invoicesApi = 'https://pcservice.fakturownia.pl/invoices';
-  private apiToken = '5UItqBNWuwdllfvVekqL';
+  private invoicesApi = 'https://jankowalski152637.fakturownia.pl/invoices';
+  private apiToken = 'BzGJwvgUOAAg3EX7to2o';
 
   constructor(private http: HttpClient) { }
 

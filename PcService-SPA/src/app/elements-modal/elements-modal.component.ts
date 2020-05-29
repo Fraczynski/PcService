@@ -31,7 +31,7 @@ export class ElementsModalComponent implements OnInit {
 
   constructor(private alertify: AlertifyService, private elementsService: ElementsService, private bsModalRef: BsModalRef,
     private elementNamesService: ElementNamesService, private formBuilder: FormBuilder, private equipmentService: EquipmentsService,
-    private statusesService: StatusesService, private modalService: BsModalService) { }
+    private statusesService: StatusesService, private modalService: BsModalService, private invoicesService: InvoicesService) { }
 
   ngOnInit() {
     this.getEquipmentElements();
@@ -113,12 +113,16 @@ export class ElementsModalComponent implements OnInit {
     });
   }
 
-  showInvoiceModal() {
-    const initialState = {
-      equipment: Object.assign({}, this.equipment),
-      inputElements: this.elements
-    };
-    this.bsModalRef = this.modalService.show(InvoiceModalComponent, { initialState });
+  getInvoice() {
+    if (this.equipment.invoiceId === null) {
+      const initialState = {
+        equipment: Object.assign({}, this.equipment),
+        inputElements: this.elements
+      };
+      this.bsModalRef = this.modalService.show(InvoiceModalComponent, { initialState });
+    } else {
+      this.invoicesService.getInvoice(this.equipment.invoiceId);
+    }
   }
 
   checkElements() {
