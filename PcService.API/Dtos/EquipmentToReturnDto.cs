@@ -12,5 +12,6 @@ namespace PcService.API.Dtos
         public string ProblemDescription { get; set; }
         public DateTime RequestDate { get; set; }
         public Nullable<DateTime> ReleaseDate { get; set; }
+        public string InvoiceId { get; set; }
     }
 }

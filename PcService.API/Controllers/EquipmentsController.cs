@@ -187,5 +187,24 @@ namespace PcService.API.Controllers
 
             return BadRequest("Błąd aktualizacji");
         }
+
+        [HttpPatch("{equipmentId}/invoice")]
+        [Authorize(Policy = "RequireSalesmanRole")]
+        public async Task<IActionResult> AddInvoiceId(int equipmentId, InvoiceIdDto invoiceIdDto)
+        {
+            var equipmentFromRepo = await _repo.GetEquipment(equipmentId);
+
+            if (equipmentFromRepo == null)
+            {
+                return BadRequest("Sprzęt nie istnieje");
+            }
+
+            equipmentFromRepo.InvoiceId = invoiceIdDto.Id;
+
+            if (await _repo.SaveAll())
+                return Ok(equipmentFromRepo);
+
+            return BadRequest("Błąd aktualizacji");
+        }
     }
 }
