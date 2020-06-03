@@ -1,0 +1,14 @@
+CREATE USER 'appuser'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON pcservice.aspnetroleclaims TO 'appuser'@'localhost';
+GRANT ALL PRIVILEGES ON pcservice.aspnetroles TO 'appuser'@'localhost';
+GRANT ALL PRIVILEGES ON pcservice.aspnetuserlogins TO 'appuser'@'localhost';
+GRANT ALL PRIVILEGES ON pcservice.aspnetuserroles TO 'appuser'@'localhost';
+GRANT ALL PRIVILEGES ON pcservice.aspnetusers TO 'appuser'@'localhost';
+GRANT ALL PRIVILEGES ON pcservice.aspnetusertokens TO 'appuser'@'localhost';
+GRANT ALL PRIVILEGES ON pcservice.__efmigrationshistory TO 'appuser'@'localhost';
+GRANT ALL PRIVILEGES ON pcservice.elementnames TO 'appuser'@'localhost';
+GRANT ALL PRIVILEGES ON pcservice.elements TO 'appuser'@'localhost';
+GRANT ALL PRIVILEGES ON pcservice.elementstatuses TO 'appuser'@'localhost';
+GRANT ALL PRIVILEGES ON pcservice.equipments TO 'appuser'@'localhost';
+GRANT ALL PRIVILEGES ON pcservice.equipmentstatuses TO 'appuser'@'localhost';
+FLUSH PRIVILEGES;
